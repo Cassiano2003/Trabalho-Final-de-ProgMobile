@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.trabalhofinal.Tabelas.Akumas;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
 
 import java.util.List;
@@ -14,6 +15,12 @@ import java.util.List;
 public interface TripulacaoDao {
     @Query("SELECT * FROM tripulacoes")
     List<Tripulacoes> getALL();
+
+    @Query("SELECT * FROM tripulacoes WHERE idtripulacao = :id")
+    Tripulacoes buscaTripulacao(int id);
+
+    @Query("SELECT COUNT(*) FROM tripulacoes")
+    int quantosTripulacao();
     @Insert
     void insertAll(Tripulacoes... tripulacoes);
 

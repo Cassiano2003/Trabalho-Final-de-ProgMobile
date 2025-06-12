@@ -30,9 +30,9 @@ public class Akumas {
     public String nome_t;
 
     @ColumnInfo(name = "foto")
-    public byte[] fotoakuma;
+    public String fotoakuma;
 
-    public Akumas(String nome, String tipo, String usuarios, String descricao, String nome_t, byte[] fotoakuma) {
+    public Akumas(String nome, String tipo, String usuarios, String descricao, String nome_t, String fotoakuma) {
         this.nome = nome;
         this.tipo = tipo;
         this.usuarios = usuarios;
@@ -98,11 +98,11 @@ public class Akumas {
         this.nome_t = nome_t;
     }
 
-    public byte[] getFotoakuma() {
+    public String getFotoakuma() {
         return fotoakuma;
     }
 
-    public void setFotoakuma(byte[] fotoakuma) {
+    public void setFotoakuma(String fotoakuma) {
         this.fotoakuma = fotoakuma;
     }
 

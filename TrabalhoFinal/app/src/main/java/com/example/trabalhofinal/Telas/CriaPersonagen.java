@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
@@ -55,6 +56,36 @@ public class CriaPersonagen extends Fragment {
 
         adpter = ArrayAdapter.createFromResource(getContext(), R.array.racas, android.R.layout.simple_spinner_item);
         binding.raca.setAdapter(adpter);
+
+        if(fruta1 == 0 && fruta2 == 0 && fruta3 == 0) {
+            Random random = new Random();
+            fruta1 = random.nextInt(68) + 1;
+            do {
+                fruta2 = random.nextInt(68) + 1;
+            } while (fruta2 == fruta1);
+            do {
+                fruta3 = random.nextInt(68) + 1;
+            } while (fruta3 == fruta1 || fruta3 == fruta2);
+        }
+
+        if(fruta1 != 0 && fruta2 != 0 && fruta3 != 0){
+            Akumas akumas1 = db.akumaDao().buscaAkuma(fruta1);
+            Akumas akumas2 = db.akumaDao().buscaAkuma(fruta2);
+            Akumas akumas3 = db.akumaDao().buscaAkuma(fruta3);
+
+            if (!akumas1.getFotoakuma().equals("Nao Fotografada")) {
+                int resID = requireContext().getResources().getIdentifier(akumas1.getFotoakuma(), "drawable", getContext().getPackageName());
+                binding.fruta1.setImageResource(resID);
+            }
+            if (!akumas2.getFotoakuma().equals("Nao Fotografada")) {
+                int resID = requireContext().getResources().getIdentifier(akumas2.getFotoakuma(), "drawable", getContext().getPackageName());
+                binding.fruta2.setImageResource(resID);
+            }
+            if (!akumas3.getFotoakuma().equals("Nao Fotografada")) {
+                int resID = requireContext().getResources().getIdentifier(akumas3.getFotoakuma(), "drawable", getContext().getPackageName());
+                binding.fruta3.setImageResource(resID);
+            }
+        }
 
         binding.save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,18 +146,32 @@ public class CriaPersonagen extends Fragment {
                     //String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm
                     Personagens personagens = new Personagens(nomePersonagem,level,armaSelecionada,hp,forca,estamina,agilidade,defesa,intuicao,energia,idakuma,associacaoSelecionada,recompensa,titulo,marOrigem,generoSelecionado,racaSelecionada,hakirei,hakiobs,hakiarm);
                     db.personagensDao().insertAll(personagens);
-                    Log.d("persona",personagens.toString() +" "+ String.valueOf(fruta1)+" "+ String.valueOf(fruta2)+" "+ String.valueOf(fruta3));
+                    Log.d("persona",personagens.toString() +" "+ String.valueOf(fruta1)+" "+ String.valueOf(fruta2)+" "+ String.valueOf(fruta3)+" "+String.valueOf(idakuma));
                     Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
 
                     Bundle arg = getArguments();
                     if(arg != null){
                         int idU = arg.getInt("idU");
                         Usuario usuario = db.usuarioDao().buscaUsuario(idU);
-                        List<Integer> integerList = usuario.getPersonagens();
-                        integerList.add(db.personagensDao().buscaID(nomePersonagem));
-                        usuario.setPersonagens(integerList);
+                        List<Integer> personaList = usuario.getPersonagens();
+                        List<Integer> akumaList = usuario.getAkumanomis();
+                        if(idakuma != 0) akumaList.add(idakuma);
+                        personaList.add(db.personagensDao().buscaID(nomePersonagem));
+                        usuario.setAkumanomis(akumaList);
+                        usuario.setPersonagens(personaList);
                         usuario.setIdUser(idU);
                         db.usuarioDao().upgrade(usuario);
+
+                        NavOptions navOptions = new NavOptions.Builder()
+                                .setPopUpTo(R.id.criaPersonagen2, true)
+                                .build();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("idU",arg.getInt("idU"));
+
+                        NavHostFragment.findNavController(CriaPersonagen.this)
+                                .navigate(R.id.action_criaPersonagen2_to_listPersonagens,bundle,navOptions);
+
                     }else{
                         Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
                     }
@@ -140,7 +185,6 @@ public class CriaPersonagen extends Fragment {
 
         binding.akuma.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                binding.geraAkuma.setVisibility(View.VISIBLE);
                 binding.fruta1.setVisibility(View.VISIBLE);
                 binding.fruta2.setVisibility(View.VISIBLE);
                 binding.fruta3.setVisibility(View.VISIBLE);
@@ -149,7 +193,6 @@ public class CriaPersonagen extends Fragment {
                 binding.cFruta2.setVisibility(View.VISIBLE);
                 binding.cFruta3.setVisibility(View.VISIBLE);
             } else {
-                binding.geraAkuma.setVisibility(View.INVISIBLE);
                 binding.fruta1.setVisibility(View.INVISIBLE);
                 binding.fruta2.setVisibility(View.INVISIBLE);
                 binding.fruta3.setVisibility(View.INVISIBLE);
@@ -244,21 +287,6 @@ public class CriaPersonagen extends Fragment {
                 }
             }
         });
-
-        binding.geraAkuma.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Random random = new Random();
-                fruta1 = random.nextInt(69) + 1;
-                do {
-                    fruta2 = random.nextInt(69) + 1;
-                } while (fruta2 == fruta1);
-                do {
-                    fruta3 = random.nextInt(69) + 1;
-                } while (fruta3 == fruta1 || fruta3 == fruta2);
-            }
-        });
-
     }
 
     private void resetFormFields() {
@@ -280,7 +308,6 @@ public class CriaPersonagen extends Fragment {
 
         // CheckBox Akuma No Mi
         binding.akuma.setChecked(false);
-        binding.geraAkuma.setVisibility(View.INVISIBLE);
         binding.fruta1.setVisibility(View.INVISIBLE);
         binding.fruta2.setVisibility(View.INVISIBLE);
         binding.fruta3.setVisibility(View.INVISIBLE);

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.CarcBandosBinding;
 
@@ -31,6 +33,17 @@ public class CaracBando   extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         db = AppDataBase.getDataBase(getContext());
+
+        Bundle arg = getArguments();
+        if(arg != null){
+            Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(arg.getInt("t"));
+
+            binding.nome.setText(tripulacoes.getNome());
+            binding.capitao.setText(tripulacoes.getCapitao());
+            binding.integrantes.setText(tripulacoes.integrantes);
+            int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
+            binding.fotoFruta.setImageResource(resID);
+        }
 
     }
 

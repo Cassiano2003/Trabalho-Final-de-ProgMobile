@@ -21,9 +21,9 @@ public class Tripulacoes {
     public String integrantes;
 
     @ColumnInfo(name = "foto")
-    public byte[] foto;
+    public String foto;
 
-    public Tripulacoes(String nome, String capitao, String integrantes, byte[] foto) {
+    public Tripulacoes(String nome, String capitao, String integrantes, String foto) {
         this.nome = nome;
         this.capitao = capitao;
         this.integrantes = integrantes;
@@ -62,11 +62,11 @@ public class Tripulacoes {
         this.integrantes = integrantes;
     }
 
-    public byte[] getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(byte[] foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 
@@ -77,7 +77,7 @@ public class Tripulacoes {
                 ", nome='" + nome + '\'' +
                 ", capitao='" + capitao + '\'' +
                 ", integrantes='" + integrantes + '\'' +
-                ", foto=" + Arrays.toString(foto) +
+                ", foto=" + foto +
                 '}';
     }
 }

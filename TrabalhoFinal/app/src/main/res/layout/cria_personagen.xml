@@ -149,49 +149,34 @@
             app:layout_constraintLeft_toLeftOf="@id/raca"
             app:layout_constraintBottom_toTopOf="@id/raca"/>
 
-        <Button
-            android:id="@+id/gera_akuma"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gere a Akuma No Mi"
-            android:layout_marginLeft="30dp"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@id/akuma"
-            app:layout_constraintBottom_toBottomOf="@id/akuma"
-            app:layout_constraintTop_toTopOf="@id/akuma" />
-
         <ImageButton
             android:id="@+id/fruta1"
-            android:layout_width="113dp"
-            android:layout_height="215dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginTop="30dp"
             android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="@id/akuma"
-            app:layout_constraintRight_toLeftOf="@id/fruta2"
             app:layout_constraintLeft_toLeftOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageButton
             android:id="@+id/fruta2"
-            android:layout_width="113dp"
-            android:layout_height="215dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/fruta1"
-            app:layout_constraintLeft_toRightOf="@id/fruta1"
-            app:layout_constraintRight_toLeftOf="@id/fruta3"
-            app:layout_constraintTop_toTopOf="@id/fruta1"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@id/fruta1"
+            app:layout_constraintRight_toRightOf="@id/fruta1"
+            app:layout_constraintLeft_toLeftOf="@id/fruta1"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageButton
             android:id="@+id/fruta3"
-            android:layout_width="113dp"
-            android:layout_height="215dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:visibility="invisible"
-            app:layout_constraintLeft_toRightOf="@id/fruta2"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/fruta2"
-            app:layout_constraintBottom_toBottomOf="@id/fruta2"
+            app:layout_constraintTop_toBottomOf="@id/fruta2"
+            app:layout_constraintRight_toRightOf="@id/fruta2"
+            app:layout_constraintLeft_toLeftOf="@id/fruta2"
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
@@ -202,38 +187,38 @@
             android:text="Salvar"
             android:textColor="@color/white"
             android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@id/c_fruta1"
+            app:layout_constraintTop_toBottomOf="@id/fruta3"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
         <CheckBox
             android:id="@+id/c_fruta1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/fruta1"
-            app:layout_constraintTop_toBottomOf="@id/fruta1"
-            app:layout_constraintRight_toRightOf="@id/fruta1"/>
+            app:layout_constraintLeft_toRightOf="@id/fruta1"
+            app:layout_constraintBottom_toBottomOf="@id/fruta1"
+            app:layout_constraintTop_toTopOf="@id/fruta1"/>
 
         <CheckBox
             android:id="@+id/c_fruta2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/fruta2"
-            app:layout_constraintTop_toBottomOf="@id/fruta2"
-            app:layout_constraintRight_toRightOf="@id/fruta2"/>
+            app:layout_constraintLeft_toRightOf="@id/fruta2"
+            app:layout_constraintBottom_toBottomOf="@id/fruta2"
+            app:layout_constraintTop_toTopOf="@id/fruta2"/>
 
         <CheckBox
             android:id="@+id/c_fruta3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@id/fruta3"
-            app:layout_constraintTop_toBottomOf="@id/fruta3"
-            app:layout_constraintRight_toRightOf="@id/fruta3"/>
+            app:layout_constraintLeft_toRightOf="@id/fruta3"
+            app:layout_constraintBottom_toBottomOf="@id/fruta3"
+            app:layout_constraintTop_toTopOf="@id/fruta3"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

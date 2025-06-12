@@ -260,6 +260,6 @@ public class Personagens {
 
     @Override
     public String toString() {
-        return idpersonagens + " : "+nome+" "+akumaNoMi +"  "+"LV "+nivel;
+        return nome+" : "+"LV "+nivel;
     }
 }

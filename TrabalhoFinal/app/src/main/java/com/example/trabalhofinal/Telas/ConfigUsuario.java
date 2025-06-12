@@ -62,6 +62,8 @@ public class ConfigUsuario extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("g","Akuma No Mi");
+                int idU = arg.getInt("id");
+                bundle.putInt("idU",idU);
 
                 NavHostFragment.findNavController(ConfigUsuario.this)
                         .navigate(R.id.action_configUsuario_to_coleAkumaPersonagen,bundle);
@@ -73,6 +75,8 @@ public class ConfigUsuario extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("g","Tribulação");
+                int idU = arg.getInt("id");
+                bundle.putInt("idU",idU);
 
                 NavHostFragment.findNavController(ConfigUsuario.this)
                         .navigate(R.id.action_configUsuario_to_coleAkumaPersonagen,bundle);
@@ -84,6 +88,8 @@ public class ConfigUsuario extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("g","Personagens");
+                int idU = arg.getInt("id");
+                bundle.putInt("idU",idU);
 
                 NavHostFragment.findNavController(ConfigUsuario.this)
                         .navigate(R.id.action_configUsuario_to_coleAkumaPersonagen,bundle);

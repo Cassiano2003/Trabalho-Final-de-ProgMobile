@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Telas.CaracPersonagen">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:textSize="25dp"
+            android:textAlignment="center"
+            android:text="Nome do Personagen"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/apelido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:text="Apelido do Personagen"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foto_personagen" />
+
+        <TextView
+            android:id="@+id/genero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Genero"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo_de"/>
+
+        <TextView
+            android:id="@+id/akuma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tem Akuma No Mi"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/raca"  />
+
+        <TextView
+            android:id="@+id/associaao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Associacao"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mar" />
+
+        <TextView
+            android:id="@+id/mar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mar"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arma" />
+
+        <TextView
+            android:id="@+id/arma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sua Arma"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/akuma"  />
+
+        <TextView
+            android:id="@+id/tripulacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tripulacao"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/associaao"  />
+
+        <TextView
+            android:id="@+id/recompenca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="recompenca"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tripulacao"  />
+
+        <TextView
+            android:id="@+id/titulo_de"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="titulo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/apelido"  />
+
+        <TextView
+            android:id="@+id/raca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sua Raça"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genero"  />
+
+        <ImageView
+            android:id="@+id/foto_personagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nome"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

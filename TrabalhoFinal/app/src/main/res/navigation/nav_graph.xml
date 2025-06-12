@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/inicio">
+
+    <fragment
+        android:id="@+id/inicio"
+        android:name="com.example.trabalhofinal.Telas.Inicio"
+        android:label="@string/first_fragment_label"
+        tools:layout="@layout/inicio">
+        <action
+            android:id="@+id/action_inicio_to_cadastro"
+            app:destination="@id/cadastro" />
+        <action
+            android:id="@+id/action_inicio_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastro"
+        android:name="com.example.trabalhofinal.Telas.Cadastro"
+        android:label="@string/second_fragment_label"
+        tools:layout="@layout/cadastro">
+        <action
+            android:id="@+id/action_cadastro_to_inicio"
+            app:destination="@id/inicio" />
+        <action
+            android:id="@+id/action_cadastro_self"
+            app:destination="@id/cadastro" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.trabalhofinal.Telas.Login"
+        android:label="@string/login"
+        tools:layout="@layout/login" >
+        <action
+            android:id="@+id/action_login_to_inicio"
+            app:destination="@id/inicio" />
+        <action
+            android:id="@+id/action_login_to_cadastro"
+            app:destination="@id/cadastro" />
+        <action
+            android:id="@+id/action_login_to_configUsuario"
+            app:destination="@id/configUsuario" />
+    </fragment>
+    <fragment
+        android:id="@+id/listPersonagens"
+        android:name="com.example.trabalhofinal.Telas.ListPersonagens"
+        android:label="list_personagens"
+        tools:layout="@layout/list_personagens" >
+        <action
+            android:id="@+id/action_listPersonagens_to_criaPersonagen2"
+            app:destination="@id/criaPersonagen2" />
+        <action
+            android:id="@+id/action_listPersonagens_to_configUsuario"
+            app:destination="@id/configUsuario" />
+        <action
+            android:id="@+id/action_listPersonagens_to_infoPersonagenUser"
+            app:destination="@id/infoPersonagenUser" />
+    </fragment>
+    <fragment
+        android:id="@+id/batalha2"
+        android:name="com.example.trabalhofinal.Telas.Batalha"
+        android:label="batalha"
+        tools:layout="@layout/batalha" >
+        <action
+            android:id="@+id/action_batalha2_to_infoPersonagenUser"
+            app:destination="@id/infoPersonagenUser" />
+    </fragment>
+    <fragment
+        android:id="@+id/caracAkuma"
+        android:name="com.example.trabalhofinal.Telas.CaracAkuma"
+        android:label="carc_akuma"
+        tools:layout="@layout/carc_akuma" >
+        <action
+            android:id="@+id/action_caracAkuma_to_coleAkumaPersonagen"
+            app:destination="@id/coleAkumaPersonagen" />
+        <action
+            android:id="@+id/action_caracAkuma_to_criaPersonagen2"
+            app:destination="@id/criaPersonagen2" />
+    </fragment>
+    <fragment
+        android:id="@+id/caracPersonagen"
+        android:name="com.example.trabalhofinal.Telas.CaracPersonagen"
+        android:label="carc_personagens"
+        tools:layout="@layout/carc_personagens" >
+        <action
+            android:id="@+id/action_caracPersonagen_to_coleAkumaPersonagen"
+            app:destination="@id/coleAkumaPersonagen" />
+    </fragment>
+    <fragment
+        android:id="@+id/coleAkumaPersonagen"
+        android:name="com.example.trabalhofinal.Telas.ColeAkumaPersonagen"
+        android:label="cole_akuma_persona"
+        tools:layout="@layout/cole_akuma_persona" >
+        <action
+            android:id="@+id/action_coleAkumaPersonagen_to_caracPersonagen"
+            app:destination="@id/caracPersonagen" />
+        <action
+            android:id="@+id/action_coleAkumaPersonagen_to_caracAkuma"
+            app:destination="@id/caracAkuma" />
+        <action
+            android:id="@+id/action_coleAkumaPersonagen_to_configUsuario"
+            app:destination="@id/configUsuario" />
+        <action
+            android:id="@+id/action_coleAkumaPersonagen_to_caracBando"
+            app:destination="@id/caracBando" />
+    </fragment>
+    <fragment
+        android:id="@+id/configUsuario"
+        android:name="com.example.trabalhofinal.Telas.ConfigUsuario"
+        android:label="config_usuario"
+        tools:layout="@layout/config_usuario" >
+        <action
+            android:id="@+id/action_configUsuario_to_coleAkumaPersonagen"
+            app:destination="@id/coleAkumaPersonagen" />
+        <action
+            android:id="@+id/action_configUsuario_to_listPersonagens"
+            app:destination="@id/listPersonagens" />
+        <action
+            android:id="@+id/action_configUsuario_to_inicio"
+            app:destination="@id/inicio" />
+    </fragment>
+    <fragment
+        android:id="@+id/criaPersonagen2"
+        android:name="com.example.trabalhofinal.Telas.CriaPersonagen"
+        android:label="cria_personagen"
+        tools:layout="@layout/cria_personagen" >
+        <action
+            android:id="@+id/action_criaPersonagen2_to_listPersonagens"
+            app:destination="@id/listPersonagens" />
+        <action
+            android:id="@+id/action_criaPersonagen2_to_caracAkuma"
+            app:destination="@id/caracAkuma" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoPersonagenUser"
+        android:name="com.example.trabalhofinal.Telas.InfoPersonagenUser"
+        android:label="info_player"
+        tools:layout="@layout/info_player" >
+        <action
+            android:id="@+id/action_infoPersonagenUser_to_listPersonagens"
+            app:destination="@id/listPersonagens" />
+        <action
+            android:id="@+id/action_infoPersonagenUser_to_batalha2"
+            app:destination="@id/batalha2" />
+    </fragment>
+    <fragment
+        android:id="@+id/caracBando"
+        android:name="com.example.trabalhofinal.Telas.CaracBando"
+        android:label="carc_bandos"
+        tools:layout="@layout/carc_bandos" >
+        <action
+            android:id="@+id/action_caracBando_to_coleAkumaPersonagen"
+            app:destination="@id/coleAkumaPersonagen" />
+    </fragment>
+</navigation>

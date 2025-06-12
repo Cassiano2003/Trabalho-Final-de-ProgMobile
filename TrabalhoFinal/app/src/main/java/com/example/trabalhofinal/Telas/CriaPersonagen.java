@@ -1,0 +1,301 @@
+package com.example.trabalhofinal.Telas;
+
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.trabalhofinal.R;
+import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.Personagens;
+import com.example.trabalhofinal.Tabelas.Usuario;
+import com.example.trabalhofinal.TabelasDao.AppDataBase;
+import com.example.trabalhofinal.databinding.CriaPersonagenBinding;
+
+import java.util.List;
+import java.util.Random;
+
+public class CriaPersonagen extends Fragment {
+    private CriaPersonagenBinding binding;
+
+    private AppDataBase db;
+    private String akuma;
+    private int fruta1 = 0 , fruta2 = 0, fruta3 = 0;
+    private int idakuma = 0;
+    private Akumas akumas;
+
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
+        binding = CriaPersonagenBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        db = AppDataBase.getDataBase(getContext());
+
+        ArrayAdapter adpter = ArrayAdapter.createFromResource(getContext(), R.array.arma, android.R.layout.simple_spinner_item);
+        binding.arma.setAdapter(adpter);
+
+        adpter = ArrayAdapter.createFromResource(getContext(), R.array.origens, android.R.layout.simple_spinner_item);
+        binding.mar.setAdapter(adpter);
+
+        adpter = ArrayAdapter.createFromResource(getContext(), R.array.racas, android.R.layout.simple_spinner_item);
+        binding.raca.setAdapter(adpter);
+
+        binding.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String nomePersonagem = binding.nome.getText().toString().trim(); // .trim() para remover espaços em branco
+                    String marOrigem = binding.mar.getSelectedItem().toString();
+                    String racaSelecionada = binding.raca.getSelectedItem().toString();
+                    String armaSelecionada = binding.arma.getSelectedItem().toString();
+
+                    String generoSelecionado;
+                    if (binding.sxMaculino.isChecked()) {
+                        generoSelecionado = "M";
+                    } else if (binding.sxFeminino.isChecked()) {
+                        generoSelecionado = "F";
+                    } else {
+                        generoSelecionado = "";
+                    }
+                    String recompensa;
+                    String titulo;
+                    String associacaoSelecionada;
+                    if (binding.pirata.isChecked()) {
+                        associacaoSelecionada = "Pirata";
+                        titulo = "Bandido";
+                        recompensa = "B$ 0";
+                    } else if (binding.marinha.isChecked()) {
+                        associacaoSelecionada = "Marinha";
+                        titulo = "Aprendiz de Marinheiro";
+                        recompensa = "★";
+                    } else {
+                        associacaoSelecionada = "Nenhuma";
+                        titulo = "Sem Título";
+                        recompensa = "nada";
+                    }
+
+                    if (nomePersonagem.isEmpty()) {
+                        binding.nome.setError("Nome do personagem é obrigatório!");
+                        return;
+                    }
+                    if (generoSelecionado.isEmpty()) {
+                        Toast.makeText(requireContext(), "Selecione um gênero!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    int level = 0;
+                    int intuicao = 2;
+                    int defesa = 0;
+                    int agilidade = 0;
+                    int estamina = 5;
+                    int forca = 5;
+                    int hp = 20;
+                    int energia = 5;
+
+                    int hakirei = 0;
+                    int hakiobs = 0;
+                    int hakiarm = 0;
+
+                    //String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm
+                    Personagens personagens = new Personagens(nomePersonagem,level,armaSelecionada,hp,forca,estamina,agilidade,defesa,intuicao,energia,idakuma,associacaoSelecionada,recompensa,titulo,marOrigem,generoSelecionado,racaSelecionada,hakirei,hakiobs,hakiarm);
+                    db.personagensDao().insertAll(personagens);
+                    Log.d("persona",personagens.toString() +" "+ String.valueOf(fruta1)+" "+ String.valueOf(fruta2)+" "+ String.valueOf(fruta3));
+                    Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
+
+                    Bundle arg = getArguments();
+                    if(arg != null){
+                        int idU = arg.getInt("idU");
+                        Usuario usuario = db.usuarioDao().buscaUsuario(idU);
+                        List<Integer> integerList = usuario.getPersonagens();
+                        integerList.add(db.personagensDao().buscaID(nomePersonagem));
+                        usuario.setPersonagens(integerList);
+                        usuario.setIdUser(idU);
+                        db.usuarioDao().upgrade(usuario);
+                    }else{
+                        Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
+                    }
+
+                    resetFormFields();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        binding.akuma.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.geraAkuma.setVisibility(View.VISIBLE);
+                binding.fruta1.setVisibility(View.VISIBLE);
+                binding.fruta2.setVisibility(View.VISIBLE);
+                binding.fruta3.setVisibility(View.VISIBLE);
+
+                binding.cFruta1.setVisibility(View.VISIBLE);
+                binding.cFruta2.setVisibility(View.VISIBLE);
+                binding.cFruta3.setVisibility(View.VISIBLE);
+            } else {
+                binding.geraAkuma.setVisibility(View.INVISIBLE);
+                binding.fruta1.setVisibility(View.INVISIBLE);
+                binding.fruta2.setVisibility(View.INVISIBLE);
+                binding.fruta3.setVisibility(View.INVISIBLE);
+
+                binding.cFruta1.setVisibility(View.INVISIBLE);
+                binding.cFruta2.setVisibility(View.INVISIBLE);
+                binding.cFruta3.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        binding.sxMaculino.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.sxFeminino.setChecked(false);
+            }
+        });
+        binding.sxFeminino.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.sxMaculino.setChecked(false);
+            }
+        });
+
+        binding.cFruta1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                idakuma = fruta1;
+                binding.cFruta2.setChecked(false);
+                binding.cFruta3.setChecked(false);
+            }
+        });
+
+        binding.cFruta2.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                idakuma = fruta2;
+                binding.cFruta1.setChecked(false);
+                binding.cFruta3.setChecked(false);
+            }
+        });
+
+        binding.cFruta3.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.cFruta2.setChecked(false);
+                binding.cFruta1.setChecked(false);
+            }
+        });
+
+        binding.pirata.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.marinha.setChecked(false);
+            }
+        });
+        binding.marinha.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                binding.pirata.setChecked(false);
+            }
+        });
+
+        Bundle bundle = new Bundle();
+        binding.fruta1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fruta1 != 0) {
+                    bundle.putInt("f", fruta1);
+                    NavHostFragment.findNavController(CriaPersonagen.this)
+                            .navigate(R.id.action_criaPersonagen2_to_caracAkuma, bundle);
+                }else {
+                    Toast.makeText(requireContext(), "Gere as Akumas No Mi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        binding.fruta2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fruta1 != 0) {
+                    bundle.putInt("f", fruta2);
+                    NavHostFragment.findNavController(CriaPersonagen.this)
+                            .navigate(R.id.action_criaPersonagen2_to_caracAkuma, bundle);
+                }else {
+                    Toast.makeText(requireContext(), "Gere as Akumas No Mi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        binding.fruta3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fruta1 != 0) {
+                    bundle.putInt("f", fruta3);
+                    NavHostFragment.findNavController(CriaPersonagen.this)
+                            .navigate(R.id.action_criaPersonagen2_to_caracAkuma, bundle);
+                }else {
+                    Toast.makeText(requireContext(), "Gere as Akumas No Mi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        binding.geraAkuma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Random random = new Random();
+                fruta1 = random.nextInt(69) + 1;
+                do {
+                    fruta2 = random.nextInt(69) + 1;
+                } while (fruta2 == fruta1);
+                do {
+                    fruta3 = random.nextInt(69) + 1;
+                } while (fruta3 == fruta1 || fruta3 == fruta2);
+            }
+        });
+
+    }
+
+    private void resetFormFields() {
+        // EditText
+        binding.nome.setText("");
+
+        // Spinners
+        binding.mar.setSelection(0);
+        binding.raca.setSelection(0);
+        binding.arma.setSelection(0);
+
+        // CheckBoxes de Gênero
+        binding.sxMaculino.setChecked(false);
+        binding.sxFeminino.setChecked(false);
+
+        // CheckBoxes de Associação
+        binding.pirata.setChecked(false);
+        binding.marinha.setChecked(false);
+
+        // CheckBox Akuma No Mi
+        binding.akuma.setChecked(false);
+        binding.geraAkuma.setVisibility(View.INVISIBLE);
+        binding.fruta1.setVisibility(View.INVISIBLE);
+        binding.fruta2.setVisibility(View.INVISIBLE);
+        binding.fruta3.setVisibility(View.INVISIBLE);
+        binding.fruta1.setImageDrawable(null);
+        binding.fruta2.setImageDrawable(null);
+        binding.fruta3.setImageDrawable(null);
+        binding.cFruta1.setChecked(false);
+        binding.cFruta2.setChecked(false);
+        binding.cFruta3.setChecked(false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+}

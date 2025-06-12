@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Trabalho Final</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Inicio</string>
+    <string name="second_fragment_label">Cadastro</string>
+    <string name="login">Login</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string-array name="origens">
+        <item>West Blue</item>
+        <item>East Blue</item>
+        <item>North Blue</item>
+        <item>South Blue</item>
+    </string-array>
+
+    <string-array name="racas">
+        <item>Tritão</item>
+        <item>Sereia</item>
+        <item>Gigante</item>
+        <item>Humano</item>
+        <item>Kuja</item>
+        <item>Long-Arm</item>
+        <item>Long-Leg</item>
+        <item>Snake-Neck</item>
+        <item>Lunariano</item>
+        <item>Mink</item>
+        <item>Shandia</item>
+        <item>Três Olhos</item>
+        <item>Tontatta</item>
+    </string-array>
+
+    <string-array name="arma">
+        <item>Nonosama Bo</item>
+        <item>Nanashaku Jitte</item>
+        <item>Clima-Tact</item>
+        <item>Hassaikai</item>
+        <item>Kuro Kabuto</item>
+        <item>Wado Ichimonji</item>
+        <item>Kitetsu II</item>
+        <item>Kitetsu III</item>
+        <item>Meito Shigure</item>
+        <item>Shusui</item>
+        <item>Soto Muso</item>
+        <item>Sukesan e Kakusan</item>
+        <item>Ame no Habakiri</item>
+        <item>Enma</item>
+        <item>Espada</item>
+        <item>Bastão</item>
+        <item>Machado</item>
+        <item>Garras</item>
+        <item>Lâmina Giratória</item>
+        <item>Adaga/Faca</item>
+        <item>Shuriken</item>
+        <item>Lâmina Circular</item>
+        <item>Lança</item>
+        <item>Tridente</item>
+        <item>Halberg</item>
+        <item>Bisento</item>
+        <item>Naginata</item>
+        <item>Guandao</item>
+        <item>Foice</item>
+        <item>Maça</item>
+        <item>Nunchaku</item>
+        <item>Arma de Fogo</item>
+        <item>Arco</item>
+        <item>Tiro Laser</item>
+        <item>Chicote</item>
+        <item>Kanabo</item>
+        <item>Soco</item>
+        <item>Chute</item>
+        <item>Yoru</item>
+        <item>Ace</item>
+        <item>Traje Germa</item>
+    </string-array>
+
+
+</resources>

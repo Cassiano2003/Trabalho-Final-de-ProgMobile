@@ -91,16 +91,16 @@ public class CriaPersonagen extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    String nomePersonagem = binding.nome.getText().toString().trim(); // .trim() para remover espaços em branco
+                    String nomePersonagem = binding.nome.getText().toString().trim();
                     String marOrigem = binding.mar.getSelectedItem().toString();
                     String racaSelecionada = binding.raca.getSelectedItem().toString();
                     String armaSelecionada = binding.arma.getSelectedItem().toString();
 
                     String generoSelecionado;
                     if (binding.sxMaculino.isChecked()) {
-                        generoSelecionado = "M";
+                        generoSelecionado = "Masculino";
                     } else if (binding.sxFeminino.isChecked()) {
-                        generoSelecionado = "F";
+                        generoSelecionado = "Feminino";
                     } else {
                         generoSelecionado = "";
                     }
@@ -120,63 +120,56 @@ public class CriaPersonagen extends Fragment {
                         titulo = "Sem Título";
                         recompensa = "nada";
                     }
+                    if(!nomePersonagem.isEmpty() && !generoSelecionado.isEmpty() && !associacaoSelecionada.isEmpty()) {
 
-                    if (nomePersonagem.isEmpty()) {
-                        binding.nome.setError("Nome do personagem é obrigatório!");
-                        return;
+                        int level = 0;
+                        int intuicao = 2;
+                        int defesa = 0;
+                        int agilidade = 0;
+                        int estamina = 5;
+                        int forca = 5;
+                        int hp = 20;
+                        int energia = 5;
+
+                        int hakirei = 0;
+                        int hakiobs = 0;
+                        int hakiarm = 0;
+
+                        //String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm
+                        Personagens personagens = new Personagens(nomePersonagem, level, armaSelecionada, hp, forca, estamina, agilidade, defesa, intuicao, energia, idakuma, associacaoSelecionada, recompensa, titulo, marOrigem, generoSelecionado, racaSelecionada, hakirei, hakiobs, hakiarm);
+                        db.personagensDao().insertAll(personagens);
+                        Log.d("persona", personagens.toString() + " " + String.valueOf(fruta1) + " " + String.valueOf(fruta2) + " " + String.valueOf(fruta3) + " " + String.valueOf(idakuma));
+                        Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
+
+                        Bundle arg = getArguments();
+                        if (arg != null) {
+                            int idU = arg.getInt("idU");
+                            Usuario usuario = db.usuarioDao().buscaUsuario(idU);
+                            List<Integer> personaList = usuario.getPersonagens();
+                            List<Integer> akumaList = usuario.getAkumanomis();
+                            if (idakuma != 0) akumaList.add(idakuma);
+                            personaList.add(db.personagensDao().buscaID(nomePersonagem));
+                            usuario.setAkumanomis(akumaList);
+                            usuario.setPersonagens(personaList);
+                            usuario.setIdUser(idU);
+                            db.usuarioDao().upgrade(usuario);
+
+                            NavOptions navOptions = new NavOptions.Builder()
+                                    .setPopUpTo(R.id.criaPersonagen2, true)
+                                    .build();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("idU", arg.getInt("idU"));
+
+                            NavHostFragment.findNavController(CriaPersonagen.this)
+                                    .navigate(R.id.action_criaPersonagen2_self, bundle, navOptions);
+                        } else {
+                            Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
+                        }
+                        resetFormFields();
+                    }else {
+                        Toast.makeText(requireContext(), "Preençha todos os Campos", Toast.LENGTH_SHORT).show();
                     }
-                    if (generoSelecionado.isEmpty()) {
-                        Toast.makeText(requireContext(), "Selecione um gênero!", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    int level = 0;
-                    int intuicao = 2;
-                    int defesa = 0;
-                    int agilidade = 0;
-                    int estamina = 5;
-                    int forca = 5;
-                    int hp = 20;
-                    int energia = 5;
-
-                    int hakirei = 0;
-                    int hakiobs = 0;
-                    int hakiarm = 0;
-
-                    //String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm
-                    Personagens personagens = new Personagens(nomePersonagem,level,armaSelecionada,hp,forca,estamina,agilidade,defesa,intuicao,energia,idakuma,associacaoSelecionada,recompensa,titulo,marOrigem,generoSelecionado,racaSelecionada,hakirei,hakiobs,hakiarm);
-                    db.personagensDao().insertAll(personagens);
-                    Log.d("persona",personagens.toString() +" "+ String.valueOf(fruta1)+" "+ String.valueOf(fruta2)+" "+ String.valueOf(fruta3)+" "+String.valueOf(idakuma));
-                    Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
-
-                    Bundle arg = getArguments();
-                    if(arg != null){
-                        int idU = arg.getInt("idU");
-                        Usuario usuario = db.usuarioDao().buscaUsuario(idU);
-                        List<Integer> personaList = usuario.getPersonagens();
-                        List<Integer> akumaList = usuario.getAkumanomis();
-                        if(idakuma != 0) akumaList.add(idakuma);
-                        personaList.add(db.personagensDao().buscaID(nomePersonagem));
-                        usuario.setAkumanomis(akumaList);
-                        usuario.setPersonagens(personaList);
-                        usuario.setIdUser(idU);
-                        db.usuarioDao().upgrade(usuario);
-
-                        NavOptions navOptions = new NavOptions.Builder()
-                                .setPopUpTo(R.id.criaPersonagen2, true)
-                                .build();
-
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("idU",arg.getInt("idU"));
-
-                        NavHostFragment.findNavController(CriaPersonagen.this)
-                                .navigate(R.id.action_criaPersonagen2_to_listPersonagens,bundle,navOptions);
-
-                    }else{
-                        Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
-                    }
-
-                    resetFormFields();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -232,6 +225,7 @@ public class CriaPersonagen extends Fragment {
 
         binding.cFruta3.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
+                idakuma = fruta3;
                 binding.cFruta2.setChecked(false);
                 binding.cFruta1.setChecked(false);
             }

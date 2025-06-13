@@ -10,6 +10,9 @@ public class Inimigos {
     @PrimaryKey(autoGenerate = true)
     public int idinimigos;
 
+    @ColumnInfo(name = "nome")
+    public String nome;
+
     @ColumnInfo(name = "apelido_nome_popular")
     public String apelidoNomePopular;
 
@@ -49,11 +52,11 @@ public class Inimigos {
     @ColumnInfo(name = "recompensa")
     public String recompensa;
 
-    @ColumnInfo(name = "tipo_oponente")
-    public String tipoOponente;
+    @ColumnInfo(name = "estagio")
+    public int estagio;
 
-    @ColumnInfo(name = "qual_oponente")
-    public String qaulOponente;
+    @ColumnInfo(name = "tipo")
+    public String tipo;
 
     @ColumnInfo(name = "titulo")
     public String titulo;
@@ -72,8 +75,14 @@ public class Inimigos {
     @ColumnInfo(name = "hakiarm")
     public int hakiarm;
 
+    @ColumnInfo(name = "fotometade")
+    public String fotometade;
+    @ColumnInfo(name = "fotointeira")
+    public  String fotointeira;
 
-    public Inimigos(String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, String tipoOponente, String qaulOponente, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm) {
+
+    public Inimigos(String nome, String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, int estagio, String tipo, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm, String fotometade, String fotointeira) {
+        this.nome = nome;
         this.apelidoNomePopular = apelidoNomePopular;
         this.armas = armas;
         this.hp = hp;
@@ -87,16 +96,41 @@ public class Inimigos {
         this.associacao = associacao;
         this.tripulacaoOrganizacao = tripulacaoOrganizacao;
         this.recompensa = recompensa;
-        this.tipoOponente = tipoOponente;
-        this.qaulOponente = qaulOponente;
+        this.estagio = estagio;
+        this.tipo = tipo;
         this.titulo = titulo;
         this.origem = origem;
         this.sexo = sexo;
         this.raca = raca;
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
+        this.fotometade = fotometade;
+        this.fotointeira = fotointeira;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getFotometade() {
+        return fotometade;
+    }
+
+    public void setFotometade(String fotometade) {
+        this.fotometade = fotometade;
+    }
+
+    public String getFotointeira() {
+        return fotointeira;
+    }
+
+    public void setFotointeira(String fotointeira) {
+        this.fotointeira = fotointeira;
+    }
 
     public int getEnergia() {
         return energia;
@@ -130,13 +164,6 @@ public class Inimigos {
         this.idinimigos = idinimigos;
     }
 
-    public String getQaulOponente() {
-        return qaulOponente;
-    }
-
-    public void setQaulOponente(String qaulOponente) {
-        this.qaulOponente = qaulOponente;
-    }
 
     public String getApelidoNomePopular() {
         return apelidoNomePopular;
@@ -226,6 +253,22 @@ public class Inimigos {
         this.tripulacaoOrganizacao = tripulacaoOrganizacao;
     }
 
+    public int getEstagio() {
+        return estagio;
+    }
+
+    public void setEstagio(int estagio) {
+        this.estagio = estagio;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public String getRecompensa() {
         return recompensa;
     }
@@ -234,13 +277,7 @@ public class Inimigos {
         this.recompensa = recompensa;
     }
 
-    public String getTipoOponente() {
-        return tipoOponente;
-    }
 
-    public void setTipoOponente(String tipoOponente) {
-        this.tipoOponente = tipoOponente;
-    }
 
     public String getTitulo() {
         return titulo;
@@ -277,7 +314,8 @@ public class Inimigos {
     @Override
     public String toString() {
         return "Inimigos{" +
-                "idpersona=" + idinimigos +
+                "idinimigos=" + idinimigos +
+                ", nome='" + nome + '\'' +
                 ", apelidoNomePopular='" + apelidoNomePopular + '\'' +
                 ", armas='" + armas + '\'' +
                 ", hp=" + hp +
@@ -286,15 +324,21 @@ public class Inimigos {
                 ", agilidade=" + agilidade +
                 ", defesa=" + defesa +
                 ", intuicao=" + intuicao +
+                ", energia=" + energia +
                 ", akumaNoMi='" + akumaNoMi + '\'' +
                 ", associacao='" + associacao + '\'' +
                 ", tripulacaoOrganizacao='" + tripulacaoOrganizacao + '\'' +
-                ", recompensa=" + recompensa +
-                ", tipoOponente='" + tipoOponente + '\'' +
+                ", recompensa='" + recompensa + '\'' +
+                ", estagio=" + estagio +
+                ", tipo='" + tipo + '\'' +
                 ", titulo='" + titulo + '\'' +
                 ", origem='" + origem + '\'' +
                 ", sexo='" + sexo + '\'' +
                 ", raca='" + raca + '\'' +
+                ", hakiobs=" + hakiobs +
+                ", hakiarm=" + hakiarm +
+                ", fotometade='" + fotometade + '\'' +
+                ", fotointeira='" + fotointeira + '\'' +
                 '}';
     }
 }

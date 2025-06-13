@@ -5,6 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.trabalhofinal.Tabelas.Akumas;
 import com.example.trabalhofinal.Tabelas.Inimigos;
 
 import java.util.List;
@@ -15,6 +17,12 @@ public interface InimigosDao {
     List<Inimigos> getALL();
     @Insert
     void insertAll(Inimigos... inimigos);
+
+    @Query("SELECT COUNT(*) FROM inimigos")
+    int quantosInimigos();
+
+    @Query("SELECT * FROM inimigos WHERE idinimigos = :id")
+    Inimigos buscaInimigos(int id);
 
     @Update
     void upgrade(Inimigos inimigos);

@@ -42,9 +42,9 @@ public class CaracAkuma   extends Fragment {
 
             binding.nome.setText(akumas.getNome());
             binding.traducao.setText(akumas.getNome_t());
-            binding.tipo.setText(akumas.getTipo());
-            binding.descricao.setText(akumas.getDescricao());
-            binding.usuarios.setText(akumas.getUsuarios());
+            binding.tipo.setText("Tipo: "+akumas.getTipo());
+            binding.descricao.setText("Descrição: \n"+akumas.getDescricao());
+            binding.usuarios.setText("Usuários: "+akumas.getUsuarios());
 
             if(!akumas.getFotoakuma().equals("Nao Fotografada")) {
                 int resID = requireContext().getResources().getIdentifier(akumas.getFotoakuma(), "drawable", getContext().getPackageName());

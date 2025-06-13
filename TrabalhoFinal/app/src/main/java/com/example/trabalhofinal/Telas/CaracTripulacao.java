@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.trabalhofinal.Tabelas.Akumas;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
-import com.example.trabalhofinal.databinding.CarcBandosBinding;
+import com.example.trabalhofinal.databinding.CarcTripulacaoBinding;
 
-public class CaracBando   extends Fragment {
-    private CarcBandosBinding binding;
+public class CaracTripulacao extends Fragment {
+    private CarcTripulacaoBinding binding;
 
     private AppDataBase db;
 
@@ -24,7 +23,7 @@ public class CaracBando   extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = CarcBandosBinding.inflate(inflater, container, false);
+        binding = CarcTripulacaoBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
     }
@@ -39,8 +38,8 @@ public class CaracBando   extends Fragment {
             Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(arg.getInt("t"));
 
             binding.nome.setText(tripulacoes.getNome());
-            binding.capitao.setText(tripulacoes.getCapitao());
-            binding.integrantes.setText(tripulacoes.integrantes);
+            binding.capitao.setText("Capitão: "+tripulacoes.getCapitao());
+            binding.integrantes.setText("Integrantes: \n"+tripulacoes.integrantes);
             int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
             binding.fotoFruta.setImageResource(resID);
         }

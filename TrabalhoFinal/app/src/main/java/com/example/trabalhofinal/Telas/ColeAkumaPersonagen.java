@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.TabelasDao.AkumaDao;
@@ -88,7 +89,22 @@ public class ColeAkumaPersonagen  extends Fragment {
                     binding.titulo.setText("Tripulaçoes");
                     binding.quantidade.setText(String.valueOf(qnt_adicionadas)+" / "+String.valueOf(qnt_tripu));
                     break;
-                case "Personagens":
+                case "Inimigos":
+                    List<Inimigos> inimigosList = db.inimigosDao().getALL();
+                    int qnt_ini = db.inimigosDao().quantosInimigos();
+                    gridImagens = new int[qnt_ini];
+                    idgeral = new int[qnt_ini];
+                    qnt_adicionadas = 0;
+                    for(int i=0;i < qnt_ini;i++){
+                        Inimigos inimigos = inimigosList.get(i);
+                        idgeral[i] = inimigos.getIdinimigos();
+                        //int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
+                        int teste = R.drawable.roronoazoroportrait;
+                        gridImagens[i] = teste;
+                        qnt_adicionadas++;
+                    }
+                    binding.titulo.setText("Inimigos");
+                    binding.quantidade.setText(String.valueOf(qnt_adicionadas)+" / "+String.valueOf(qnt_ini));
                     break;
             }
             if(qnt_adicionadas != 0) {
@@ -116,9 +132,12 @@ public class ColeAkumaPersonagen  extends Fragment {
                                         .navigate(R.id.action_coleAkumaPersonagen_to_caracBando, bundle);
                             }
                             break;
-                        case "Personagens":
-                            NavHostFragment.findNavController(ColeAkumaPersonagen.this)
-                                    .navigate(R.id.action_coleAkumaPersonagen_to_caracPersonagen, bundle);
+                        case "Inimigos":
+                            if(gridImagens[i] != 0 && idgeral[i] != 0) {
+                                bundle.putInt("i", idgeral[i]);
+                                NavHostFragment.findNavController(ColeAkumaPersonagen.this)
+                                        .navigate(R.id.action_coleAkumaPersonagen_to_caracPersonagen, bundle);
+                            }
                             break;
                     }
                 }

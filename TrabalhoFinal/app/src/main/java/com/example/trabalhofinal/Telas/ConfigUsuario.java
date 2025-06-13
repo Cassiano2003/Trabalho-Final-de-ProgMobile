@@ -87,7 +87,7 @@ public class ConfigUsuario extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("g","Personagens");
+                bundle.putString("g","Inimigos");
                 int idU = arg.getInt("id");
                 bundle.putInt("idU",idU);
 

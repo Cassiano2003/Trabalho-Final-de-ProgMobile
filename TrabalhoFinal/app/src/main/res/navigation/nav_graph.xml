@@ -82,9 +82,9 @@
     </fragment>
     <fragment
         android:id="@+id/caracPersonagen"
-        android:name="com.example.trabalhofinal.Telas.CaracPersonagen"
+        android:name="com.example.trabalhofinal.Telas.CaracInimigo"
         android:label="carc_personagens"
-        tools:layout="@layout/carc_personagens" >
+        tools:layout="@layout/carc_inimigos" >
         <action
             android:id="@+id/action_caracPersonagen_to_coleAkumaPersonagen"
             app:destination="@id/coleAkumaPersonagen" />
@@ -133,6 +133,9 @@
         <action
             android:id="@+id/action_criaPersonagen2_to_caracAkuma"
             app:destination="@id/caracAkuma" />
+        <action
+            android:id="@+id/action_criaPersonagen2_self"
+            app:destination="@id/criaPersonagen2" />
     </fragment>
     <fragment
         android:id="@+id/infoPersonagenUser"
@@ -148,9 +151,9 @@
     </fragment>
     <fragment
         android:id="@+id/caracBando"
-        android:name="com.example.trabalhofinal.Telas.CaracBando"
+        android:name="com.example.trabalhofinal.Telas.CaracTripulacao"
         android:label="carc_bandos"
-        tools:layout="@layout/carc_bandos" >
+        tools:layout="@layout/carc_tripulacao" >
         <action
             android:id="@+id/action_caracBando_to_coleAkumaPersonagen"
             app:destination="@id/coleAkumaPersonagen" />

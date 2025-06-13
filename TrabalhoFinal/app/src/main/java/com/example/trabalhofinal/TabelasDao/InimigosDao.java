@@ -24,6 +24,9 @@ public interface InimigosDao {
     @Query("SELECT * FROM inimigos WHERE idinimigos = :id")
     Inimigos buscaInimigos(int id);
 
+    @Query("SELECT * FROM inimigos WHERE estagio = :estagio")
+    List<Inimigos> geraInimigosPorEstagios(int estagio);
+
     @Update
     void upgrade(Inimigos inimigos);
 

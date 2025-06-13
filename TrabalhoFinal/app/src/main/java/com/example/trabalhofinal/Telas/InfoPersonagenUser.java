@@ -1,9 +1,11 @@
 package com.example.trabalhofinal.Telas;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,9 +13,14 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Personagens;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.InfoPlayerBinding;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class InfoPersonagenUser extends Fragment {
     private InfoPlayerBinding binding;
@@ -35,9 +42,57 @@ public class InfoPersonagenUser extends Fragment {
 
         db = AppDataBase.getDataBase(getContext());
 
+        int estagio_persangem = 0;
+        Inimigos inimigos = db.inimigosDao().buscaInimigos(1);
+        int nivelInimigo = 0;
+        Random random = new Random();
+        int qnt_ini = 0;
+        List<Inimigos> inimigosE1 = db.inimigosDao().geraInimigosPorEstagios(1);
+        List<Inimigos> inimigosE2 = db.inimigosDao().geraInimigosPorEstagios(2);
+        List<Inimigos> inimigosE3 = db.inimigosDao().geraInimigosPorEstagios(3);
+        List<Inimigos> inimigosE4 = db.inimigosDao().geraInimigosPorEstagios(4);
+        List<Inimigos> inimigosE5 = db.inimigosDao().geraInimigosPorEstagios(5);
+
+        List<String> nomesInimigos = new ArrayList<>();
+        nomesInimigos.add("Deffalt");
+        ArrayAdapter adpter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,nomesInimigos);
+        binding.nomePersonagens.setAdapter(adpter);
+
+
         Bundle arg = getArguments();
         if(arg != null){
             Personagens personagens = db.personagensDao().buscaPer(arg.getInt("idPerso"));
+            nivelInimigo = personagens.getNivel();
+            List<Inimigos> inimigosFinal = new ArrayList<>();
+
+            if (personagens.getNivel() >= 0){
+                estagio_persangem = 1;
+                inimigosFinal.addAll(inimigosE1);
+            }if(personagens.getNivel() >= 25){
+                estagio_persangem = 2;
+                inimigosFinal.addAll(inimigosE2);
+            }if (personagens.getNivel() >= 50){
+                estagio_persangem = 3;
+                inimigosFinal.addAll(inimigosE3);
+            }if (personagens.getNivel() >= 75){
+                estagio_persangem = 4;
+                inimigosFinal.addAll(inimigosE4);
+            }if (personagens.getNivel() >= 100){
+                estagio_persangem = 5;
+                inimigosFinal.addAll(inimigosE5);
+            }
+            qnt_ini = inimigosFinal.size();
+            int levelMIN = personagens.getNivel()-25;
+            int levelMAX = personagens.getNivel()+25;
+
+            do {
+                int inimigoAleatorio = random.nextInt(qnt_ini)+1;
+                inimigos = db.inimigosDao().buscaInimigos(inimigoAleatorio);
+            }while (inimigos.getTipo().equals(personagens.getTipo()));
+
+            do {
+                nivelInimigo = random.nextInt(levelMAX - levelMIN + 1)+levelMIN;
+            }while (nivelInimigo < 0);
 
             binding.nome.setText(personagens.getNome());
             binding.tituloPer.setText(personagens.getTitulo());
@@ -68,15 +123,21 @@ public class InfoPersonagenUser extends Fragment {
                 binding.ataques.setVisibility(View.INVISIBLE);
                 binding.ataquesLinar.setVisibility(View.INVISIBLE);
             }
+
+            Log.d("verifica",inimigos.toString()+" "+String.valueOf(nivelInimigo));
+            Log.d("estagio",String.valueOf(estagio_persangem));
         }
 
+        Inimigos finalInimigos = inimigos;
+        int finalNivelInimigo = nivelInimigo;
         binding.batalha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idU",arg.getInt("idU"));
                 bundle.putInt("idPerso",arg.getInt("idPerso"));
-                bundle.putInt("idInimi",0);
+                bundle.putInt("idInimi", finalInimigos.getIdinimigos());
+                bundle.putInt("nivelIni", finalNivelInimigo);
 
                 NavHostFragment.findNavController(InfoPersonagenUser.this)
                         .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);

@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 @Entity(tableName = "akumas")
@@ -12,23 +14,30 @@ public class Akumas {
     @PrimaryKey(autoGenerate = true)
     public int idakuma;
 
+    @SerializedName("NOME")
     @ColumnInfo(name = "nome")
     public String nome;
+
+    @SerializedName("TIPO")
     @ColumnInfo(name = "tipo")
     public String tipo;
 
+    @SerializedName("USUÁRIOS")
     @ColumnInfo(name = "usuarios")
     public String usuarios;
 
+    @SerializedName("DESCRIÇÃO")
     @ColumnInfo(name = "descricao")
     public String descricao;
 
     @ColumnInfo(name = "ataques")
     public int ataques;
 
+    @SerializedName("NOME TRADUZIDO")
     @ColumnInfo(name = "nome_t")
     public String nome_t;
 
+    @SerializedName("foto")
     @ColumnInfo(name = "foto")
     public String fotoakuma;
 
@@ -39,6 +48,10 @@ public class Akumas {
         this.descricao = descricao;
         this.nome_t = nome_t;
         this.fotoakuma = fotoakuma;
+    }
+
+    @Ignore
+    public Akumas() {
     }
 
     @Ignore

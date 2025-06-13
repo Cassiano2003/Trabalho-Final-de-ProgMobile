@@ -38,6 +38,7 @@ val room_version = "2.3.0"
 dependencies {
 
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation ("com.google.code.gson:gson:2.10.1")
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)

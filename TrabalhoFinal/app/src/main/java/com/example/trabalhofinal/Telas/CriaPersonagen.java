@@ -107,15 +107,19 @@ public class CriaPersonagen extends Fragment {
                     String recompensa;
                     String titulo;
                     String associacaoSelecionada;
+                    String tipo;
                     if (binding.pirata.isChecked()) {
                         associacaoSelecionada = "Pirata";
+                        tipo = "G";
                         titulo = "Bandido";
                         recompensa = "B$ 0";
                     } else if (binding.marinha.isChecked()) {
                         associacaoSelecionada = "Marinha";
+                        tipo = "M";
                         titulo = "Aprendiz de Marinheiro";
                         recompensa = "★";
                     } else {
+                        tipo =" ";
                         associacaoSelecionada = "Nenhuma";
                         titulo = "Sem Título";
                         recompensa = "nada";
@@ -136,9 +140,9 @@ public class CriaPersonagen extends Fragment {
                         int hakiarm = 0;
 
                         //String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm
-                        Personagens personagens = new Personagens(nomePersonagem, level, armaSelecionada, hp, forca, estamina, agilidade, defesa, intuicao, energia, idakuma, associacaoSelecionada, recompensa, titulo, marOrigem, generoSelecionado, racaSelecionada, hakirei, hakiobs, hakiarm);
+                        Personagens personagens = new Personagens(nomePersonagem, level, armaSelecionada, hp, forca, estamina, agilidade, defesa, intuicao, energia, idakuma, associacaoSelecionada,tipo, recompensa, titulo, marOrigem, generoSelecionado, racaSelecionada, hakirei, hakiobs, hakiarm);
                         db.personagensDao().insertAll(personagens);
-                        Log.d("persona", personagens.toString() + " " + String.valueOf(fruta1) + " " + String.valueOf(fruta2) + " " + String.valueOf(fruta3) + " " + String.valueOf(idakuma));
+                        //Log.d("persona", personagens.toString() + " " + String.valueOf(fruta1) + " " + String.valueOf(fruta2) + " " + String.valueOf(fruta3) + " " + String.valueOf(idakuma));
                         Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
 
                         Bundle arg = getArguments();

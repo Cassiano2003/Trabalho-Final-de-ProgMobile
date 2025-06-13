@@ -2,7 +2,10 @@ package com.example.trabalhofinal.Tabelas;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Arrays;
 
@@ -11,15 +14,19 @@ public class Tripulacoes {
     @PrimaryKey(autoGenerate = true)
     public int idtripulacao;
 
+    @SerializedName("NOME")
     @ColumnInfo(name = "nome")
     public String nome;
 
+    @SerializedName("CAPITÃO")
     @ColumnInfo(name = "capitao")
     public String capitao;
 
+    @SerializedName("INTEGRANTES")
     @ColumnInfo(name = "integrantes")
     public String integrantes;
 
+    @SerializedName("BANDEIRA")
     @ColumnInfo(name = "foto")
     public String foto;
 
@@ -28,6 +35,10 @@ public class Tripulacoes {
         this.capitao = capitao;
         this.integrantes = integrantes;
         this.foto = foto;
+    }
+
+    @Ignore
+    public Tripulacoes() {
     }
 
     public int getIdtripulacao() {

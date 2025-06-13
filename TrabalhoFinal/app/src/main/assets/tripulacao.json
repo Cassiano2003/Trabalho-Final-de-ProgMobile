@@ -1,0 +1,134 @@
+[
+ {
+   "NOME": "Arlong Pirates",
+   "CAPITÃO": "Arlong",
+   "INTEGRANTES": "Kuroobi, Hatchan, Chew, Momoo",
+   "BANDEIRA": "arlongpirates"
+ },
+ {
+   "NOME": "Fire Tank Pirates",
+   "CAPITÃO": "Capone Bege",
+   "INTEGRANTES": "Vito, Gotti, Charlotte Chifon, Capone Pez",
+   "BANDEIRA": "firetankpirates"
+ },
+ {
+   "NOME": "Black Cat Pirates",
+   "CAPITÃO": "Captain Kuro",
+   "INTEGRANTES": "Sham, Buchi, Nugire Yalnu, Jango",
+   "BANDEIRA": "blackcatpirates"
+ },
+ {
+   "NOME": "Donquixote Pirates",
+   "CAPITÃO": "Donquixote Doflamingo",
+   "INTEGRANTES": "Trebol, Diamante, Pica, Vergo, Corazon, Sugar, Giolla, Violet, Lao G, Senor Pink, Machvise, Dellinger, Gladius, Buffalo, Baby 5, Monet, Bellamy",
+   "BANDEIRA": "donquixotepirates"
+ },
+ {
+   "NOME": "Fake Straw Hat Pirates",
+   "CAPITÃO": "Fake Luffy",
+   "INTEGRANTES": "Fake Zoro, Fake Nami, Fake Sogeking, Fake Sanji, Fake Chopper, Fake Robin, Fake Franky, Caribou, Coribou",
+   "BANDEIRA": "fakestrawhatcrews"
+ },
+ {
+   "NOME": "Thriller Bark Pirates",
+   "CAPITÃO": "Gecko Moria",
+   "INTEGRANTES": "Hogback, Absalom, Perona",
+   "BANDEIRA": "thrillerbarks"
+ },
+ {
+   "NOME": "New Fish-Man Pirates",
+   "CAPITÃO": "Hody Jones",
+   "INTEGRANTES": "Dosun, Zeo, Daruma, Ikaros Much, Hyouzou, Hammond, Surume",
+   "BANDEIRA": "newfishmanpirates"
+ },
+ {
+   "NOME": "Rocks Pirates",
+   "CAPITÃO": "Rocks D. Xebec",
+   "INTEGRANTES": "Edward Newgate, Charlotte Linlin, Kaido, Shiki, John, Buckingham Stussy, Gloriosa, Streusen",
+   "BANDEIRA": "rockspirates"
+ },
+ {
+   "NOME": "Roger Pirates",
+   "CAPITÃO": "Gol D. Roger",
+   "INTEGRANTES": "Silvers Rayleigh, Scopper Gaban, Crocus, Kozuki Oden, Kozuki Toki, Shanks, Buggy, Inuarashi, Nekomamushi, Kozuki Momonosuke, Kozuki Hiyori",
+   "BANDEIRA": "rogerpirates"
+ },
+ {
+   "NOME": "Whitebeard Pirates",
+   "CAPITÃO": "Edward Newgate (Whitebeard)",
+   "INTEGRANTES": "Marco, Kozuki Oden, Portgas D. Ace, Jozu, Thatch, Vista, Izo, Little Oars Jr.",
+   "BANDEIRA": "whitebeardpirates"
+ },
+ {
+   "NOME": "Straw Hat Pirates",
+   "CAPITÃO": "Monkey D. Luffy",
+   "INTEGRANTES": "Roronoa Zoro, Nami, Ussop, Vinsmoke Sanji, Tony Tony Chopper, Nico Robin, Franky, Brook, Jinbe, Nefertari Vivi, Zeus, Karoo, Going Merry, Thousand Sunny",
+   "BANDEIRA": "strawhatpirates"
+ },
+ {
+   "NOME": "Cross Guild",
+   "CAPITÃO": "Buggy, Crocodile, Dracule Mihawk",
+   "INTEGRANTES": "Daz Bonez, Galdino, Alvida, Mohji, Richie, Cabaji",
+   "BANDEIRA": "crossguildportrait"
+ },
+ {
+   "NOME": "Redhair Pirates",
+   "CAPITÃO": "Shanks",
+   "INTEGRANTES": "Benn Beckman, Lucky Roux, Yassop, Limejuice, Bonk Punch, Monster, Building, Hongo, Gab, Uta",
+   "BANDEIRA": "redhairpiratesoriginal"
+ },
+ {
+   "NOME": "Beast Pirates",
+   "CAPITÃO": "Kaido",
+   "INTEGRANTES": "King, Queen, Jack, Page One, Ulti, Who's-Who, Black Maria, Sasaki, X Drake, Basil Hawkins, Holed'em, Speed, Daifugo, Babanuki, Bao Huang, Batman, Gazelleman, Numbers, Fukurokuju, Scratchmen Apoo",
+   "BANDEIRA": "beastspirates"
+ },
+ {
+   "NOME": "Big Mom Pirates",
+   "CAPITÃO": "Charlotte Linlin (Big Mom)",
+   "INTEGRANTES": "Charlotte Katakuri, Charlotte Smoothie, Charlotte Cracker, Charlotte Perospero, Charlotte Daifuku, Charlotte Oven, Charlotte Amande, Charlotte Opera, Charlotte Brûlée, Charlotte Mont-d'Or, Charlotte Galette, Charlotte Praline, Charlotte Chiffon, Charlotte Lola, Charlotte Pudding, Charlotte Flampe, Pekoms, Knight Tamago, Bishop Bobbin, Prometheus, Napolen, Hera, Queen Mama, Nitro, Rabiyan, Kingbaum",
+   "BANDEIRA": "bigmompirates"
+ },
+ {
+   "NOME": "Blackbeard Pirates",
+   "CAPITÃO": "Marshall D. Teach (Blackbeard)",
+   "INTEGRANTES": "Jesus Burgess, Shiryu, Van Augur, Avalo Pizarro, Laffitte, Catarina Devon, Sanjuan Wolf, Vasco Shot, Doc Q, Kuzan, Stronger",
+   "BANDEIRA": "blackbeardpirates"
+ },
+ {
+   "NOME": "Heart Pirates",
+   "CAPITÃO": "Trafalgar D. Water Law",
+   "INTEGRANTES": "Bepo, Penguin, Shachi, Jean Bart, Ikkaku, Uni, Clione, Kakugan",
+   "BANDEIRA": "heartpirates"
+ },
+ {
+   "NOME": "Kid Pirates",
+   "CAPITÃO": "Eustass Captain Kid",
+   "INTEGRANTES": "Killer, Heat, Wire",
+   "BANDEIRA": "kidpirates"
+ },
+ {
+   "NOME": "Foxy Pirates",
+   "CAPITÃO": "Foxy",
+   "INTEGRANTES": "Porche, Hamburg, Chuchun, Pickles, Big Pan",
+   "BANDEIRA": "foxypiratesformer"
+ },
+ {
+   "NOME": "Krieg Pirates",
+   "CAPITÃO": "Don Krieg",
+   "INTEGRANTES": "Gin, Pearl",
+   "BANDEIRA": "kriegpirates"
+ },
+ {
+   "NOME": "Barto Club",
+   "CAPITÃO": "Bartolomeo",
+   "INTEGRANTES": "Gambla",
+   "BANDEIRA": "bartoclub"
+ },
+ {
+   "NOME": "Germa 66",
+   "CAPITÃO": "Vinsmoke Judge",
+   "INTEGRANTES": "Vinsmoke Reiju, Vinsmoke Ichiji, Vinsmoke Niji, Vinsmoke Yonji, Exército Clone",
+   "BANDEIRA": "germa66"
+ }
+]

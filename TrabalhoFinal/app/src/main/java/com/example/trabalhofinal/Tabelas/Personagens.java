@@ -45,6 +45,9 @@ public class Personagens {
     @ColumnInfo(name = "associacao")
     public String associacao;
 
+    @ColumnInfo(name = "tipo")
+    public String tipo;
+
     @ColumnInfo(name = "recompensa")
     public String recompensa;
 
@@ -67,7 +70,7 @@ public class Personagens {
     @ColumnInfo(name = "hakiarm")
     public int hakiarm;
 
-    public Personagens(String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm) {
+    public Personagens(String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String tipo, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm) {
         this.nome = nome;
         this.nivel = nivel;
         this.armas = armas;
@@ -80,6 +83,7 @@ public class Personagens {
         this.energia = energia;
         this.akumaNoMi = akumaNoMi;
         this.associacao = associacao;
+        this.tipo = tipo;
         this.recompensa = recompensa;
         this.titulo = titulo;
         this.origem = origem;
@@ -88,6 +92,14 @@ public class Personagens {
         this.hakirei = hakirei;
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
     public int getEnergia() {

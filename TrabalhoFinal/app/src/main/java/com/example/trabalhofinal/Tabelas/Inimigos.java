@@ -108,6 +108,22 @@ public class Inimigos {
         this.fotointeira = fotointeira;
     }
 
+    public int getEstagio() {
+        return estagio;
+    }
+
+    public void setEstagio(int estagio) {
+        this.estagio = estagio;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -251,22 +267,6 @@ public class Inimigos {
 
     public void setTripulacaoOrganizacao(String tripulacaoOrganizacao) {
         this.tripulacaoOrganizacao = tripulacaoOrganizacao;
-    }
-
-    public int getEstagio() {
-        return estagio;
-    }
-
-    public void setEstagio(int estagio) {
-        this.estagio = estagio;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
     }
 
     public String getRecompensa() {

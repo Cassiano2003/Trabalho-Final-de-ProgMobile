@@ -14,19 +14,15 @@ public class Tripulacoes {
     @PrimaryKey(autoGenerate = true)
     public int idtripulacao;
 
-    @SerializedName("NOME")
     @ColumnInfo(name = "nome")
     public String nome;
 
-    @SerializedName("CAPITÃO")
     @ColumnInfo(name = "capitao")
     public String capitao;
 
-    @SerializedName("INTEGRANTES")
     @ColumnInfo(name = "integrantes")
     public String integrantes;
 
-    @SerializedName("BANDEIRA")
     @ColumnInfo(name = "foto")
     public String foto;
 
@@ -37,9 +33,6 @@ public class Tripulacoes {
         this.foto = foto;
     }
 
-    @Ignore
-    public Tripulacoes() {
-    }
 
     public int getIdtripulacao() {
         return idtripulacao;

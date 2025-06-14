@@ -8,11 +8,7 @@ import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
-
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -20,23 +16,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.trabalhofinal.databinding.ActivityMainBinding;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,44 +39,30 @@ public class MainActivity extends AppCompatActivity {
         //Cacteristicas AKUMAS NO MI
         if (db.akumaDao().quantosAkumas() == 0) {
             try {
-                InputStream is = this.getAssets().open("akumas.json");
+                AssetManager assetManager = getAssets();
+                InputStream is = assetManager.open("akumas.json");
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
                 is.close();
-                String json = new String(buffer, StandardCharsets.UTF_8);
+                String conteudo = new String(buffer, "UTF-8");
+                JSONObject json = new JSONObject(conteudo);
 
-                // Parsear JSON com Gson
-                Gson gson = new Gson();
-                Type akumasListType = new TypeToken<List<Akumas>>(){}.getType();
-                List<Akumas> akumasList = gson.fromJson(json, akumasListType);
+                JSONArray NOME = json.getJSONArray("NOME");
+                JSONArray TIPO = json.getJSONArray("TIPO");
+                JSONArray USUÁRIOS = json.getJSONArray("USUÁRIOS");
+                JSONArray DESCRIÇÃO = json.getJSONArray("DESCRIÇÃO");
+                JSONArray NOME_TRADUZIDO = json.getJSONArray("NOME TRADUZIDO");
+                JSONArray foto = json.getJSONArray("foto");
 
-                // Criar arrays
-                int sizeList = akumasList.size();
-                String[] nomes_akumas = new String[sizeList];
-                String[] tipo_akumas = new String[sizeList];
-                String[] usuarios_akumas = new String[sizeList];
-                String[] descricao_akumas = new String[sizeList];
-                String[] nome_traduzido_akumas = new String[sizeList];
-                String[] fotos_akumas = new String[sizeList];
 
-                for (int i = 0; i < sizeList; i++) {
-                    Akumas akuma = akumasList.get(i);
-                    nomes_akumas[i] = akuma.getNome().replace("\n", "");
-                    tipo_akumas[i] = akuma.getTipo();
-                    usuarios_akumas[i] = akuma.getUsuarios();
-                    descricao_akumas[i] = akuma.getDescricao();
-                    nome_traduzido_akumas[i] = akuma.getNome_t().replace("\n", "");
-                    fotos_akumas[i] = akuma.getFotoakuma();
-                }
-
-                int qnt = nomes_akumas.length;
+                int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
-                    Akumas akumas = new Akumas(nomes_akumas[i], tipo_akumas[i], usuarios_akumas[i], descricao_akumas[i], nome_traduzido_akumas[i], fotos_akumas[i]);
+                    Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),foto.getString(i));
                     db.akumaDao().insertAll(akumas);
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -98,42 +70,27 @@ public class MainActivity extends AppCompatActivity {
         //Caracteristicas TRIPULACAO
         if (db.tripulacaoDao().quantosTripulacao() == 0) {
             try {
-                InputStream is = this.getAssets().open("tripulacao.json");
+                AssetManager assetManager = getAssets();
+                InputStream is = assetManager.open("tripulacao.json");
                 int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
                 is.close();
-                String json = new String(buffer, StandardCharsets.UTF_8);
+                String conteudo = new String(buffer, "UTF-8");
+                JSONObject json = new JSONObject(conteudo);
 
-                // Parsear JSON com Gson
-                Gson gson = new Gson();
-                Type tripulacaoListType = new TypeToken<List<Tripulacoes>>(){}.getType();
-                List<Tripulacoes> tripulacaoList = gson.fromJson(json, tripulacaoListType);
+                JSONArray NOME = json.getJSONArray("NOME");
+                JSONArray CAPITÃO = json.getJSONArray("CAPITÃO");
+                JSONArray INTEGRANTES = json.getJSONArray("INTEGRANTES");
+                JSONArray BANDEIRA = json.getJSONArray("BANDEIRA");
 
-
-
-                // Criar arrays
-                int sizeList = tripulacaoList.size();
-                String[] nome_tripulacao = new String[sizeList];
-                String[] capitao_tripulacao = new String[sizeList];
-                String[] integrantes_tripulacao = new String[sizeList];
-                String[] bandeira_tripulacao = new String[sizeList];
-
-                for (int i = 0; i < sizeList; i++) {
-                    Tripulacoes tripulacoes = tripulacaoList.get(i);
-                    nome_tripulacao[i] = tripulacoes.getNome();
-                    capitao_tripulacao[i] = tripulacoes.getCapitao();
-                    integrantes_tripulacao[i] = tripulacoes.getIntegrantes();
-                    bandeira_tripulacao[i] = tripulacoes.getFoto();
-                }
-
-                int qnt = nome_tripulacao.length;
+                int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
-                    Tripulacoes tripulacoes = new Tripulacoes(nome_tripulacao[i], capitao_tripulacao[i], integrantes_tripulacao[i], bandeira_tripulacao[i]);
+                    Tripulacoes tripulacoes = new Tripulacoes(NOME.getString(i),CAPITÃO.getString(i),INTEGRANTES.getString(i),BANDEIRA.getString(i));
                     db.tripulacaoDao().insertAll(tripulacoes);
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }

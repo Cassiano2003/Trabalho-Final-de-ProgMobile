@@ -2,7 +2,10 @@ package com.example.trabalhofinal.Tabelas;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "inimigos")
 public class Inimigos {
@@ -10,45 +13,63 @@ public class Inimigos {
     @PrimaryKey(autoGenerate = true)
     public int idinimigos;
 
+    @SerializedName("NOMES") // Maps "NOMES" from JSON to 'nome'
     @ColumnInfo(name = "nome")
     public String nome;
 
+    // For nested JSON objects like "APELIDO": {"NOME POPULAR": "..."}
+    // Gson requires a custom Deserializer or a separate nested class to directly map.
+    // If "APELIDO" always has "NOME POPULAR", you might parse it manually or use a custom TypeAdapter.
+    // For simplicity, if you flatten it, you'll need to parse this part separately.
+    // @SerializedName("APELIDO.NOME POPULAR") // This won't work directly with Gson
+    @SerializedName("APELIDO.NOME POPULAR")
     @ColumnInfo(name = "apelido_nome_popular")
     public String apelidoNomePopular;
 
+    @SerializedName("ARMAS")
     @ColumnInfo(name = "armas")
     public String armas;
 
+    @SerializedName("HP")
     @ColumnInfo(name = "hp")
     public int hp;
 
+    @SerializedName("FORÇA")
     @ColumnInfo(name = "forca")
     public int forca;
 
+    @SerializedName("ESTAMINA")
     @ColumnInfo(name = "estamina")
     public int estamina;
 
+    @SerializedName("AGILIDADE")
     @ColumnInfo(name = "agilidade")
     public int agilidade;
 
+    @SerializedName("DEFESA")
     @ColumnInfo(name = "defesa")
     public int defesa;
 
+    @SerializedName("INTUIÇÃO")
     @ColumnInfo(name = "intuicao")
     public int intuicao;
 
     @ColumnInfo(name = "energia")
     public int energia;
 
+    @SerializedName("AKUMA NO MI")
     @ColumnInfo(name = "akuma_no_mi")
     public String akumaNoMi;
 
+    @SerializedName("ASSOCIAÇÃO")
     @ColumnInfo(name = "associacao")
     public String associacao;
 
+    @SerializedName("TRIPULAÇÃO.ORGANIZAÇÃO")
     @ColumnInfo(name = "tripulacao_organizacao")
     public String tripulacaoOrganizacao;
 
+    @SerializedName("RECOMPENSA")
     @ColumnInfo(name = "recompensa")
     public String recompensa;
 
@@ -58,27 +79,33 @@ public class Inimigos {
     @ColumnInfo(name = "tipo")
     public String tipo;
 
+    @SerializedName("TÍTULO")
     @ColumnInfo(name = "titulo")
     public String titulo;
 
+    @SerializedName("ORIGEM")
     @ColumnInfo(name = "origem")
     public String origem;
 
+    @SerializedName("SEXO")
     @ColumnInfo(name = "sexo")
     public String sexo;
 
+    @SerializedName("RAÇA")
     @ColumnInfo(name = "raca")
     public String raca;
 
     @ColumnInfo(name = "hakiobs")
     public int hakiobs;
+
     @ColumnInfo(name = "hakiarm")
     public int hakiarm;
 
     @ColumnInfo(name = "fotometade")
     public String fotometade;
+
     @ColumnInfo(name = "fotointeira")
-    public  String fotointeira;
+    public String fotointeira;
 
 
     public Inimigos(String nome, String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, int estagio, String tipo, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm, String fotometade, String fotointeira) {
@@ -106,6 +133,10 @@ public class Inimigos {
         this.hakiarm = hakiarm;
         this.fotometade = fotometade;
         this.fotointeira = fotointeira;
+    }
+
+    @Ignore
+    public Inimigos() {
     }
 
     public int getEstagio() {

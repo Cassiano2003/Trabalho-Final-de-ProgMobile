@@ -61,6 +61,7 @@ public class ColeAkumaPersonagen  extends Fragment {
                     int qnt_akumas = db.akumaDao().quantosAkumas();
                     gridImagens = new int[qnt_akumas];
                     idgeral = new int[qnt_akumas];
+                    qnt_adicionadas = 0;
                     if(!akuma.isEmpty()) {
                         for (int i = 0; i < akuma.size(); i++) {
                             idgeral[i] = akuma.get(i);

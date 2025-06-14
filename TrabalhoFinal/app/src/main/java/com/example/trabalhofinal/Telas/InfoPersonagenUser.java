@@ -87,7 +87,7 @@ public class InfoPersonagenUser extends Fragment {
 
             do {
                 int inimigoAleatorio = random.nextInt(qnt_ini)+1;
-                inimigos = db.inimigosDao().buscaInimigos(inimigoAleatorio);
+                inimigos = inimigosFinal.get(inimigoAleatorio);
             }while (inimigos.getTipo().equals(personagens.getTipo()));
 
             do {
@@ -126,6 +126,7 @@ public class InfoPersonagenUser extends Fragment {
 
             Log.d("verifica",inimigos.toString()+" "+String.valueOf(nivelInimigo));
             Log.d("estagio",String.valueOf(estagio_persangem));
+            Log.d("estagio Inimigo",String.valueOf(estagio_persangem));
         }
 
         Inimigos finalInimigos = inimigos;

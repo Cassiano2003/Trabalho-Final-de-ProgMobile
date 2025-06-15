@@ -42,6 +42,8 @@ public class Batalha    extends Fragment {
     final int[] acumuloDesvios = {0};
     final boolean[] vezdequem = {true};
 
+    int ataquesTurnos = 0;
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -83,7 +85,13 @@ public class Batalha    extends Fragment {
             binding.armaBnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(vezdequem[0]) TrunoJogador(arg);
+                    if(vezdequem[0]){
+                        TrunoJogador(arg);
+                    }else {
+                        androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                        dlg.setMessage("Esta na vez do inimigo");
+                        dlg.show();
+                    }
                 }
             });
 
@@ -106,7 +114,7 @@ public class Batalha    extends Fragment {
 
     public void TrunoJogador(Bundle arg){
         int dano = CalculaDano(inimigos.getDefesa() / 100, personagens.getForca());
-        if (validaChance(inimigos.getIntuicao()) && acumuloDesvios[0] < qntsDesvios[0]) {
+        if (validaChance(inimigos.getIntuicao())) {
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
             TextView novo = new TextView(getContext());
             novo.setText(inimigos.getNome() + " desviou do seu ataque");
@@ -114,6 +122,7 @@ public class Batalha    extends Fragment {
             vezdequem[0] = false;
             TurnoInimigo(arg);
         } else {
+            ataquesTurnos ++;
             acumuloDesvios[0] = 0;
             qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
@@ -129,29 +138,43 @@ public class Batalha    extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idU",arg.getInt("idU"));
                 bundle.putInt("idPerso",arg.getInt("idPerso"));
-                NavOptions navOptions = new NavOptions.Builder()
+                binding.armaBnt.setVisibility(View.INVISIBLE);
+                binding.hakiBnt.setVisibility(View.INVISIBLE);
+                binding.akumaBnt.setVisibility(View.INVISIBLE);
+
+                /*NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
-                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);
+                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
                 vezdequem[0] = false;
                 TurnoInimigo(arg);
             }
         }
+        if(validaChance(personagens.getAgilidade()) && ataquesTurnos < 2){
+            ataquesTurnos++;
+            androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+            dlg.setMessage("O jogador pode atacar novamente");
+            dlg.show();
+        }else{
+            ataquesTurnos = 0;
+            vezdequem[0] = false;
+            TurnoInimigo(arg);
+        }
     }
 
     public void TurnoInimigo(Bundle arg){
-        int hakiarm = 25;
-        int hakiobs = 16;
-        int dano = CalculaDano((personagens.getDefesa()+(personagens.getHakiarm()*hakiarm)) / 100, inimigos.getForca());
-        if (validaChance(personagens.getIntuicao()+(personagens.getHakiobs()*hakiobs)) && acumuloDesvios[0] < qntsDesvios[0]) {
+        int dano = CalculaDano((personagens.getDefesa()) / 100, inimigos.getForca());
+        if (validaChance(personagens.getIntuicao())) {
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
             TextView novo = new TextView(getContext());
             novo.setText(personagens.getNome() + " desviou do "+inimigos.getNome());
             binding.informacoes.addView(novo);
-        } else {
+            vezdequem[0] = true;
+        }else {
+            ataquesTurnos ++;
             acumuloDesvios[0] = 0;
             qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
@@ -166,28 +189,39 @@ public class Batalha    extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putInt("idU",arg.getInt("idU"));
                 bundle.putInt("idPerso",arg.getInt("idPerso"));
-                NavOptions navOptions = new NavOptions.Builder()
+                binding.armaBnt.setVisibility(View.INVISIBLE);
+                binding.hakiBnt.setVisibility(View.INVISIBLE);
+                binding.akumaBnt.setVisibility(View.INVISIBLE);
+
+                /*NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
-                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);
+                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(personagens.getHp()));
+                ataquesTurnos = 0;
+                vezdequem[0] = true;
             }
         }
-        vezdequem[0] = true;
+        if(validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2){
+            ataquesTurnos ++;
+            androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+            dlg.setMessage("O Inimigo pode atacara novamente");
+            dlg.show();
+            TurnoInimigo(arg);
+        }else {
+            ataquesTurnos = 0;
+            vezdequem[0] = true;
+        }
     }
 
     //Vai ser para ver se tem chance de atacar novamente ou de desviar do ataque
-    public boolean validaChance(float num){
+    public boolean validaChance(int num){
         Random random = new Random();
-        float chance1 = random.nextFloat();
-        float chance2 = random.nextFloat();
+        int chance1 = random.nextInt(101);
         if(chance1 < num) {
-            if(chance2 < num) {
-                return true;
-            }
-            return false;
+            return true;
         }
         return false;
     }
@@ -213,6 +247,7 @@ public class Batalha    extends Fragment {
         Random random = new Random();
         //Força, estamina, agilidade e HP
         inimigos.setAgilidade(inimigos.getAgilidade()+nivelAtual);
+        if(inimigos.getAgilidade() > 75) inimigos.setAgilidade(75);
         inimigos.setForca(inimigos.getForca()+nivelAtual);
         inimigos.setEstamina(inimigos.getEstamina()+nivelAtual);
         inimigos.setHp(inimigos.getHp()+nivelAtual);
@@ -270,6 +305,8 @@ public class Batalha    extends Fragment {
 
     public void Nivelamento(Personagens personagens,Bundle arg){
         int idini = arg.getInt("idInimi");
+        int hakiobs = 16;
+        int hakiarm = 25;
         Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
         List<Integer> inimigoList = usuario.getInimigos();
         if(!procuraRepeticao(inimigoList,idini)) inimigoList.add(idini);
@@ -288,6 +325,28 @@ public class Batalha    extends Fragment {
             personagens.setPontos(personagens.getPontos()+3);
         }
 
+        if(personagens.getEstamina() <= 14){
+            personagens.setEnergia(5);
+        } else if (personagens.getEstamina() <= 24) {
+            personagens.setEnergia(8);
+        }else if (personagens.getEstamina() <= 34) {
+            personagens.setEnergia(11);
+        }else if (personagens.getEstamina() <= 44) {
+            personagens.setEnergia(14);
+        }else if (personagens.getEstamina() <= 54) {
+            personagens.setEnergia(17);
+        }else if (personagens.getEstamina() <= 64) {
+            personagens.setEnergia(20);
+        }else if (personagens.getEstamina() <= 74) {
+            personagens.setEnergia(23);
+        }else if (personagens.getEstamina() <= 84) {
+            personagens.setEnergia(26);
+        }else if (personagens.getEstamina() <= 94) {
+            personagens.setEnergia(29);
+        }else{
+            personagens.setEnergia(32);
+        }
+
         if(personagens.getVitorias5() == 5 && !personagens.getAssociacao().equals("Marinha")){
             //Player vence uma Davy Back Fight e pode trocar aleatoriamente de tripulação
             int qualTripulacao = new Random().nextInt(db.tripulacaoDao().quantosTripulacao())+1;
@@ -297,34 +356,43 @@ public class Batalha    extends Fragment {
             usuario.setTripulacao(tripulacaoList);
             personagens.setVitorias5(0);
         }
-        if (personagens.getVitorias10() == 10){
-            int qualHaki = new Random().nextInt(3);
-            String[] haki = {"Haki da Observação","Haki do Armamento","Haki do rei"};
-            String seuHaki = haki[qualHaki];
-            switch (seuHaki){
-                case "Haki da Observação":
-                    if(personagens.getHakiobs() <= 3){
-                        personagens.setHakiobs(personagens.getHakiobs()+1);
-                    }else{
-                        personagens.setHakiobs(3);
-                    }
-                    break;
-                case "Haki do Armamento":
-                    if(personagens.getHakiarm() <= 3) {
-                        personagens.setHakiarm(personagens.getHakiarm() + 1);
-                    }else{
-                        personagens.setHakiarm(3);
-                    }
-                    break;
-                case "Haki do rei":
-                    if(personagens.getHakirei() <= 3){
-                        personagens.setHakirei(personagens.getHakirei()+1);
-                    }else{
-                        personagens.setHakirei(3);
-                    }
-                    break;
-            }
+        if (personagens.getVitorias10() == 10 && personagens.getNivel() < 91){
+            boolean jafoi = false;
+            do {
+                int qualHaki = new Random().nextInt(3);
+                String[] haki = {"Haki da Observação", "Haki do Armamento", "Haki do rei"};
+                String seuHaki = haki[qualHaki];
+                switch (seuHaki) {
+                    case "Haki da Observação":
+                        if (personagens.getHakiobs() < 3) {
+                            personagens.setHakiobs(personagens.getHakiobs() + 1);
+                            personagens.setIntuicao(personagens.getIntuicao()+(personagens.getHakiobs()*hakiobs));
+                        } else {
+                            jafoi = true;
+                        }
+                        break;
+                    case "Haki do Armamento":
+                        if (personagens.getHakiarm() < 3) {
+                            personagens.setHakiarm(personagens.getHakiarm() + 1);
+                            personagens.setDefesa(personagens.getDefesa()+(personagens.getHakiarm()*hakiarm));
+                        } else {
+                            jafoi = true;;
+                        }
+                        break;
+                    case "Haki do rei":
+                        if (personagens.getHakirei() < 3) {
+                            personagens.setHakirei(personagens.getHakirei() + 1);
+                        } else {
+                            jafoi = true;
+                        }
+                        break;
+                    default:
+                        jafoi = true;
+                        break;
+                }
+            }while (jafoi);
             personagens.setVitorias10(0);
+
         }
         if (personagens.getVitorias25() == 25 && nivelAtual <= 100) {
             switch (personagens.getTitulo()){

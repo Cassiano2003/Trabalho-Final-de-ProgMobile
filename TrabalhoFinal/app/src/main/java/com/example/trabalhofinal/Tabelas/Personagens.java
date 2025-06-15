@@ -82,6 +82,9 @@ public class Personagens {
     @ColumnInfo(name = "idTripula")
     public int idTripula;
 
+    @ColumnInfo(name = "imagenpersona")
+    public String imagenPersona;
+
     public Personagens(String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String tipo, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm) {
         this.nome = nome;
         this.nivel = nivel;
@@ -104,6 +107,14 @@ public class Personagens {
         this.hakirei = hakirei;
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
+    }
+
+    public String getImagenPersona() {
+        return imagenPersona;
+    }
+
+    public void setImagenPersona(String imagenPersona) {
+        this.imagenPersona = imagenPersona;
     }
 
     public int getIdTripula() {

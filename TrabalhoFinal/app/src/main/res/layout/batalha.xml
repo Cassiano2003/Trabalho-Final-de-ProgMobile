@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/imagem_inimigo"
             android:layout_width="200dp"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/haki_inimigo"

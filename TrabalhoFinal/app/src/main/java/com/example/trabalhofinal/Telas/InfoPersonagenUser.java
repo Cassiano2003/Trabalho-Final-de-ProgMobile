@@ -17,6 +17,8 @@ import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.Tabelas.Akumas;
 import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Personagens;
+import com.example.trabalhofinal.Tabelas.Tripulacoes;
+import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.InfoPlayerBinding;
 
@@ -61,13 +63,19 @@ public class InfoPersonagenUser extends Fragment {
 
         List<String> nomesInimigos = new ArrayList<>();
         nomesInimigos.add("Deffalt");
-        ArrayAdapter adpter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,nomesInimigos);
-        binding.nomePersonagens.setAdapter(adpter);
 
 
         Bundle arg = getArguments();
         if(arg != null){
             personagens = db.personagensDao().buscaPer(arg.getInt("idPerso"));
+            Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
+            for(int i=0; i< usuario.getInimigos().size();i++){
+                Inimigos inimigos1 = db.inimigosDao().buscaInimigos(usuario.getInimigos().get(i));
+                nomesInimigos.add(inimigos1.getNome());
+            }
+            ArrayAdapter adpter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,nomesInimigos);
+            binding.nomePersonagens.setAdapter(adpter);
+
             nivelInimigo = personagens.getNivel();
             List<Inimigos> inimigosFinal = new ArrayList<>();
 
@@ -126,11 +134,18 @@ public class InfoPersonagenUser extends Fragment {
                 binding.btnForcaMais.setVisibility(View.VISIBLE);
                 binding.btnForcaMenos.setVisibility(View.VISIBLE);
 
-                if(personagens.getEstamina() <= 75) {
+                if(personagens.getAgilidade() < 75) {
                     binding.btnEstaminaMais.setVisibility(View.VISIBLE);
                     binding.btnEstaminaMenos.setVisibility(View.VISIBLE);
                 }
                 ComtrolePontos();
+            }
+
+            if(personagens.getIdTripula() != 0){
+                Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(personagens.getIdTripula());
+                binding.qualTripulacao.setVisibility(View.VISIBLE);
+                int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
+                binding.qualTripulacao.setImageResource(resID);
             }
 
             if(personagens.getAkumaNoMi() != 0){
@@ -152,6 +167,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.batalha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                personagens.setImagenPersona(binding.nomePersonagens.getSelectedItem().toString());
                 personagens.setIdpersonagens(arg.getInt("idPerso"));
                 db.personagensDao().upgrade(personagens);
 
@@ -166,7 +182,7 @@ public class InfoPersonagenUser extends Fragment {
                 bundle.putInt("nivelIni", finalNivelInimigo);
 
                 NavHostFragment.findNavController(InfoPersonagenUser.this)
-                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle,navOptions);
+                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);
             }
         });
     }
@@ -281,9 +297,9 @@ public class InfoPersonagenUser extends Fragment {
         binding.vida.setText("HP: "+String.valueOf(personagens.getHp()));
         binding.forca.setText("Força: "+String.valueOf(personagens.getForca()));
         binding.estamina.setText("Estamina: "+String.valueOf(personagens.getEstamina()));
-        binding.agilidade.setText("Agilidade: "+String.valueOf(personagens.getAgilidade()));
-        binding.defesa.setText("Defesa: "+String.valueOf(personagens.getDefesa()));
-        binding.intuica.setText("Intuição: "+String.valueOf(personagens.getIntuicao()));
+        binding.agilidade.setText("Agilidade: "+String.valueOf(personagens.getAgilidade())+"%");
+        binding.defesa.setText("Defesa: "+String.valueOf(personagens.getDefesa())+"%");
+        binding.intuica.setText("Intuição: "+String.valueOf(personagens.getIntuicao())+"%");
         binding.pontos.setText("Pontos: "+String.valueOf(personagens.getPontos()));
     }
 

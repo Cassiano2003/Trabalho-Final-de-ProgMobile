@@ -63,12 +63,24 @@ public class Personagens {
     @ColumnInfo(name = "raca")
     public String raca;
 
+    @ColumnInfo(name = "pontos")
+    public int pontos;
+
+    @ColumnInfo(name = "vitorias5")
+    public int vitorias5;
+    @ColumnInfo(name = "vitorias10")
+    public int vitorias10;
+    @ColumnInfo(name = "vitorias25")
+    public int vitorias25;
+
     @ColumnInfo(name = "hakirei")
     public int hakirei;
     @ColumnInfo(name = "hakiobs")
     public int hakiobs;
     @ColumnInfo(name = "hakiarm")
     public int hakiarm;
+    @ColumnInfo(name = "idTripula")
+    public int idTripula;
 
     public Personagens(String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String tipo, String recompensa, String titulo, String origem, String sexo, String raca, int hakirei, int hakiobs, int hakiarm) {
         this.nome = nome;
@@ -92,6 +104,46 @@ public class Personagens {
         this.hakirei = hakirei;
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
+    }
+
+    public int getIdTripula() {
+        return idTripula;
+    }
+
+    public void setIdTripula(int idTripula) {
+        this.idTripula = idTripula;
+    }
+
+    public int getVitorias5() {
+        return vitorias5;
+    }
+
+    public void setVitorias5(int vitorias5) {
+        this.vitorias5 = vitorias5;
+    }
+
+    public int getVitorias10() {
+        return vitorias10;
+    }
+
+    public void setVitorias10(int vitorias10) {
+        this.vitorias10 = vitorias10;
+    }
+
+    public int getVitorias25() {
+        return vitorias25;
+    }
+
+    public void setVitorias25(int vitorias25) {
+        this.vitorias25 = vitorias25;
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
     }
 
     public String getTipo() {

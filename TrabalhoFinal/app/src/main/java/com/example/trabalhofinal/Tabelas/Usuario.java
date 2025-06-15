@@ -23,6 +23,10 @@ public class Usuario {
     public byte [] foto;
     @ColumnInfo(name = "akuma")
     public List<Integer> akumanomis;
+
+    @ColumnInfo(name = "tripulacao")
+    public List<Integer> tripulacao;
+
     @ColumnInfo(name = "inimigos")
     public List<Integer> inimigos;
 
@@ -35,6 +39,14 @@ public class Usuario {
         this.senha = senha;
         this.email = email;
         this.foto = foto;
+    }
+
+    public List<Integer> getTripulacao() {
+        return tripulacao;
+    }
+
+    public void setTripulacao(List<Integer> tripulacao) {
+        this.tripulacao = tripulacao;
     }
 
     public List<Integer> getAkumanomis() {

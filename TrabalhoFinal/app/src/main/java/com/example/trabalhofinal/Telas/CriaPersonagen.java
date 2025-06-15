@@ -151,7 +151,7 @@ public class CriaPersonagen extends Fragment {
                             Usuario usuario = db.usuarioDao().buscaUsuario(idU);
                             List<Integer> personaList = usuario.getPersonagens();
                             List<Integer> akumaList = usuario.getAkumanomis();
-                            if (idakuma != 0) akumaList.add(idakuma);
+                            if (idakuma != 0 && !procuraRepeticao(akumaList,idakuma)) akumaList.add(idakuma);
                             personaList.add(db.personagensDao().buscaID(nomePersonagem));
                             usuario.setAkumanomis(akumaList);
                             usuario.setPersonagens(personaList);
@@ -285,6 +285,15 @@ public class CriaPersonagen extends Fragment {
                 }
             }
         });
+    }
+
+    public boolean procuraRepeticao(List<Integer> array, int targetNumber) {
+        for (int number : array) {
+            if (number == targetNumber) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void resetFormFields() {

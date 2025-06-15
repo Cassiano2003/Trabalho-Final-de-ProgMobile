@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome Inimigo"
+            android:textSize="20dp"
             android:layout_marginTop="30dp"
             app:layout_constraintRight_toRightOf="@id/imagem_inimigo"
             app:layout_constraintLeft_toLeftOf="@id/imagem_inimigo"
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Haki Inimigo"
+            android:textSize="15dp"
             android:layout_marginTop="10dp"
             app:layout_constraintLeft_toLeftOf="@id/nome_inimigo"
             app:layout_constraintTop_toBottomOf="@id/nome_inimigo"/>
@@ -45,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nome jogador"
+            android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="@id/akuma_bnt"
             app:layout_constraintBaseline_toBaselineOf="@id/nome_inimigo"
             app:layout_constraintRight_toRightOf="@id/akuma_bnt"
@@ -55,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Energia Jogador"
+            android:textSize="15dp"
             android:layout_marginTop="10dp"
             app:layout_constraintLeft_toLeftOf="@id/nome_jogador"
             app:layout_constraintTop_toBottomOf="@id/nome_jogador" />
@@ -64,18 +68,18 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Akuma No Mi"
-            android:layout_marginTop="40dp"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/arma_bnt"
             app:layout_constraintLeft_toRightOf="@id/imagem_inimigo"
-            app:layout_constraintTop_toBottomOf="@id/energia"/>
+            app:layout_constraintTop_toTopOf="@id/imagem_inimigo"/>
 
         <Button
             android:id="@+id/arma_bnt"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Arma"
-            android:layout_marginTop="20dp"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/haki_bnt"
             app:layout_constraintLeft_toRightOf="@id/imagem_inimigo"
             app:layout_constraintTop_toBottomOf="@id/akuma_bnt" />
 
@@ -84,16 +88,17 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Haki"
-            android:layout_marginTop="20dp"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arma_bnt"
             app:layout_constraintLeft_toRightOf="@id/imagem_inimigo"
-            app:layout_constraintTop_toBottomOf="@id/arma_bnt"  />
+            app:layout_constraintBottom_toBottomOf="@id/imagem_inimigo"  />
 
         <TextView
             android:id="@+id/vida_inimigo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vida inimigo"
+            android:textSize="15dp"
             android:layout_marginTop="10dp"
             app:layout_constraintLeft_toLeftOf="@id/imagem_inimigo"
             app:layout_constraintRight_toRightOf="@id/imagem_inimigo"
@@ -104,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vida Jogador"
+            android:textSize="15dp"
             app:layout_constraintBaseline_toBaselineOf="@id/vida_inimigo"
             app:layout_constraintLeft_toLeftOf="@id/haki_bnt"
             app:layout_constraintRight_toRightOf="@id/haki_bnt"/>
@@ -114,6 +120,7 @@
             android:layout_height="wrap_content"
             android:text="Informaçao da partida"
             android:layout_marginTop="30dp"
+            android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vida_inimigo" />
 
@@ -126,6 +133,17 @@
             android:textSize="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/informacoes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/inf"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -1,6 +1,7 @@
 package com.example.trabalhofinal.Telas;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,34 +76,39 @@ public class ColeAkumaPersonagen  extends Fragment {
                     binding.quantidade.setText(String.valueOf(qnt_adicionadas)+" / "+String.valueOf(qnt_akumas));
                     break;
                 case "Tribulação":
-                    List<Tripulacoes> tripulacoesList = db.tripulacaoDao().getALL();
+                    List<Integer> tripulacoesList = usuario.getTripulacao();
                     int qnt_tripu = db.tripulacaoDao().quantosTripulacao();
                     gridImagens = new int[qnt_tripu];
                     idgeral = new int[qnt_tripu];
                     qnt_adicionadas = 0;
-                    for(int i=0;i < tripulacoesList.size();i++){
-                        Tripulacoes tripulacoes = tripulacoesList.get(i);
-                        idgeral[i] = tripulacoes.getIdtripulacao();
-                        int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
-                        gridImagens[i] = resID;
-                        qnt_adicionadas++;
+                    if(!tripulacoesList.isEmpty()) {
+                        for (int i = 0; i < tripulacoesList.size(); i++) {
+                            Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(tripulacoesList.get(i));
+                            idgeral[i] = tripulacoes.getIdtripulacao();
+                            int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
+                            gridImagens[i] = resID;
+                            qnt_adicionadas++;
+                        }
                     }
                     binding.titulo.setText("Tripulaçoes");
                     binding.quantidade.setText(String.valueOf(qnt_adicionadas)+" / "+String.valueOf(qnt_tripu));
                     break;
                 case "Inimigos":
-                    List<Inimigos> inimigosList = db.inimigosDao().getALL();
+                    List<Integer> inimigosList = usuario.getInimigos();
+                    Log.d("inimigos",inimigosList.toString());
                     int qnt_ini = db.inimigosDao().quantosInimigos();
                     gridImagens = new int[qnt_ini];
                     idgeral = new int[qnt_ini];
                     qnt_adicionadas = 0;
-                    for(int i=0;i < qnt_ini;i++){
-                        Inimigos inimigos = inimigosList.get(i);
-                        idgeral[i] = inimigos.getIdinimigos();
-                        //int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
-                        int teste = R.drawable.roronoazoroportrait;
-                        gridImagens[i] = teste;
-                        qnt_adicionadas++;
+                    if(!inimigosList.isEmpty()) {
+                        for (int i = 0; i < inimigosList.size(); i++) {
+                            Inimigos inimigos = db.inimigosDao().buscaInimigos(inimigosList.get(i));
+                            idgeral[i] = inimigos.getIdinimigos();
+                            //int resID = requireContext().getResources().getIdentifier(tripulacoes.getFoto(), "drawable", getContext().getPackageName());
+                            int teste = R.drawable.roronoazoroportrait;
+                            gridImagens[i] = teste;
+                            qnt_adicionadas++;
+                        }
                     }
                     binding.titulo.setText("Inimigos");
                     binding.quantidade.setText(String.valueOf(qnt_adicionadas)+" / "+String.valueOf(qnt_ini));

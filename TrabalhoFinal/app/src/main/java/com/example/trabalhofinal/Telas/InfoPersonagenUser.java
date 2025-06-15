@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavOptions;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
@@ -26,6 +28,10 @@ public class InfoPersonagenUser extends Fragment {
     private InfoPlayerBinding binding;
 
     private AppDataBase db;
+
+    private int pontosMAX;
+    private int pontosMIN = 0;
+    private Personagens personagens;
 
     @Override
     public View onCreateView(
@@ -61,7 +67,7 @@ public class InfoPersonagenUser extends Fragment {
 
         Bundle arg = getArguments();
         if(arg != null){
-            Personagens personagens = db.personagensDao().buscaPer(arg.getInt("idPerso"));
+            personagens = db.personagensDao().buscaPer(arg.getInt("idPerso"));
             nivelInimigo = personagens.getNivel();
             List<Inimigos> inimigosFinal = new ArrayList<>();
 
@@ -82,11 +88,11 @@ public class InfoPersonagenUser extends Fragment {
                 inimigosFinal.addAll(inimigosE5);
             }
             qnt_ini = inimigosFinal.size();
-            int levelMIN = personagens.getNivel()-25;
-            int levelMAX = personagens.getNivel()+25;
+            int levelMIN = personagens.getNivel()-20;
+            int levelMAX = personagens.getNivel()+20;
 
             do {
-                int inimigoAleatorio = random.nextInt(qnt_ini)+1;
+                int inimigoAleatorio = random.nextInt(qnt_ini);
                 inimigos = inimigosFinal.get(inimigoAleatorio);
             }while (inimigos.getTipo().equals(personagens.getTipo()));
 
@@ -107,13 +113,25 @@ public class InfoPersonagenUser extends Fragment {
             binding.rei.setText("Rei \n"+String.valueOf(personagens.getHakirei()));
             binding.observacao.setText("Observação \n"+String.valueOf(personagens.getHakiobs()));
             binding.armamento.setText("Armamento \n"+String.valueOf(personagens.getHakiarm()));
+            AtualizaStatus();
 
-            binding.vida.setText("HP: "+String.valueOf(personagens.getHp()));
-            binding.forca.setText("Força: "+String.valueOf(personagens.getForca()));
-            binding.estamina.setText("Estamina: "+String.valueOf(personagens.getEstamina()));
-            binding.agilidade.setText("Agilidade: "+String.valueOf(personagens.getAgilidade()));
-            binding.defesa.setText("Defesa: "+String.valueOf(personagens.getDefesa()));
-            binding.intuica.setText("Intuição: "+String.valueOf(personagens.getIntuicao()));
+            pontosMAX = personagens.getPontos();
+            if(pontosMAX != 0){
+                binding.btnAgilidadeMais.setVisibility(View.VISIBLE);
+                binding.btnAgilidadeMenos.setVisibility(View.VISIBLE);
+
+                binding.btnVidaMais.setVisibility(View.VISIBLE);
+                binding.btnVidaMenos.setVisibility(View.VISIBLE);
+
+                binding.btnForcaMais.setVisibility(View.VISIBLE);
+                binding.btnForcaMenos.setVisibility(View.VISIBLE);
+
+                if(personagens.getEstamina() <= 75) {
+                    binding.btnEstaminaMais.setVisibility(View.VISIBLE);
+                    binding.btnEstaminaMenos.setVisibility(View.VISIBLE);
+                }
+                ComtrolePontos();
+            }
 
             if(personagens.getAkumaNoMi() != 0){
                 Akumas akumas = db.akumaDao().buscaAkuma(personagens.getAkumaNoMi());
@@ -134,17 +152,139 @@ public class InfoPersonagenUser extends Fragment {
         binding.batalha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                personagens.setIdpersonagens(arg.getInt("idPerso"));
+                db.personagensDao().upgrade(personagens);
+
                 Bundle bundle = new Bundle();
+                NavOptions navOptions = new NavOptions.Builder()
+                        .setPopUpTo(R.id.infoPersonagenUser, true)
+                        .build();
+
                 bundle.putInt("idU",arg.getInt("idU"));
                 bundle.putInt("idPerso",arg.getInt("idPerso"));
                 bundle.putInt("idInimi", finalInimigos.getIdinimigos());
                 bundle.putInt("nivelIni", finalNivelInimigo);
 
                 NavHostFragment.findNavController(InfoPersonagenUser.this)
-                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);
+                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle,navOptions);
+            }
+        });
+    }
+
+    public void ComtrolePontos(){
+        binding.btnAgilidadeMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMAX > 0) {
+                    personagens.setAgilidade(personagens.getAgilidade() + 1);
+                    pontosMAX--;
+                    pontosMIN++;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
             }
         });
 
+        binding.btnAgilidadeMenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMIN > 0) {
+                    personagens.setAgilidade(personagens.getAgilidade() - 1);
+                    pontosMAX++;
+                    pontosMIN--;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnVidaMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMAX > 0) {
+                    personagens.setHp(personagens.getHp() + 1);
+                    pontosMAX--;
+                    pontosMIN++;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnVidaMenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMIN > 0) {
+                    personagens.setHp(personagens.getHp() - 1);
+                    pontosMAX++;
+                    pontosMIN--;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnForcaMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMAX > 0) {
+                    personagens.setForca(personagens.getForca() + 1);
+                    pontosMAX--;
+                    pontosMIN++;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnForcaMenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMIN > 0) {
+                    personagens.setForca(personagens.getForca() - 1);
+                    pontosMAX++;
+                    pontosMIN--;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnEstaminaMais.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMAX > 0) {
+                    personagens.setEstamina(personagens.getEstamina() + 1);
+                    pontosMAX--;
+                    pontosMIN++;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+
+        binding.btnEstaminaMenos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pontosMIN > 0) {
+                    personagens.setEstamina(personagens.getEstamina() - 1);
+                    pontosMAX++;
+                    pontosMIN--;
+                    personagens.setPontos(pontosMAX);
+                    AtualizaStatus();
+                }
+            }
+        });
+    }
+
+    public void AtualizaStatus(){
+        binding.vida.setText("HP: "+String.valueOf(personagens.getHp()));
+        binding.forca.setText("Força: "+String.valueOf(personagens.getForca()));
+        binding.estamina.setText("Estamina: "+String.valueOf(personagens.getEstamina()));
+        binding.agilidade.setText("Agilidade: "+String.valueOf(personagens.getAgilidade()));
+        binding.defesa.setText("Defesa: "+String.valueOf(personagens.getDefesa()));
+        binding.intuica.setText("Intuição: "+String.valueOf(personagens.getIntuicao()));
+        binding.pontos.setText("Pontos: "+String.valueOf(personagens.getPontos()));
     }
 
     @Override

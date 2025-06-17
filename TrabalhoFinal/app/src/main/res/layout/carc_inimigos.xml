@@ -17,9 +17,10 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:textSize="25dp"
-            android:textAlignment="center"
             android:text="Nome do Personagen"
+            android:textAlignment="center"
+            android:textSize="28dp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,8 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
             android:inputType="text"
             android:text="Apelido do Personagen"
+            android:textSize="22dp"
+            android:textStyle="italic"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/foto_personagen" />
 
@@ -38,6 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Genero"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titulo_de"/>
 
@@ -46,6 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tem Akuma No Mi"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/raca"  />
 
@@ -54,6 +63,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Associacao"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mar" />
 
@@ -62,6 +73,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="mar"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/arma" />
 
@@ -70,6 +83,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sua Arma"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/akuma"  />
 
@@ -78,6 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tripulacao"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/associaao"  />
 
@@ -86,6 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="recompenca"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tripulacao"  />
 
@@ -94,6 +113,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="titulo"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apelido"  />
 
@@ -102,6 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sua Raça"
+            android:textSize="16dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/genero"  />
 
@@ -109,7 +132,7 @@
             android:id="@+id/foto_personagen"
             android:layout_width="400dp"
             android:layout_height="400dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nome"
             app:layout_constraintRight_toRightOf="parent"

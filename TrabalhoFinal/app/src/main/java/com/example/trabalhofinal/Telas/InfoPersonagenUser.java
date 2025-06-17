@@ -178,7 +178,7 @@ public class InfoPersonagenUser extends Fragment {
                 bundle.putInt("nivelIni", finalNivelInimigo);
 
                 NavHostFragment.findNavController(InfoPersonagenUser.this)
-                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle,navOptions);
+                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);
             }
         });
     }
@@ -187,7 +187,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnAgilidadeMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setAgilidade(personagens.getAgilidade() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -200,7 +200,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnAgilidadeMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setAgilidade(personagens.getAgilidade() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -213,7 +213,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnVidaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setHp(personagens.getHp() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -226,7 +226,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnVidaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setHp(personagens.getHp() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -239,7 +239,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnForcaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setForca(personagens.getForca() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -252,7 +252,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnForcaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setForca(personagens.getForca() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -265,7 +265,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnEstaminaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setEstamina(personagens.getEstamina() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -278,7 +278,7 @@ public class InfoPersonagenUser extends Fragment {
         binding.btnEstaminaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN > 0) {
+                if(personagens.getPontos() != 0) {
                     personagens.setEstamina(personagens.getEstamina() - 1);
                     pontosMAX++;
                     pontosMIN--;

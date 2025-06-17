@@ -16,7 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:textSize="20dp"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
             android:textAlignment="center"
             android:inputType="text"
             android:text="Nome do bando"
@@ -31,6 +33,9 @@
             android:ems="10"
             android:inputType="text"
             android:text="capitao"
+            android:textAlignment="center"
+            android:textSize="22dp"
+            android:textStyle="italic"
             android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/foto_fruta" />
@@ -40,6 +45,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="integrantes"
+            android:layout_marginTop="5dp"
+            android:textSize="16dp"
+            android:textAlignment="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/capitao"  />
 

@@ -115,12 +115,11 @@ public class Batalha    extends Fragment {
     public void TrunoJogador(Bundle arg){
         int dano = CalculaDano(inimigos.getDefesa() / 100, personagens.getForca());
         if (validaChance(inimigos.getIntuicao())) {
+            ataquesTurnos ++;
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
             TextView novo = new TextView(getContext());
             novo.setText(inimigos.getNome() + " desviou do seu ataque");
             binding.informacoes.addView(novo);
-            vezdequem[0] = false;
-            TurnoInimigo(arg);
         } else {
             ataquesTurnos ++;
             qntsDesvios[0] = random.nextInt(3);
@@ -140,16 +139,15 @@ public class Batalha    extends Fragment {
                 binding.armaBnt.setVisibility(View.INVISIBLE);
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
+                return;
 
-                NavOptions navOptions = new NavOptions.Builder()
+                /*NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
                         .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
-                vezdequem[0] = false;
-                TurnoInimigo(arg);
             }
         }
         if(validaChance(personagens.getAgilidade()) && ataquesTurnos < 2){
@@ -171,7 +169,7 @@ public class Batalha    extends Fragment {
             TextView novo = new TextView(getContext());
             novo.setText(personagens.getNome() + " desviou do "+inimigos.getNome());
             binding.informacoes.addView(novo);
-            vezdequem[0] = true;
+            ataquesTurnos ++;
         }else {
             ataquesTurnos ++;
             acumuloDesvios[0] = 0;
@@ -190,15 +188,15 @@ public class Batalha    extends Fragment {
                 binding.armaBnt.setVisibility(View.INVISIBLE);
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
+                return;
 
-                NavOptions navOptions = new NavOptions.Builder()
+                /*NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
                         .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(personagens.getHp()));
-                vezdequem[0] = true;
             }
         }
         if(validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2){

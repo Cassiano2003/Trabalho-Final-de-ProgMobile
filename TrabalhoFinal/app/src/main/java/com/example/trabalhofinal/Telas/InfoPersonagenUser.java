@@ -96,8 +96,22 @@ public class InfoPersonagenUser extends Fragment {
                 inimigosFinal.addAll(inimigosE5);
             }
             qnt_ini = inimigosFinal.size();
-            int levelMIN = personagens.getNivel()-20;
-            int levelMAX = personagens.getNivel()+20;
+            int levelMIN = 0;
+            int levelMAX = 0;
+
+            if(personagens.getNivel() < 26){
+                levelMIN = personagens.getNivel()-10;
+                levelMAX = personagens.getNivel()+10;
+            }else if(personagens.getNivel() < 51){
+                levelMIN = personagens.getNivel()-15;
+                levelMAX = personagens.getNivel()+15;
+            }else if(personagens.getNivel() < 76){
+                levelMIN = personagens.getNivel()-20;
+                levelMAX = personagens.getNivel()+20;
+            }else{
+                levelMIN = personagens.getNivel()-25;
+                levelMAX = personagens.getNivel()+25;
+            }
 
             do {
                 int inimigoAleatorio = random.nextInt(qnt_ini);
@@ -122,24 +136,6 @@ public class InfoPersonagenUser extends Fragment {
             binding.observacao.setText("Observação \n"+String.valueOf(personagens.getHakiobs()));
             binding.armamento.setText("Armamento \n"+String.valueOf(personagens.getHakiarm()));
             AtualizaStatus();
-
-            pontosMAX = personagens.getPontos();
-            if(pontosMAX != 0){
-                binding.btnAgilidadeMais.setVisibility(View.VISIBLE);
-                binding.btnAgilidadeMenos.setVisibility(View.VISIBLE);
-
-                binding.btnVidaMais.setVisibility(View.VISIBLE);
-                binding.btnVidaMenos.setVisibility(View.VISIBLE);
-
-                binding.btnForcaMais.setVisibility(View.VISIBLE);
-                binding.btnForcaMenos.setVisibility(View.VISIBLE);
-
-                if(personagens.getAgilidade() < 75) {
-                    binding.btnEstaminaMais.setVisibility(View.VISIBLE);
-                    binding.btnEstaminaMenos.setVisibility(View.VISIBLE);
-                }
-                ComtrolePontos();
-            }
 
             if(personagens.getIdTripula() != 0){
                 Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(personagens.getIdTripula());
@@ -182,7 +178,7 @@ public class InfoPersonagenUser extends Fragment {
                 bundle.putInt("nivelIni", finalNivelInimigo);
 
                 NavHostFragment.findNavController(InfoPersonagenUser.this)
-                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);
+                        .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle,navOptions);
             }
         });
     }
@@ -301,6 +297,24 @@ public class InfoPersonagenUser extends Fragment {
         binding.defesa.setText("Defesa: "+String.valueOf(personagens.getDefesa())+"%");
         binding.intuica.setText("Intuição: "+String.valueOf(personagens.getIntuicao())+"%");
         binding.pontos.setText("Pontos: "+String.valueOf(personagens.getPontos()));
+
+        pontosMAX = personagens.getPontos();
+        if(pontosMAX != 0){
+            binding.btnEstaminaMais.setVisibility(View.VISIBLE);
+            binding.btnEstaminaMenos.setVisibility(View.VISIBLE);
+
+            binding.btnVidaMais.setVisibility(View.VISIBLE);
+            binding.btnVidaMenos.setVisibility(View.VISIBLE);
+
+            binding.btnForcaMais.setVisibility(View.VISIBLE);
+            binding.btnForcaMenos.setVisibility(View.VISIBLE);
+
+            if(personagens.getAgilidade() < 75) {
+                binding.btnAgilidadeMais.setVisibility(View.VISIBLE);
+                binding.btnAgilidadeMenos.setVisibility(View.VISIBLE);
+            }
+            ComtrolePontos();
+        }
     }
 
     @Override

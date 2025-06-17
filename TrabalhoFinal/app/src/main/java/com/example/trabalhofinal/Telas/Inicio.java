@@ -1,17 +1,22 @@
 package com.example.trabalhofinal.Telas;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.trabalhofinal.MainActivity;
 import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.InicioBinding;
+
+import java.io.File;
 
 public class Inicio extends Fragment {
 
@@ -48,6 +53,13 @@ public class Inicio extends Fragment {
                 NavHostFragment.findNavController(Inicio.this)
                 .navigate(R.id.action_inicio_to_login)
         );
+
+        binding.resete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) requireContext()).deletarBanco();
+            }
+        });
 
     }
 

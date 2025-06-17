@@ -17,9 +17,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.trabalhofinal.databinding.ActivityMainBinding;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.InputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,7 +38,69 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         db = AppDataBase.getDataBase(this);
+        CriaBanco();
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
+        setSupportActionBar(binding.toolbar);
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, appBarConfiguration)
+                || super.onSupportNavigateUp();
+    }
+
+
+    public void deletarBanco() {
+        File dbFile = getDatabasePath("OPDataBase");
+        if (dbFile.exists()) {
+            boolean deletado = dbFile.delete();
+            if (deletado) {
+                Log.d("DELETE_DB", "Banco deletado com sucesso.");
+                Toast.makeText(this, "Banco deletado com sucesso", Toast.LENGTH_SHORT).show();
+                CriaBanco();
+            } else {
+                Log.d("DELETE_DB", "Falha ao deletar o banco.");
+                Toast.makeText(this, "Erro ao deletar banco", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Log.d("Cria banco", "Criu um novo banco.");
+            Toast.makeText(this, "Criu um novo banco", Toast.LENGTH_SHORT).show();
+            CriaBanco();
+        }
+    }
+
+
+
+    public void CriaBanco(){
         //Cacteristicas AKUMAS NO MI
         if (db.akumaDao().quantosAkumas() == 0) {
             try {
@@ -53,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray USUÁRIOS = json.getJSONArray("USUÁRIOS");
                 JSONArray DESCRIÇÃO = json.getJSONArray("DESCRIÇÃO");
                 JSONArray NOME_TRADUZIDO = json.getJSONArray("NOME TRADUZIDO");
-                JSONArray foto = json.getJSONArray("foto");
+                JSONArray FOTO = json.getJSONArray("FOTO");
 
 
                 int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
-                    Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),foto.getString(i));
+                    Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),FOTO.getString(i));
                     db.akumaDao().insertAll(akumas);
                 }
 
@@ -179,44 +244,6 @@ public class MainActivity extends AppCompatActivity {
                 throw new RuntimeException(e);
             }
         }
-
-
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
 }

@@ -72,7 +72,7 @@ public class Batalha    extends Fragment {
             energiaJogador = personagens.getEnergia();
 
             binding.nomeInimigo.setText(inimigos.getNome());
-            binding.hakiInimigo.setText("ARM: \n"+String.valueOf(inimigos.getHakiarm())+"\nOBS: \n"+String.valueOf(inimigos.getHakiobs()));
+            binding.hakiInimigo.setText("Nivel: "+String.valueOf(arg.getInt("nivelIni"))+"\nARM: "+String.valueOf(inimigos.getHakiarm())+"\nOBS: "+String.valueOf(inimigos.getHakiobs()));
             binding.nomeJogador.setText(personagens.getNome());
             binding.energia.setText("Energia: "+String.valueOf(energiaJogador)+" / "+String.valueOf(personagens.getEnergia()));
 
@@ -123,7 +123,6 @@ public class Batalha    extends Fragment {
             TurnoInimigo(arg);
         } else {
             ataquesTurnos ++;
-            acumuloDesvios[0] = 0;
             qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
             novo.setText(personagens.getNome() + " atacou com a " + personagens.getArmas());
@@ -142,7 +141,7 @@ public class Batalha    extends Fragment {
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
 
-                /*NavOptions navOptions = new NavOptions.Builder()
+                NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
@@ -176,7 +175,6 @@ public class Batalha    extends Fragment {
         }else {
             ataquesTurnos ++;
             acumuloDesvios[0] = 0;
-            qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
             novo.setText(inimigos.getNome() + " atacou com a " + inimigos.getArmas());
             binding.informacoes.addView(novo);
@@ -193,19 +191,19 @@ public class Batalha    extends Fragment {
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
 
-                /*NavOptions navOptions = new NavOptions.Builder()
+                NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.batalha2, true)
                         .build();
                 NavHostFragment.findNavController(Batalha.this)
                         .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(personagens.getHp()));
-                ataquesTurnos = 0;
                 vezdequem[0] = true;
             }
         }
         if(validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2){
             ataquesTurnos ++;
+            Log.d("ataquesTurnos",String.valueOf(ataquesTurnos));
             androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
             dlg.setMessage("O Inimigo pode atacara novamente");
             dlg.show();
@@ -219,8 +217,10 @@ public class Batalha    extends Fragment {
     //Vai ser para ver se tem chance de atacar novamente ou de desviar do ataque
     public boolean validaChance(int num){
         Random random = new Random();
-        int chance1 = random.nextInt(101);
-        if(chance1 < num) {
+        int chance = random.nextInt(101);
+        if(chance < num) {
+            Log.d("chance",String.valueOf(chance));
+            Log.d("num",String.valueOf(num));
             return true;
         }
         return false;

@@ -26,8 +26,8 @@ public class Akumas {
     @ColumnInfo(name = "descricao")
     public String descricao;
 
-    @ColumnInfo(name = "ataques")
-    public int ataques;
+    @ColumnInfo(name = "idataques")
+    public int idataques;
 
     @ColumnInfo(name = "nome_t")
     public String nome_t;
@@ -44,12 +44,12 @@ public class Akumas {
         this.fotoakuma = fotoakuma;
     }
 
-    public int getAtaques() {
-        return ataques;
+    public int getIdataques() {
+        return idataques;
     }
 
-    public void setAtaques(int ataques) {
-        this.ataques = ataques;
+    public void setIdataques(int idataques) {
+        this.idataques = idataques;
     }
 
     @Ignore

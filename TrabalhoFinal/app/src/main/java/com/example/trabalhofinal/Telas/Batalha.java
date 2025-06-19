@@ -10,12 +10,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
-import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.Tabelas.Inimigos;
-import com.example.trabalhofinal.Tabelas.Personagens;
+import com.example.trabalhofinal.Tabelas.Jogador;
 import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.BatalhaBinding;
@@ -35,7 +33,7 @@ public class Batalha    extends Fragment {
     private int estaminaJogador = 0;
     private int energiaJogador = 0;
     private Inimigos inimigos;
-    private Personagens personagens;
+    private Jogador jogador;
 
     Random random = new Random();
     final int[] qntsDesvios = {random.nextInt(3)};
@@ -63,23 +61,26 @@ public class Batalha    extends Fragment {
         Bundle arg = getArguments();
         if(arg != null) {
             inimigos = nivelaInimigo(arg.getInt("nivelIni"), arg.getInt("idInimi"));
-            personagens = db.personagensDao().buscaPer(arg.getInt("idPerso"));
+            jogador = db.personagensDao().buscaPer(arg.getInt("idPerso"));
             vidaInimigo = inimigos.getHp();
             estaminaInimigo = inimigos.getEstamina();
 
-            vidaJogador = personagens.getHp();
-            estaminaJogador = personagens.getEstamina();
-            energiaJogador = personagens.getEnergia();
+            int resID = requireContext().getResources().getIdentifier(inimigos.getFotocombate(), "drawable", getContext().getPackageName());
+            binding.imagemInimigo.setImageResource(resID);
+
+            vidaJogador = jogador.getHp();
+            estaminaJogador = jogador.getEstamina();
+            energiaJogador = jogador.getEnergia();
 
             binding.nomeInimigo.setText(inimigos.getNome());
             binding.hakiInimigo.setText("Nivel: "+String.valueOf(arg.getInt("nivelIni"))+"\nARM: "+String.valueOf(inimigos.getHakiarm())+"\nOBS: "+String.valueOf(inimigos.getHakiobs()));
-            binding.nomeJogador.setText(personagens.getNome());
-            binding.energia.setText("Energia: "+String.valueOf(energiaJogador)+" / "+String.valueOf(personagens.getEnergia()));
+            binding.nomeJogador.setText(jogador.getNome());
+            binding.energia.setText("Energia: "+String.valueOf(energiaJogador)+" / "+String.valueOf(jogador.getEnergia()));
 
             binding.vidaInimigo.setText("Vida Inimigo: \n"+String.valueOf(vidaInimigo)+" / "+String.valueOf(inimigos.getHp()));
-            binding.vidaJogador.setText("Vida Jogador: \n"+String.valueOf(vidaJogador)+" / "+String.valueOf(personagens.getHp()));
+            binding.vidaJogador.setText("Vida Jogador: \n"+String.valueOf(vidaJogador)+" / "+String.valueOf(jogador.getHp()));
 
-            if(personagens.getHakirei() == 0){
+            if(jogador.getHakirei() == 0){
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
             }
             binding.armaBnt.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +114,7 @@ public class Batalha    extends Fragment {
 
 
     public void TrunoJogador(Bundle arg){
-        int dano = CalculaDano(inimigos.getDefesa() / 100, personagens.getForca());
+        int dano = CalculaDano(inimigos.getDefesa() / 100, jogador.getForca());
         if (validaChance(inimigos.getIntuicao())) {
             ataquesTurnos ++;
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
@@ -124,12 +125,12 @@ public class Batalha    extends Fragment {
             ataquesTurnos ++;
             qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
-            novo.setText(personagens.getNome() + " atacou com a " + personagens.getArmas());
+            novo.setText(jogador.getNome() + " atacou com a " + jogador.getArmas());
             binding.informacoes.addView(novo);
             vidaInimigo = vidaInimigo - dano;
             if(VerficaVida(vidaInimigo)){
                 binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(0) + " / " + String.valueOf(inimigos.getHp()));
-                Nivelamento(personagens,arg);
+                Nivelamento(jogador,arg);
                 androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
                 dlg.setMessage("Vitoria \n Retornar para as informações do personagem para a destribuição dos pontos");
                 dlg.show();
@@ -150,7 +151,7 @@ public class Batalha    extends Fragment {
                 binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
             }
         }
-        if(validaChance(personagens.getAgilidade()) && ataquesTurnos < 2){
+        if(validaChance(jogador.getAgilidade()) && ataquesTurnos < 2){
             ataquesTurnos++;
             androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
             dlg.setMessage("O jogador pode atacar novamente");
@@ -163,11 +164,11 @@ public class Batalha    extends Fragment {
     }
 
     public void TurnoInimigo(Bundle arg){
-        int dano = CalculaDano((personagens.getDefesa()) / 100, inimigos.getForca());
-        if (validaChance(personagens.getIntuicao())) {
+        int dano = CalculaDano((jogador.getDefesa()) / 100, inimigos.getForca());
+        if (validaChance(jogador.getIntuicao())) {
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
             TextView novo = new TextView(getContext());
-            novo.setText(personagens.getNome() + " desviou do "+inimigos.getNome());
+            novo.setText(jogador.getNome() + " desviou do "+inimigos.getNome());
             binding.informacoes.addView(novo);
             ataquesTurnos ++;
         }else {
@@ -178,7 +179,7 @@ public class Batalha    extends Fragment {
             binding.informacoes.addView(novo);
             vidaJogador = vidaJogador - dano;
             if(VerficaVida(vidaJogador)) {
-                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(0) + " / " + String.valueOf(personagens.getHp()));
+                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(0) + " / " + String.valueOf(jogador.getHp()));
                 androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
                 dlg.setMessage("Derrota \n Retornar para as informações do personagem para a destribuição dos pontos");
                 dlg.show();
@@ -196,7 +197,7 @@ public class Batalha    extends Fragment {
                 NavHostFragment.findNavController(Batalha.this)
                         .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
-                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(personagens.getHp()));
+                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
             }
         }
         if(validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2){
@@ -301,7 +302,7 @@ public class Batalha    extends Fragment {
         return inimigos;
     }
 
-    public void Nivelamento(Personagens personagens,Bundle arg){
+    public void Nivelamento(Jogador jogador, Bundle arg){
         int idini = arg.getInt("idInimi");
         int hakiobs = 16;
         int hakiarm = 25;
@@ -311,50 +312,50 @@ public class Batalha    extends Fragment {
         usuario.setInimigos(inimigoList);
 
 
-        int nivelAtual = personagens.getNivel() + 1;
-        personagens.setNivel(nivelAtual);
-        personagens.setVitorias5(personagens.getVitorias5()+1);
-        personagens.setVitorias10(personagens.getVitorias10()+1);
-        personagens.setVitorias25(personagens.getVitorias25()+1);
-        if(personagens.getAgilidade() <= 75) {
-            personagens.setPontos(personagens.getPontos()+4);
+        int nivelAtual = jogador.getNivel() + 1;
+        jogador.setNivel(nivelAtual);
+        jogador.setVitorias5(jogador.getVitorias5()+1);
+        jogador.setVitorias10(jogador.getVitorias10()+1);
+        jogador.setVitorias25(jogador.getVitorias25()+1);
+        if(jogador.getAgilidade() <= 75) {
+            jogador.setPontos(jogador.getPontos()+4);
         }else{
-            personagens.setAgilidade(75);
-            personagens.setPontos(personagens.getPontos()+3);
+            jogador.setAgilidade(75);
+            jogador.setPontos(jogador.getPontos()+3);
         }
 
-        if(personagens.getEstamina() <= 14){
-            personagens.setEnergia(5);
-        } else if (personagens.getEstamina() <= 24) {
-            personagens.setEnergia(8);
-        }else if (personagens.getEstamina() <= 34) {
-            personagens.setEnergia(11);
-        }else if (personagens.getEstamina() <= 44) {
-            personagens.setEnergia(14);
-        }else if (personagens.getEstamina() <= 54) {
-            personagens.setEnergia(17);
-        }else if (personagens.getEstamina() <= 64) {
-            personagens.setEnergia(20);
-        }else if (personagens.getEstamina() <= 74) {
-            personagens.setEnergia(23);
-        }else if (personagens.getEstamina() <= 84) {
-            personagens.setEnergia(26);
-        }else if (personagens.getEstamina() <= 94) {
-            personagens.setEnergia(29);
+        if(jogador.getEstamina() <= 14){
+            jogador.setEnergia(5);
+        } else if (jogador.getEstamina() <= 24) {
+            jogador.setEnergia(8);
+        }else if (jogador.getEstamina() <= 34) {
+            jogador.setEnergia(11);
+        }else if (jogador.getEstamina() <= 44) {
+            jogador.setEnergia(14);
+        }else if (jogador.getEstamina() <= 54) {
+            jogador.setEnergia(17);
+        }else if (jogador.getEstamina() <= 64) {
+            jogador.setEnergia(20);
+        }else if (jogador.getEstamina() <= 74) {
+            jogador.setEnergia(23);
+        }else if (jogador.getEstamina() <= 84) {
+            jogador.setEnergia(26);
+        }else if (jogador.getEstamina() <= 94) {
+            jogador.setEnergia(29);
         }else{
-            personagens.setEnergia(32);
+            jogador.setEnergia(32);
         }
 
-        if(personagens.getVitorias5() == 5 && !personagens.getAssociacao().equals("Marinha")){
+        if(jogador.getVitorias5() == 5 && !jogador.getAssociacao().equals("Marinha")){
             //Player vence uma Davy Back Fight e pode trocar aleatoriamente de tripulação
             int qualTripulacao = new Random().nextInt(db.tripulacaoDao().quantosTripulacao())+1;
-            personagens.setIdTripula(qualTripulacao);
+            jogador.setIdTripula(qualTripulacao);
             List<Integer> tripulacaoList = usuario.getTripulacao();
             if(!procuraRepeticao(tripulacaoList,qualTripulacao)) tripulacaoList.add(qualTripulacao);
             usuario.setTripulacao(tripulacaoList);
-            personagens.setVitorias5(0);
+            jogador.setVitorias5(0);
         }
-        if (personagens.getVitorias10() == 10 && personagens.getNivel() < 91){
+        if (jogador.getVitorias10() == 10 && jogador.getNivel() < 91){
             boolean jafoi = false;
             do {
                 int qualHaki = new Random().nextInt(3);
@@ -362,24 +363,24 @@ public class Batalha    extends Fragment {
                 String seuHaki = haki[qualHaki];
                 switch (seuHaki) {
                     case "Haki da Observação":
-                        if (personagens.getHakiobs() < 3) {
-                            personagens.setHakiobs(personagens.getHakiobs() + 1);
-                            personagens.setIntuicao(personagens.getIntuicao()+(personagens.getHakiobs()*hakiobs));
+                        if (jogador.getHakiobs() < 3) {
+                            jogador.setHakiobs(jogador.getHakiobs() + 1);
+                            jogador.setIntuicao(jogador.getIntuicao()+(jogador.getHakiobs()*hakiobs));
                         } else {
                             jafoi = true;
                         }
                         break;
                     case "Haki do Armamento":
-                        if (personagens.getHakiarm() < 3) {
-                            personagens.setHakiarm(personagens.getHakiarm() + 1);
-                            personagens.setDefesa(personagens.getDefesa()+(personagens.getHakiarm()*hakiarm));
+                        if (jogador.getHakiarm() < 3) {
+                            jogador.setHakiarm(jogador.getHakiarm() + 1);
+                            jogador.setDefesa(jogador.getDefesa()+(jogador.getHakiarm()*hakiarm));
                         } else {
                             jafoi = true;;
                         }
                         break;
                     case "Haki do rei":
-                        if (personagens.getHakirei() < 3) {
-                            personagens.setHakirei(personagens.getHakirei() + 1);
+                        if (jogador.getHakirei() < 3) {
+                            jogador.setHakirei(jogador.getHakirei() + 1);
                         } else {
                             jafoi = true;
                         }
@@ -389,64 +390,64 @@ public class Batalha    extends Fragment {
                         break;
                 }
             }while (jafoi);
-            personagens.setVitorias10(0);
+            jogador.setVitorias10(0);
 
         }
-        if (personagens.getVitorias25() == 25 && nivelAtual <= 100) {
-            switch (personagens.getTitulo()){
+        if (jogador.getVitorias25() == 25 && nivelAtual <= 100) {
+            switch (jogador.getTitulo()){
                 //Pirata
                 case "Bandido":
-                    personagens.setTitulo("Pirata");
-                    personagens.setRecompensa("B$ 30.000.000");
-                    personagens.setOrigem("Grand Line");
+                    jogador.setTitulo("Pirata");
+                    jogador.setRecompensa("B$ 30.000.000");
+                    jogador.setOrigem("Grand Line");
                     break;
                 case "Pirata":
-                    personagens.setTitulo("Super Nova");
-                    personagens.setRecompensa("B$ 250.000.000");
-                    personagens.setOrigem("New World");
+                    jogador.setTitulo("Super Nova");
+                    jogador.setRecompensa("B$ 250.000.000");
+                    jogador.setOrigem("New World");
                     break;
                 case "Super Nova":
-                    personagens.setTitulo("Shichibukai");
-                    personagens.setRecompensa("B$ 1.500.000.000");
-                    personagens.setOrigem("New World (Pós-Dressrosa)");
+                    jogador.setTitulo("Shichibukai");
+                    jogador.setRecompensa("B$ 1.500.000.000");
+                    jogador.setOrigem("New World (Pós-Dressrosa)");
                     break;
                 case "Shichibukai":
-                    personagens.setTitulo("Yonko");
-                    personagens.setRecompensa("B$ 3.000.000.000");
-                    personagens.setOrigem("New World (Pós-Wano)");
+                    jogador.setTitulo("Yonko");
+                    jogador.setRecompensa("B$ 3.000.000.000");
+                    jogador.setOrigem("New World (Pós-Wano)");
                     break;
                     //Marinha
                 case "Aprendiz de Marinheiro":
-                    personagens.setTitulo("Sargento-Mor");
-                    personagens.setRecompensa("★★");
-                    personagens.setOrigem("Grand Line");
+                    jogador.setTitulo("Sargento-Mor");
+                    jogador.setRecompensa("★★");
+                    jogador.setOrigem("Grand Line");
                     break;
                 case "Sargento-Mor":
-                    personagens.setTitulo("Capitão da Marinha");
-                    personagens.setRecompensa("★★★★★");
-                    personagens.setOrigem("New World");
+                    jogador.setTitulo("Capitão da Marinha");
+                    jogador.setRecompensa("★★★★★");
+                    jogador.setOrigem("New World");
                     break;
                 case "Capitão da Marinha":
-                    personagens.setTitulo("Vice-Almirante");
-                    personagens.setRecompensa("♛♛♛");
-                    personagens.setOrigem("New World (Pós-Dressrosa)");
+                    jogador.setTitulo("Vice-Almirante");
+                    jogador.setRecompensa("♛♛♛");
+                    jogador.setOrigem("New World (Pós-Dressrosa)");
                     break;
                 case "Vice-Almirante":
-                    personagens.setTitulo("Almirante");
-                    personagens.setRecompensa("♛♛♛♛♛");
-                    personagens.setOrigem("New World (Pós-Wano)");
+                    jogador.setTitulo("Almirante");
+                    jogador.setRecompensa("♛♛♛♛♛");
+                    jogador.setOrigem("New World (Pós-Wano)");
                     break;
                 default:
                     Log.d("Batalha Swithc","Erro no swithc");
                     break;
             }
-            personagens.setVitorias25(0);
+            jogador.setVitorias25(0);
         }
         usuario.setIdUser(arg.getInt("idU"));
         db.usuarioDao().upgrade(usuario);
 
-        personagens.setIdpersonagens(arg.getInt("idPerso"));
-        db.personagensDao().upgrade(personagens);
+        jogador.setIdpersonagens(arg.getInt("idPerso"));
+        db.personagensDao().upgrade(jogador);
     }
 
     public boolean procuraRepeticao(List<Integer> array, int targetNumber) {

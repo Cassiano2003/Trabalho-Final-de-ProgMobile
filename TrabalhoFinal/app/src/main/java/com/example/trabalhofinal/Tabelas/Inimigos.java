@@ -81,15 +81,17 @@ public class Inimigos {
 
     @ColumnInfo(name = "hakiarm")
     public int hakiarm;
+    @ColumnInfo(name = "fotoperfio")
+    public String fotoperfio;
 
-    @ColumnInfo(name = "fotometade")
-    public String fotometade;
+    @ColumnInfo(name = "fotocatalogo")
+    public String fotocatalogo;
 
-    @ColumnInfo(name = "fotointeira")
-    public String fotointeira;
+    @ColumnInfo(name = "fotocombate")
+    public String fotocombate;
 
 
-    public Inimigos(String nome, String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, int estagio, String tipo, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm, String fotometade, String fotointeira) {
+    public Inimigos(String nome, String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, int estagio, String tipo, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm, String fotoperfio, String fotocatalogo, String fotocombate) {
         this.nome = nome;
         this.apelidoNomePopular = apelidoNomePopular;
         this.armas = armas;
@@ -112,8 +114,9 @@ public class Inimigos {
         this.raca = raca;
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
-        this.fotometade = fotometade;
-        this.fotointeira = fotointeira;
+        this.fotoperfio = fotoperfio;
+        this.fotocatalogo = fotocatalogo;
+        this.fotocombate = fotocombate;
     }
 
     public int getEstagio() {
@@ -140,20 +143,20 @@ public class Inimigos {
         this.nome = nome;
     }
 
-    public String getFotometade() {
-        return fotometade;
+    public String getFotocatalogo() {
+        return fotocatalogo;
     }
 
-    public void setFotometade(String fotometade) {
-        this.fotometade = fotometade;
+    public void setFotocatalogo(String fotometade) {
+        this.fotocatalogo = fotocatalogo;
     }
 
-    public String getFotointeira() {
-        return fotointeira;
+    public String getFotocombate() {
+        return fotocombate;
     }
 
-    public void setFotointeira(String fotointeira) {
-        this.fotointeira = fotointeira;
+    public void setFotocombate(String fotocombate) {
+        this.fotocombate = fotocombate;
     }
 
     public int getEnergia() {
@@ -319,6 +322,14 @@ public class Inimigos {
         this.raca = raca;
     }
 
+    public String getFotoperfio() {
+        return fotoperfio;
+    }
+
+    public void setFotoperfio(String fotoperfio) {
+        this.fotoperfio = fotoperfio;
+    }
+
     @Override
     public String toString() {
         return "Inimigos{" +
@@ -345,8 +356,9 @@ public class Inimigos {
                 ", raca='" + raca + '\'' +
                 ", hakiobs=" + hakiobs +
                 ", hakiarm=" + hakiarm +
-                ", fotometade='" + fotometade + '\'' +
-                ", fotointeira='" + fotointeira + '\'' +
+                ", fotoperfio='" + fotoperfio + '\'' +
+                ", fotocatalogo='" + fotocatalogo + '\'' +
+                ", fotocombate='" + fotocombate + '\'' +
                 '}';
     }
 }

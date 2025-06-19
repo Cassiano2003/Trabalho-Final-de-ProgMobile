@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 
 import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.AtaqueAkumaNoMi;
 import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -101,6 +104,166 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void CriaBanco(){
+        if(db.ataqueAkumasDao().quantosAtaquesAkumaNoMi() == 0){
+            try {
+                AssetManager assetManager = getAssets();
+                InputStream is = assetManager.open("ataquesakuma.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String conteudo = new String(buffer, "UTF-8");
+                JSONObject json = new JSONObject(conteudo);
+
+
+                JSONArray NOME_DO_ATAQUE = json.getJSONArray("NOME DO ATAQUE");
+                JSONArray DESCRICAO = json.getJSONArray("DESCRIÇÃO");
+                JSONArray TIPO_DE_ATAQUE = json.getJSONArray("TIPO DE ATAQUE");
+                JSONArray CUSTO = json.getJSONArray("CUSTO");
+                JSONArray HP_JOGADOR = json.getJSONArray("HP JOGADOR");
+                JSONArray FORCA_JOGADOR= json.getJSONArray("FORÇA JOGADOR");
+                JSONArray ESTAMINA_JOGADOR = json.getJSONArray("ESTAMINA JOGADOR");
+                JSONArray AGILIDADE_JOGADOR = json.getJSONArray("AGILIDADE JOGADOR");
+                JSONArray DEFESA_JOGADOR = json.getJSONArray("DEFESA JOGADOR");
+                JSONArray INTUICAO_JOGADOR = json.getJSONArray("INTUIÇÃO JOGADOR");
+                JSONArray DANO_JOGADOR = json.getJSONArray("DANO JOGADOR");
+                JSONArray HP_INIMIGO = json.getJSONArray("HP INIMIGO");
+                JSONArray FORCA_INIMIGO = json.getJSONArray("FORÇA INIMIGO");
+                JSONArray ESTAMINA_INIMIGO = json.getJSONArray("ESTAMINA INIMIGO");
+                JSONArray AGILIDADE_INIMIGO = json.getJSONArray("AGILIDADE INIMIGO");
+                JSONArray DEFESA_INIMIGO = json.getJSONArray("DEFESA INIMIGO");
+                JSONArray INTUICAO_INIMIGO = json.getJSONArray("INTUIÇÃO INIMIGO");
+                JSONArray DANO_INIMIGO = json.getJSONArray("DANO INIMIGO");
+
+
+                int[] numeros_ataques = {
+                        5,  // Gomu Gomu no Mi
+                        3,  // Bara Bara no Mi
+                        3,  // Bomu Bomu no Mi
+                        5,  // Hana Hana no Mi
+                        4,  // Doru Doru no Mi
+                        3,  // Baku Baku no Mi
+                        5,  // Supa Supa no Mi
+                        4,  // Bane Bane no Mi
+                        5,  // Ito Ito no Mi
+                        3,  // Noro Noro no Mi
+                        4,  // Horo Horo no Mi
+                        5,  // Yomi Yomi no Mi
+                        4,  // Kage Kage no Mi
+                        4,  // Nikyu Nikyu no Mi
+                        4,  // Toshi Toshi no Mi
+                        4,  // Jiki Jiki no Mi
+                        5,  // Ope Ope no Mi
+                        3,  // Wara Wara no Mi
+                        3,  // Oto Oto no Mi
+                        3,  // Mero Mero no Mi
+                        4,  // Doku Doku no Mi
+                        4,  // Gura Gura no Mi
+                        2,  // Kira Kira no Mi
+                        1,  // Mato Mato no Mi
+                        3,  // Zushi Zushi no Mi
+                        4,  // Bari Bari no Mi
+                        3,  // Ton Ton no Mi
+                        4,  // Ishi Ishi no Mi
+                        3,  // Fude Fude no Mi
+                        1,  // Chiyu Chiyu no Mi
+                        5,  // Soru Soru no Mi
+                        4,  // Pero Pero no Mi
+                        4,  // Mochi Mochi no Mi
+                        1,  // Oshi Oshi no Mi
+                        1,  // Riki Riki no Mi
+                        2,  // Ushi Ushi no Mi, Modelo: Bisão
+                        5,  // Ushi Ushi no Mi, Modelo: Girafa
+                        5,  // Hito Hito no Mi
+                        2,  // Hito Hito no Mi, Modelo: Daibutsu
+                        2,  // Tori Tori no Mi, Modelo: Falcão
+                        5,  // Tori Tori no Mi, Modelo: Fênix
+                        3,  // Inu Inu no Mi, Modelo: Lobo
+                        4,  // Inu Inu no Mi, Modelo: Okuchi no Makami
+                        1,  // Inu Inu no Mi, Modelo: Kyubi no Kitsune
+                        4,  // Neko Neko no Mi, Modelo: Leopardo
+                        3,  // Neko Neko no Mi, Modelo: Dentes de Sabre
+                        2,  // Zou Zou no Mi, Modelo: Mamute
+                        2,  // Ryu Ryu no Mi, Modelo: Alossauro
+                        3,  // Ryu Ryu no Mi, Modelo: Pteranodonte
+                        4,  // Ryu Ryu no Mi, Modelo: Braquiossauro
+                        2,  // Ryu Ryu no Mi, Modelo: Pachycephalossauro
+                        1,  // Hebi Hebi no Mi, Modelo: Yamata no Orochi
+                        4,  // Uo Uo no Mi, Modelo: Seiryu
+                        1,  // Kame Kame no Mi
+                        3,  // Tama Tama no Mi
+                        1,  // Batto Batto no Mi
+                        4,  // Moku Moku no Mi
+                        5,  // Suna Suna no Mi
+                        5,  // Mera Mera no Mi
+                        5,  // Goro Goro no Mi
+                        5,  // Hie Hie no Mi
+                        2,  // Yami Yami no Mi
+                        4,  // Pika Pika no Mi
+                        4,  // Magu Magu no Mi
+                        2,  // Susu Susu no Mi
+                        2,  // Numa Numa no Mi
+                        5,  // Gasu Gasu no Mi
+                        5,  // Yuki Yuki no Mi
+                        2   // Mori Mori no Mi
+                };
+                int iten = 0;
+                for(int i=0; i < numeros_ataques.length;i++){
+                    int qntAtaques = numeros_ataques[i];
+                    String[] nome_do_ataque = new String[qntAtaques];
+                    String[] descricao = new String[qntAtaques];
+                    String[] tipo_de_ataque = new String[qntAtaques];
+
+                    int[] custo = new int[qntAtaques];
+                    int[] hp_jogador = new int[qntAtaques];
+                    int[] forca_jogador = new int[qntAtaques];
+                    int[] estamina_jogador = new int[qntAtaques];
+                    int[] agilidade_jogador = new int[qntAtaques];
+                    int[] defesa_jogador = new int[qntAtaques];
+                    int[] intuicao_jogador = new int[qntAtaques];
+                    int[] dano_jogador = new int[qntAtaques];
+
+                    int[] hp_inimigo = new int[qntAtaques];
+                    int[] forca_inimigo = new int[qntAtaques];
+                    int[] estamina_inimigo = new int[qntAtaques];
+                    int[] agilidade_inimigo = new int[qntAtaques];
+                    int[] defesa_inimigo = new int[qntAtaques];
+                    int[] intuicao_inimigo = new int[qntAtaques];
+                    int[] dano_inimigo = new int[qntAtaques];
+
+                    for(int posicao=0;posicao < qntAtaques;posicao++){
+                        Log.d("j",String.valueOf(posicao));
+                        nome_do_ataque[posicao] = NOME_DO_ATAQUE.getString(iten);
+                        descricao[posicao] = DESCRICAO.getString(iten);
+                        tipo_de_ataque[posicao] = TIPO_DE_ATAQUE.getString(iten);
+                        custo[posicao] = CUSTO.getInt(iten);
+
+                        hp_jogador[posicao] = HP_JOGADOR.getInt(iten);
+                        forca_jogador[posicao] = FORCA_JOGADOR.getInt(iten);
+                        estamina_jogador[posicao] = ESTAMINA_JOGADOR.getInt(iten);
+                        agilidade_jogador[posicao] = AGILIDADE_JOGADOR.getInt(iten);
+                        defesa_jogador[posicao] = DEFESA_JOGADOR.getInt(iten);
+                        intuicao_jogador[posicao] = INTUICAO_JOGADOR.getInt(iten);
+                        dano_jogador[posicao] = DANO_JOGADOR.getInt(iten);
+
+                        hp_inimigo[posicao] = HP_INIMIGO.getInt(iten);
+                        forca_inimigo[posicao] = FORCA_INIMIGO.getInt(iten);
+                        estamina_inimigo[posicao] = ESTAMINA_INIMIGO.getInt(iten);
+                        agilidade_inimigo[posicao] = AGILIDADE_INIMIGO.getInt(iten);
+                        defesa_inimigo[posicao] = DEFESA_INIMIGO.getInt(iten);
+                        intuicao_inimigo[posicao] = INTUICAO_INIMIGO.getInt(iten);
+                        dano_inimigo[posicao] = DANO_INIMIGO.getInt(iten);
+                        iten++;
+                    }
+                    AtaqueAkumaNoMi ataqueAkumaNoMi = new AtaqueAkumaNoMi(qntAtaques,nome_do_ataque,descricao,tipo_de_ataque,custo,hp_jogador,forca_jogador,estamina_jogador,agilidade_jogador,defesa_jogador,intuicao_jogador,
+                            dano_jogador,hp_inimigo,forca_inimigo,estamina_inimigo,agilidade_inimigo,defesa_inimigo,intuicao_inimigo,dano_inimigo);
+                    db.ataqueAkumasDao().insertAll(ataqueAkumaNoMi);
+                }
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         //Cacteristicas AKUMAS NO MI
         if (db.akumaDao().quantosAkumas() == 0) {
             try {
@@ -120,10 +283,12 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray NOME_TRADUZIDO = json.getJSONArray("NOME TRADUZIDO");
                 JSONArray FOTO = json.getJSONArray("FOTO");
 
+                List<AtaqueAkumaNoMi> ataqueAkumaNoMiList = db.ataqueAkumasDao().getALL();
 
                 int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
                     Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),FOTO.getString(i));
+                    akumas.setIdataques(ataqueAkumaNoMiList.get(i).getIdataque());
                     db.akumaDao().insertAll(akumas);
                 }
 
@@ -190,6 +355,11 @@ public class MainActivity extends AppCompatActivity {
                 JSONArray ORIGEM = json.getJSONArray("ORIGEM");
                 JSONArray SEXO = json.getJSONArray("SEXO");
                 JSONArray RAÇA = json.getJSONArray("RAÇA");
+                JSONArray FOTO_PERFIO = json.getJSONArray("FOTO PERFIO");
+                JSONArray FOTO_COMBATE = json.getJSONArray("FOTO COMBATE");
+                JSONArray FOTO_CATALAGO = json.getJSONArray("FOTO CATALAGO");
+
+
                 int energia = 5;
                 int[] estagios = {
                         5, 4, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -237,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int qnt = NOMES.length();
                 for (int i = 0; i < qnt; i++) {
-                    Inimigos inimigos = new Inimigos(NOMES.getString(i),APELIDO_NOME_POPULAR.getString(i),ARMAS.getString(i),HP.getInt(i),FORÇA.getInt(i),ESTAMINA.getInt(i),AGILIDADE.getInt(i),DEFESA.getInt(i),INTUIÇÃO.getInt(i),energia,AKUMA_NO_MI.getString(i),ASSOCIAÇÃO.getString(i),TRIPULAÇÃO_ORGANIZAÇÃO.getString(i),RECOMPENSA.getString(i),estagios[i],tipo[i],TÍTULO.getString(i),ORIGEM.getString(i),SEXO.getString(i),RAÇA.getString(i), hakiobs, hakiarm, "sem foto", "sem foto");
+                    Inimigos inimigos = new Inimigos(NOMES.getString(i),APELIDO_NOME_POPULAR.getString(i),ARMAS.getString(i),HP.getInt(i),FORÇA.getInt(i),ESTAMINA.getInt(i),AGILIDADE.getInt(i),DEFESA.getInt(i),INTUIÇÃO.getInt(i),energia,AKUMA_NO_MI.getString(i),ASSOCIAÇÃO.getString(i),TRIPULAÇÃO_ORGANIZAÇÃO.getString(i),RECOMPENSA.getString(i),estagios[i],tipo[i],TÍTULO.getString(i),ORIGEM.getString(i),SEXO.getString(i),RAÇA.getString(i), hakiobs, hakiarm,FOTO_PERFIO.getString(i),FOTO_CATALAGO.getString(i),FOTO_COMBATE.getString(i));
                     db.inimigosDao().insertAll(inimigos);
                 }
             } catch (Exception e) {

@@ -50,8 +50,8 @@ public class CaracInimigo extends Fragment {
             binding.tripulacao.setText("Tripulação/Organização: "+inimigos.getTripulacaoOrganizacao());
             binding.recompenca.setText("Recompensa: "+inimigos.getRecompensa());
 
-            if(!inimigos.getFotointeira().equals("sem foto")){
-                int resID = requireContext().getResources().getIdentifier(inimigos.getFotointeira(), "drawable", getContext().getPackageName());
+            if(!inimigos.getFotocatalogo().equals("sem foto")){
+                int resID = requireContext().getResources().getIdentifier(inimigos.getFotocatalogo(), "drawable", getContext().getPackageName());
                 binding.fotoPersonagen.setImageResource(resID);
             }else{
                 int teste = R.drawable.roronoazoroanimeposttimeskip;

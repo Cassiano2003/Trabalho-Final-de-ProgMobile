@@ -46,9 +46,9 @@
     </fragment>
     <fragment
         android:id="@+id/listPersonagens"
-        android:name="com.example.trabalhofinal.Telas.ListPersonagens"
+        android:name="com.example.trabalhofinal.Telas.ListJogadores"
         android:label="list_personagens"
-        tools:layout="@layout/list_personagens" >
+        tools:layout="@layout/list_jogadores" >
         <action
             android:id="@+id/action_listPersonagens_to_criaPersonagen2"
             app:destination="@id/criaPersonagen2" />
@@ -91,9 +91,9 @@
     </fragment>
     <fragment
         android:id="@+id/coleAkumaPersonagen"
-        android:name="com.example.trabalhofinal.Telas.ColeAkumaPersonagen"
+        android:name="com.example.trabalhofinal.Telas.ImagenDoCatalago"
         android:label="cole_akuma_persona"
-        tools:layout="@layout/cole_akuma_persona" >
+        tools:layout="@layout/imagen_do_catalago" >
         <action
             android:id="@+id/action_coleAkumaPersonagen_to_caracPersonagen"
             app:destination="@id/caracPersonagen" />
@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/criaPersonagen2"
-        android:name="com.example.trabalhofinal.Telas.CriaPersonagen"
+        android:name="com.example.trabalhofinal.Telas.CriaJogador"
         android:label="cria_personagen"
         tools:layout="@layout/cria_personagen" >
         <action
@@ -139,9 +139,9 @@
     </fragment>
     <fragment
         android:id="@+id/infoPersonagenUser"
-        android:name="com.example.trabalhofinal.Telas.InfoPersonagenUser"
+        android:name="com.example.trabalhofinal.Telas.InfoJogador"
         android:label="info_player"
-        tools:layout="@layout/info_player" >
+        tools:layout="@layout/info_jogador" >
         <action
             android:id="@+id/action_infoPersonagenUser_to_listPersonagens"
             app:destination="@id/listPersonagens" />

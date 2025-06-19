@@ -47,5 +47,37 @@ public class Converters {
     public static String[] toStringArray(String data) {
         return data != null ? data.split(",") : new String[]{};
     }
+
+    @TypeConverter
+    public static int[] fromStringToIntArray(String value) {
+        if (value == null || value.isEmpty()) {
+            return new int[0];
+        }
+        String[] parts = value.split(",");
+        int[] result = new int[parts.length];
+        for (int i = 0; i < parts.length; i++) {
+            try {
+                result[i] = Integer.parseInt(parts[i].trim());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                result[i] = 0;
+            }
+        }
+        return result;
+    }
+
+    @TypeConverter
+    public static String fromIntArrayToString(int[] array) {
+        if (array == null || array.length == 0) {
+            return "";
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i : array) {
+            result.append(i).append(",");
+        }
+        result.setLength(result.length() - 1);
+        return result.toString();
+    }
+
 }
 

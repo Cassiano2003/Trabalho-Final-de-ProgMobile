@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
 import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.AtaqueAkumaNoMi;
 import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Jogador;
 import com.example.trabalhofinal.Tabelas.Tripulacoes;
@@ -74,6 +77,11 @@ public class InfoJogador extends Fragment {
             }
             ArrayAdapter adpter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,nomesInimigos);
             binding.nomePersonagens.setAdapter(adpter);
+
+            if(!jogador.getImagenPersona().equals("Deffalt") && !jogador.getImagenPersona().isEmpty()) {
+                int resID = requireContext().getResources().getIdentifier(jogador.getImagenPersona(), "drawable", getContext().getPackageName());
+                binding.foto.setImageResource(resID);
+            }
 
             nivelInimigo = jogador.getNivel();
             List<Inimigos> inimigosFinal = new ArrayList<>();
@@ -145,6 +153,14 @@ public class InfoJogador extends Fragment {
 
             if(jogador.getAkumaNoMi() != 0){
                 Akumas akumas = db.akumaDao().buscaAkuma(jogador.getAkumaNoMi());
+                AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+                DesbloqueiaAtaques(akumas);
+                for (int i=0;i < jogador.getQntataquesdesbloqueados();i++){
+                    TextView novo = new TextView(requireContext());
+                    novo.setText(ataqueAkumaNoMi.getNomeDoAtaque()[i]+" \n"+ataqueAkumaNoMi.getTipoDeAtaque()[i]
+                            +" \n"+ataqueAkumaNoMi.getDescricao()[i]);
+                    binding.ataquesLinar.addView(novo);
+                }
                 binding.akuma.setText(akumas.getNome());
             }else {
                 binding.akuma.setText("Nao tem Akuma No Mi");
@@ -164,7 +180,7 @@ public class InfoJogador extends Fragment {
             public void onClick(View v) {
                 jogador.setImagenPersona(binding.nomePersonagens.getSelectedItem().toString());
                 jogador.setIdpersonagens(arg.getInt("idPerso"));
-                db.personagensDao().upgrade(jogador);
+                db.personagensDao().upgrade(jogador);//*/
 
                 Bundle bundle = new Bundle();
                 NavOptions navOptions = new NavOptions.Builder()
@@ -180,13 +196,30 @@ public class InfoJogador extends Fragment {
                         .navigate(R.id.action_infoPersonagenUser_to_batalha2,bundle);
             }
         });
+
+        binding.nomePersonagens.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(!jogador.getImagenPersona().equals("Deffalt") && !jogador.getImagenPersona().isEmpty()) {
+                    String fotoperfio = db.inimigosDao().buscaInimigos(nomesInimigos.get(position));
+                    int resID = requireContext().getResources().getIdentifier(fotoperfio, "drawable", requireContext().getPackageName());
+                    binding.foto.setImageResource(resID);
+                    jogador.setImagenPersona(fotoperfio);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     public void ComtrolePontos(){
         binding.btnAgilidadeMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMAX != 0) {
                     jogador.setAgilidade(jogador.getAgilidade() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -199,7 +232,7 @@ public class InfoJogador extends Fragment {
         binding.btnAgilidadeMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMIN != 0) {
                     jogador.setAgilidade(jogador.getAgilidade() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -212,7 +245,7 @@ public class InfoJogador extends Fragment {
         binding.btnVidaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMAX != 0) {
                     jogador.setHp(jogador.getHp() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -225,7 +258,7 @@ public class InfoJogador extends Fragment {
         binding.btnVidaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMIN != 0) {
                     jogador.setHp(jogador.getHp() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -238,7 +271,7 @@ public class InfoJogador extends Fragment {
         binding.btnForcaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMAX != 0) {
                     jogador.setForca(jogador.getForca() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -251,7 +284,7 @@ public class InfoJogador extends Fragment {
         binding.btnForcaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMIN != 0) {
                     jogador.setForca(jogador.getForca() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -264,7 +297,7 @@ public class InfoJogador extends Fragment {
         binding.btnEstaminaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMAX != 0) {
                     jogador.setEstamina(jogador.getEstamina() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -277,7 +310,7 @@ public class InfoJogador extends Fragment {
         binding.btnEstaminaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jogador.getPontos() != 0) {
+                if(pontosMIN != 0) {
                     jogador.setEstamina(jogador.getEstamina() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -286,6 +319,46 @@ public class InfoJogador extends Fragment {
                 }
             }
         });
+    }
+
+
+    public void DesbloqueiaAtaques(Akumas akumas){
+        AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+        if(jogador.getQntataquesdesbloqueados() != ataqueAkumaNoMi.getQntataques()) {
+            switch (ataqueAkumaNoMi.getQntataques()) {
+                case 2:
+                    if (jogador.getNivel() >= 50)
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    break;
+                case 3:
+                    if (jogador.getNivel() >= 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() >= 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+                case 4:
+                    if (jogador.getNivel() >= 75) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() >= 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() >= 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+                case 5:
+                    if (jogador.getNivel() >= 100) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() >= 75) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() >= 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() >= 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+            }
+        }
     }
 
     public void AtualizaStatus(){

@@ -6,16 +6,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.trabalhofinal.R;
+import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.AtaqueAkumaNoMi;
 import com.example.trabalhofinal.Tabelas.Inimigos;
 import com.example.trabalhofinal.Tabelas.Jogador;
 import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
+import com.example.trabalhofinal.TabelasDao.AtaqueAkumasDao;
 import com.example.trabalhofinal.databinding.BatalhaBinding;
 
 import java.util.List;
@@ -41,6 +46,24 @@ public class Batalha    extends Fragment {
     final boolean[] vezdequem = {true};
 
     int ataquesTurnos = 0;
+
+
+    int custo;
+    int hp_jogador;
+    int forca_jogador;
+    int estamina_jogador;
+    int agilidade_jogador;
+    int defesa_jogador;
+    int intuicao_jogador;
+    int dano_jogador;
+
+    int hp_inimigo;
+    int forca_inimigo;
+    int estamina_inimigo;
+    int agilidade_inimigo;
+    int defesa_inimigo;
+    int intuicao_inimigo;
+    int dano_inimigo;
 
     @Override
     public View onCreateView(
@@ -87,7 +110,7 @@ public class Batalha    extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(vezdequem[0]){
-                        TrunoJogador(arg);
+                        TrunoJogador(arg,jogador.getForca());
                     }else {
                         androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
                         dlg.setMessage("Esta na vez do inimigo");
@@ -99,12 +122,103 @@ public class Batalha    extends Fragment {
             binding.akumaBnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Akumas akumas = db.akumaDao().buscaAkuma(jogador.getAkumaNoMi());
+                    AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     LayoutInflater inflater = getLayoutInflater();
                     View botoes = inflater.inflate(R.layout.combate_botoes, null);
                     builder.setView(botoes);
 
                     final AlertDialog ataques = builder.create();
+
+                    Button ataque1 = botoes.findViewById(R.id.ataque1);
+                    Button ataque2 = botoes.findViewById(R.id.ataque2);
+                    Button ataque3 = botoes.findViewById(R.id.ataque3);
+                    Button ataque4 = botoes.findViewById(R.id.ataque4);
+                    Button ataque5 = botoes.findViewById(R.id.ataque5);
+
+                    TextView descricao1 = botoes.findViewById(R.id.descricao_ataque1);
+                    TextView descricao2 = botoes.findViewById(R.id.descricao_ataque2);
+                    TextView descricao3 = botoes.findViewById(R.id.descricao_ataque3);
+                    TextView descricao4 = botoes.findViewById(R.id.descricao_ataque4);
+                    TextView descricao5 = botoes.findViewById(R.id.descricao_ataque5);
+
+                    if(jogador.getQntataquesdesbloqueados() >= 1) {
+                        ataque1.setVisibility(View.VISIBLE);
+                        descricao1.setVisibility(View.VISIBLE);
+                        ataque1.setText(ataqueAkumaNoMi.getNomeDoAtaque()[0]);
+                        descricao1.setText(ataqueAkumaNoMi.getDescricao()[0]);
+                        ataque1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ataques.dismiss();
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[0]) {
+                                    AtaqueAkuma(ataqueAkumaNoMi, 0, ataqueAkumaNoMi.getTipoDeAtaque()[0], arg);
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 2) {
+                        ataque2.setVisibility(View.VISIBLE);
+                        descricao2.setVisibility(View.VISIBLE);
+                        ataque2.setText(ataqueAkumaNoMi.getNomeDoAtaque()[1]);
+                        descricao2.setText(ataqueAkumaNoMi.getDescricao()[1]);
+                        ataque2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ataques.dismiss();
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[1]) {
+                                    AtaqueAkuma(ataqueAkumaNoMi, 1, ataqueAkumaNoMi.getTipoDeAtaque()[1], arg);
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 3) {
+                        ataque3.setVisibility(View.VISIBLE);
+                        descricao3.setVisibility(View.VISIBLE);
+                        ataque3.setText(ataqueAkumaNoMi.getNomeDoAtaque()[2]);
+                        descricao3.setText(ataqueAkumaNoMi.getDescricao()[2]);
+                        ataque3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[2]) {
+                                    AtaqueAkuma(ataqueAkumaNoMi, 2, ataqueAkumaNoMi.getTipoDeAtaque()[2], arg);
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 4) {
+                        ataque4.setVisibility(View.VISIBLE);
+                        descricao4.setVisibility(View.VISIBLE);
+                        ataque4.setText(ataqueAkumaNoMi.getNomeDoAtaque()[3]);
+                        descricao4.setText(ataqueAkumaNoMi.getDescricao()[3]);
+                        ataque4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ataques.dismiss();
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[3]) {
+                                    AtaqueAkuma(ataqueAkumaNoMi, 3, ataqueAkumaNoMi.getTipoDeAtaque()[3], arg);
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 5) {
+                        ataque5.setVisibility(View.VISIBLE);
+                        descricao5.setVisibility(View.VISIBLE);
+                        ataque5.setText(ataqueAkumaNoMi.getNomeDoAtaque()[4]);
+                        descricao5.setText(ataqueAkumaNoMi.getDescricao()[4]);
+                        ataque5.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ataques.dismiss();
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[4]) {
+                                    AtaqueAkuma(ataqueAkumaNoMi, 4, ataqueAkumaNoMi.getTipoDeAtaque()[4], arg);
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                    }
 
                     ataques.show();
                 }
@@ -113,8 +227,8 @@ public class Batalha    extends Fragment {
     }
 
 
-    public void TrunoJogador(Bundle arg){
-        int dano = CalculaDano(inimigos.getDefesa() / 100, jogador.getForca());
+    public void TrunoJogador(Bundle arg,int ValorBrutoDano){
+        int dano = CalculaDano(inimigos.getDefesa() / 100, ValorBrutoDano);
         if (validaChance(inimigos.getIntuicao())) {
             ataquesTurnos ++;
             acumuloDesvios[0] = acumuloDesvios[0] + 1;
@@ -238,6 +352,61 @@ public class Batalha    extends Fragment {
         return false;
     }
 
+    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi,int qualataque, String tipoAtaque, Bundle arg){
+        custo = ataqueAkumaNoMi.getCusto()[qualataque];
+        hp_jogador = ataqueAkumaNoMi.getHpjogador()[qualataque];
+        forca_jogador = ataqueAkumaNoMi.getForcajogador()[qualataque];
+        estamina_jogador = ataqueAkumaNoMi.getEstaminajogador()[qualataque];
+        agilidade_jogador = ataqueAkumaNoMi.getAgilidadejogador()[qualataque];
+        defesa_jogador = ataqueAkumaNoMi.getDefesajogador()[qualataque];
+        intuicao_jogador = ataqueAkumaNoMi.getIntuicaojogador()[qualataque];
+        dano_jogador = ataqueAkumaNoMi.getDanojogador()[qualataque];
+
+        hp_inimigo = ataqueAkumaNoMi.getHpinimigo()[qualataque];
+        forca_inimigo = ataqueAkumaNoMi.getForcainimigo()[qualataque];
+        estamina_inimigo = ataqueAkumaNoMi.getEstaminainimigo()[qualataque];
+        agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo()[qualataque];
+        defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo()[qualataque];
+        intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo()[qualataque];
+        dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
+
+        int custo = ataqueAkumaNoMi.getCusto()[qualataque];
+        jogador.setEnergia(jogador.getEnergia()-custo);
+        binding.energia.setText("Energia: "+String.valueOf(jogador.getEnergia())+" / "+String.valueOf(energiaJogador));
+
+        switch (tipoAtaque){
+            case"ATAQUE SIMPLES":
+                TrunoJogador(arg,jogador.getEstamina());
+                break;
+            case"ATAQUE FORTE":
+                TrunoJogador(arg,jogador.getEstamina()*2);
+                break;
+            case"ATAQUE FORTE 2":
+                TrunoJogador(arg,jogador.getEstamina()*3);
+                break;
+            case"ESPECIAL":
+                TrunoJogador(arg,jogador.getEstamina()*4);
+                break;
+            default:
+                jogador.setHp(jogador.getHp()+(hp_jogador/100));
+                jogador.setForca(jogador.getForca() + (forca_jogador / 100));
+                jogador.setEstamina(jogador.getEstamina() + (estamina_jogador / 100));
+                jogador.setAgilidade(jogador.getAgilidade() + (agilidade_jogador / 100));
+                jogador.setDefesa(jogador.getDefesa() + (defesa_jogador / 100));
+                jogador.setIntuicao(jogador.getIntuicao() + (intuicao_jogador / 100));
+
+                inimigos.setHp(inimigos.getHp()+(hp_inimigo/100));
+                inimigos.setForca(inimigos.getForca() + (forca_inimigo / 100));
+                inimigos.setEstamina(inimigos.getEstamina() + (estamina_inimigo / 100));
+                inimigos.setAgilidade(inimigos.getAgilidade() + (agilidade_inimigo / 100));
+                inimigos.setDefesa(inimigos.getDefesa() + (defesa_inimigo / 100));
+                inimigos.setIntuicao(inimigos.getIntuicao() + (intuicao_inimigo / 100));
+
+                TurnoInimigo(arg);
+                break;
+        }
+    }
+
     //Nivela o inimigo para aconpanhar o level do jogador
     public Inimigos nivelaInimigo(int nivelAtual, int idInim){
         Inimigos inimigos = db.inimigosDao().buscaInimigos(idInim);
@@ -247,9 +416,9 @@ public class Batalha    extends Fragment {
         //Força, estamina, agilidade e HP
         inimigos.setAgilidade(inimigos.getAgilidade()+nivelAtual);
         if(inimigos.getAgilidade() > 75) inimigos.setAgilidade(75);
-        inimigos.setForca(inimigos.getForca()+nivelAtual);
-        inimigos.setEstamina(inimigos.getEstamina()+nivelAtual);
-        inimigos.setHp(inimigos.getHp()+nivelAtual);
+        inimigos.setForca(inimigos.getForca()+(nivelAtual*2));
+        inimigos.setEstamina(inimigos.getEstamina()+(nivelAtual*2));
+        inimigos.setHp(inimigos.getHp()+(nivelAtual*3));
 
         if(nivelAtual >= 90){
             inimigos.setHakiobs(3);
@@ -317,11 +486,11 @@ public class Batalha    extends Fragment {
         jogador.setVitorias5(jogador.getVitorias5()+1);
         jogador.setVitorias10(jogador.getVitorias10()+1);
         jogador.setVitorias25(jogador.getVitorias25()+1);
-        if(jogador.getAgilidade() <= 75) {
-            jogador.setPontos(jogador.getPontos()+4);
+        if(jogador.getAgilidade() < 50) {
+            jogador.setPontos(jogador.getPontos()+8);
         }else{
-            jogador.setAgilidade(75);
-            jogador.setPontos(jogador.getPontos()+3);
+            jogador.setAgilidade(50);
+            jogador.setPontos(jogador.getPontos()+8);
         }
 
         if(jogador.getEstamina() <= 14){
@@ -400,42 +569,50 @@ public class Batalha    extends Fragment {
                     jogador.setTitulo("Pirata");
                     jogador.setRecompensa("B$ 30.000.000");
                     jogador.setOrigem("Grand Line");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Pirata":
                     jogador.setTitulo("Super Nova");
                     jogador.setRecompensa("B$ 250.000.000");
                     jogador.setOrigem("New World");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Super Nova":
                     jogador.setTitulo("Shichibukai");
                     jogador.setRecompensa("B$ 1.500.000.000");
                     jogador.setOrigem("New World (Pós-Dressrosa)");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Shichibukai":
                     jogador.setTitulo("Yonko");
                     jogador.setRecompensa("B$ 3.000.000.000");
                     jogador.setOrigem("New World (Pós-Wano)");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                     //Marinha
                 case "Aprendiz de Marinheiro":
                     jogador.setTitulo("Sargento-Mor");
                     jogador.setRecompensa("★★");
                     jogador.setOrigem("Grand Line");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Sargento-Mor":
                     jogador.setTitulo("Capitão da Marinha");
                     jogador.setRecompensa("★★★★★");
                     jogador.setOrigem("New World");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Capitão da Marinha":
                     jogador.setTitulo("Vice-Almirante");
                     jogador.setRecompensa("♛♛♛");
                     jogador.setOrigem("New World (Pós-Dressrosa)");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 case "Vice-Almirante":
                     jogador.setTitulo("Almirante");
                     jogador.setRecompensa("♛♛♛♛♛");
                     jogador.setOrigem("New World (Pós-Wano)");
+                    jogador.setHp(jogador.getHp()+72);
                     break;
                 default:
                     Log.d("Batalha Swithc","Erro no swithc");

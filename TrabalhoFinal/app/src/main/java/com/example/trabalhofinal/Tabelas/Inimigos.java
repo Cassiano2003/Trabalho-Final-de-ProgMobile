@@ -49,6 +49,9 @@ public class Inimigos {
     @ColumnInfo(name = "akuma_no_mi")
     public String akumaNoMi;
 
+    @ColumnInfo(name = "id_akuma")
+    public int idakuma;
+
     @ColumnInfo(name = "associacao")
     public String associacao;
 
@@ -117,6 +120,14 @@ public class Inimigos {
         this.fotoperfio = fotoperfio;
         this.fotocatalogo = fotocatalogo;
         this.fotocombate = fotocombate;
+    }
+
+    public int getIdakuma() {
+        return idakuma;
+    }
+
+    public void setIdakuma(int idakuma) {
+        this.idakuma = idakuma;
     }
 
     public int getEstagio() {

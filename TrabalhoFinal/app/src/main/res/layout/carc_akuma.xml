@@ -15,7 +15,6 @@
             android:id="@+id/nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="text"
             android:text="Nome do akuma"
             android:textAlignment="center"
@@ -28,7 +27,6 @@
             android:id="@+id/tipo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:inputType="text"
             android:text="tipo akuma"
             android:textSize="16dp"
@@ -99,16 +97,6 @@
             app:layout_constraintLeft_toLeftOf="parent">
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/confirma"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comfirmar fruta"
-            android:visibility="invisible"
-            android:layout_marginTop="50dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ataques"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

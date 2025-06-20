@@ -47,6 +47,7 @@ public class Batalha    extends Fragment {
 
     int ataquesTurnos = 0;
 
+    int buffTurnos = 0;
 
     int custo;
     int hp_jogador;
@@ -64,6 +65,8 @@ public class Batalha    extends Fragment {
     int defesa_inimigo;
     int intuicao_inimigo;
     int dano_inimigo;
+
+    int nivelAtual;
 
     @Override
     public View onCreateView(
@@ -83,7 +86,8 @@ public class Batalha    extends Fragment {
 
         Bundle arg = getArguments();
         if(arg != null) {
-            inimigos = nivelaInimigo(arg.getInt("nivelIni"), arg.getInt("idInimi"));
+            nivelAtual = arg.getInt("nivelIni");
+            inimigos = nivelaInimigo(arg.getInt("idInimi"));
             jogador = db.personagensDao().buscaPer(arg.getInt("idPerso"));
             vidaInimigo = inimigos.getHp();
             estaminaInimigo = inimigos.getEstamina();
@@ -110,7 +114,7 @@ public class Batalha    extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if(vezdequem[0]){
-                        TrunoJogador(arg,jogador.getForca());
+                        TurnoJogador(arg,jogador.getForca(),0);
                     }else {
                         androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
                         dlg.setMessage("Esta na vez do inimigo");
@@ -147,13 +151,13 @@ public class Batalha    extends Fragment {
                         ataque1.setVisibility(View.VISIBLE);
                         descricao1.setVisibility(View.VISIBLE);
                         ataque1.setText(ataqueAkumaNoMi.getNomeDoAtaque()[0]);
-                        descricao1.setText(ataqueAkumaNoMi.getDescricao()[0]);
+                        descricao1.setText(ataqueAkumaNoMi.getTipoDeAtaque()[0] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[0]);
                         ataque1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ataques.dismiss();
                                 if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[0]) {
-                                    AtaqueAkuma(ataqueAkumaNoMi, 0, ataqueAkumaNoMi.getTipoDeAtaque()[0], arg);
+                                    AtaqueAkuma(ataqueAkumaNoMi, 0, ataqueAkumaNoMi.getTipoDeAtaque()[0], arg,true);
                                 }else{
                                     Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
                                 }                            }
@@ -162,13 +166,13 @@ public class Batalha    extends Fragment {
                         ataque2.setVisibility(View.VISIBLE);
                         descricao2.setVisibility(View.VISIBLE);
                         ataque2.setText(ataqueAkumaNoMi.getNomeDoAtaque()[1]);
-                        descricao2.setText(ataqueAkumaNoMi.getDescricao()[1]);
+                        descricao2.setText(ataqueAkumaNoMi.getTipoDeAtaque()[1] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[1]);
                         ataque2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ataques.dismiss();
                                 if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[1]) {
-                                    AtaqueAkuma(ataqueAkumaNoMi, 1, ataqueAkumaNoMi.getTipoDeAtaque()[1], arg);
+                                    AtaqueAkuma(ataqueAkumaNoMi, 1, ataqueAkumaNoMi.getTipoDeAtaque()[1], arg,true);
                                 }else{
                                     Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
                                 }                            }
@@ -177,12 +181,12 @@ public class Batalha    extends Fragment {
                         ataque3.setVisibility(View.VISIBLE);
                         descricao3.setVisibility(View.VISIBLE);
                         ataque3.setText(ataqueAkumaNoMi.getNomeDoAtaque()[2]);
-                        descricao3.setText(ataqueAkumaNoMi.getDescricao()[2]);
+                        descricao3.setText(ataqueAkumaNoMi.getTipoDeAtaque()[2] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[2]);
                         ataque3.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[2]) {
-                                    AtaqueAkuma(ataqueAkumaNoMi, 2, ataqueAkumaNoMi.getTipoDeAtaque()[2], arg);
+                                    AtaqueAkuma(ataqueAkumaNoMi, 2, ataqueAkumaNoMi.getTipoDeAtaque()[2], arg,true);
                                 }else{
                                     Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
                                 }                            }
@@ -191,13 +195,13 @@ public class Batalha    extends Fragment {
                         ataque4.setVisibility(View.VISIBLE);
                         descricao4.setVisibility(View.VISIBLE);
                         ataque4.setText(ataqueAkumaNoMi.getNomeDoAtaque()[3]);
-                        descricao4.setText(ataqueAkumaNoMi.getDescricao()[3]);
+                        descricao4.setText(ataqueAkumaNoMi.getTipoDeAtaque()[3] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[3]);
                         ataque4.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ataques.dismiss();
                                 if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[3]) {
-                                    AtaqueAkuma(ataqueAkumaNoMi, 3, ataqueAkumaNoMi.getTipoDeAtaque()[3], arg);
+                                    AtaqueAkuma(ataqueAkumaNoMi, 3, ataqueAkumaNoMi.getTipoDeAtaque()[3], arg,true);
                                 }else{
                                     Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
                                 }                            }
@@ -206,13 +210,13 @@ public class Batalha    extends Fragment {
                         ataque5.setVisibility(View.VISIBLE);
                         descricao5.setVisibility(View.VISIBLE);
                         ataque5.setText(ataqueAkumaNoMi.getNomeDoAtaque()[4]);
-                        descricao5.setText(ataqueAkumaNoMi.getDescricao()[4]);
+                        descricao5.setText(ataqueAkumaNoMi.getTipoDeAtaque()[4] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[4]);
                         ataque5.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ataques.dismiss();
                                 if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[4]) {
-                                    AtaqueAkuma(ataqueAkumaNoMi, 4, ataqueAkumaNoMi.getTipoDeAtaque()[4], arg);
+                                    AtaqueAkuma(ataqueAkumaNoMi, 4, ataqueAkumaNoMi.getTipoDeAtaque()[4], arg,true);
                                 }else{
                                     Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
                                 }
@@ -227,7 +231,8 @@ public class Batalha    extends Fragment {
     }
 
 
-    public void TrunoJogador(Bundle arg,int ValorBrutoDano){
+    public void TurnoJogador(Bundle arg,int ValorBrutoDano,int palha){
+        Buff(palha);
         int dano = CalculaDano(inimigos.getDefesa() / 100, ValorBrutoDano);
         if (validaChance(inimigos.getIntuicao())) {
             ataquesTurnos ++;
@@ -239,7 +244,7 @@ public class Batalha    extends Fragment {
             ataquesTurnos ++;
             qntsDesvios[0] = random.nextInt(3);
             TextView novo = new TextView(getContext());
-            novo.setText(jogador.getNome() + " atacou com a " + jogador.getArmas());
+            novo.setText(jogador.getNome() + " atacou com a " + jogador.getArmas()+" / Dano:"+String.valueOf(dano));
             binding.informacoes.addView(novo);
             vidaInimigo = vidaInimigo - dano;
             if(VerficaVida(vidaInimigo)){
@@ -255,12 +260,6 @@ public class Batalha    extends Fragment {
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
                 return;
-
-                /*NavOptions navOptions = new NavOptions.Builder()
-                        .setPopUpTo(R.id.batalha2, true)
-                        .build();
-                NavHostFragment.findNavController(Batalha.this)
-                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
                 binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
             }
@@ -273,29 +272,53 @@ public class Batalha    extends Fragment {
         }else{
             ataquesTurnos = 0;
             vezdequem[0] = false;
-            TurnoInimigo(arg);
+            GeraAtaqueInimigo(arg);
         }
     }
 
-    public void TurnoInimigo(Bundle arg){
-        int dano = CalculaDano((jogador.getDefesa()) / 100, inimigos.getForca());
-        if (validaChance(jogador.getIntuicao())) {
-            acumuloDesvios[0] = acumuloDesvios[0] + 1;
-            TextView novo = new TextView(getContext());
-            novo.setText(jogador.getNome() + " desviou do "+inimigos.getNome());
-            binding.informacoes.addView(novo);
+    public void TurnoInimigo(Bundle arg,int ValorBrutoDano,int palha){
+        Buff(palha);
+        int dano = CalculaDano((jogador.getDefesa()) / 100, ValorBrutoDano);
+        if(palha == 0) {
+            if (validaChance(jogador.getIntuicao())) {
+                acumuloDesvios[0] = acumuloDesvios[0] + 1;
+                TextView novo = new TextView(getContext());
+                novo.setText(jogador.getNome() + " desviou do " + inimigos.getNome());
+                binding.informacoes.addView(novo);
+                ataquesTurnos++;
+            } else {
+                ataquesTurnos++;
+                TextView novo = new TextView(getContext());
+                novo.setText(inimigos.getNome() + " atacou com a " + inimigos.getArmas() + " / Dano:" + String.valueOf(dano));
+                binding.informacoes.addView(novo);
+                vidaJogador = vidaJogador - dano;
+                if (VerficaVida(vidaJogador)) {
+                    binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(0) + " / " + String.valueOf(jogador.getHp()));
+                    androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                    dlg.setMessage("Derrota \n Retornar para as informações do personagem para a destribuição dos pontos");
+                    dlg.show();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idU", arg.getInt("idU"));
+                    bundle.putInt("idPerso", arg.getInt("idPerso"));
+                    binding.armaBnt.setVisibility(View.INVISIBLE);
+                    binding.hakiBnt.setVisibility(View.INVISIBLE);
+                    binding.akumaBnt.setVisibility(View.INVISIBLE);
+                    return;
+                } else {
+                    binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                }
+            }
+        }else{
             ataquesTurnos ++;
-        }else {
-            ataquesTurnos ++;
-            acumuloDesvios[0] = 0;
             TextView novo = new TextView(getContext());
-            novo.setText(inimigos.getNome() + " atacou com a " + inimigos.getArmas());
+            novo.setText(inimigos.getNome() + " se auto atacou"+" / Dano:"+String.valueOf(dano));
             binding.informacoes.addView(novo);
-            vidaJogador = vidaJogador - dano;
-            if(VerficaVida(vidaJogador)) {
-                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(0) + " / " + String.valueOf(jogador.getHp()));
+            vidaInimigo = vidaInimigo - dano;
+            if(VerficaVida(vidaInimigo)){
+                binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(0) + " / " + String.valueOf(inimigos.getHp()));
+                Nivelamento(jogador,arg);
                 androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
-                dlg.setMessage("Derrota \n Retornar para as informações do personagem para a destribuição dos pontos");
+                dlg.setMessage("Vitoria \n Retornar para as informações do personagem para a destribuição dos pontos");
                 dlg.show();
                 Bundle bundle = new Bundle();
                 bundle.putInt("idU",arg.getInt("idU"));
@@ -304,14 +327,8 @@ public class Batalha    extends Fragment {
                 binding.hakiBnt.setVisibility(View.INVISIBLE);
                 binding.akumaBnt.setVisibility(View.INVISIBLE);
                 return;
-
-                /*NavOptions navOptions = new NavOptions.Builder()
-                        .setPopUpTo(R.id.batalha2, true)
-                        .build();
-                NavHostFragment.findNavController(Batalha.this)
-                        .navigate(R.id.action_batalha2_to_infoPersonagenUser,bundle,navOptions);//*/
             }else {
-                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
             }
         }
         if(validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2){
@@ -320,7 +337,7 @@ public class Batalha    extends Fragment {
             androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
             dlg.setMessage("O Inimigo pode atacara novamente");
             dlg.show();
-            TurnoInimigo(arg);
+            GeraAtaqueInimigo(arg);
         }else {
             ataquesTurnos = 0;
             vezdequem[0] = true;
@@ -352,7 +369,7 @@ public class Batalha    extends Fragment {
         return false;
     }
 
-    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi,int qualataque, String tipoAtaque, Bundle arg){
+    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi,int qualataque, String tipoAtaque, Bundle arg,boolean quem_e){
         custo = ataqueAkumaNoMi.getCusto()[qualataque];
         hp_jogador = ataqueAkumaNoMi.getHpjogador()[qualataque];
         forca_jogador = ataqueAkumaNoMi.getForcajogador()[qualataque];
@@ -371,51 +388,167 @@ public class Batalha    extends Fragment {
         dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
 
         int custo = ataqueAkumaNoMi.getCusto()[qualataque];
-        jogador.setEnergia(jogador.getEnergia()-custo);
-        binding.energia.setText("Energia: "+String.valueOf(jogador.getEnergia())+" / "+String.valueOf(energiaJogador));
-
+        if(quem_e) {
+            jogador.setEnergia(jogador.getEnergia()-custo);
+            binding.energia.setText("Energia: "+String.valueOf(jogador.getEnergia())+" / "+String.valueOf(energiaJogador));
+        }else {
+            inimigos.setEnergia(inimigos.getEnergia()-custo);
+        }
         switch (tipoAtaque){
             case"ATAQUE SIMPLES":
-                TrunoJogador(arg,jogador.getEstamina());
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina(), 0);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina(),0);
+                }
                 break;
             case"ATAQUE FORTE":
-                TrunoJogador(arg,jogador.getEstamina()*2);
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina()*2, 0);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina()*2,0);
+                }
                 break;
             case"ATAQUE FORTE 2":
-                TrunoJogador(arg,jogador.getEstamina()*3);
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina()*3, 0);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina()*3,0);
+                }
                 break;
             case"ESPECIAL":
-                TrunoJogador(arg,jogador.getEstamina()*4);
+                if(dano_jogador == -1){
+                    if(quem_e) {
+                        TurnoJogador(arg, 0, -1);
+                    }else {
+                        TurnoInimigo(arg,0,-1);
+                    }
+                }else {
+                    if(quem_e) {
+                        TurnoJogador(arg, jogador.getEstamina()*4, 0);
+                    }else {
+                        TurnoInimigo(arg,inimigos.getEstamina()*4,0);
+                    }
+                }
                 break;
             default:
-                jogador.setHp(jogador.getHp()+(hp_jogador/100));
-                jogador.setForca(jogador.getForca() + (forca_jogador / 100));
-                jogador.setEstamina(jogador.getEstamina() + (estamina_jogador / 100));
-                jogador.setAgilidade(jogador.getAgilidade() + (agilidade_jogador / 100));
-                jogador.setDefesa(jogador.getDefesa() + (defesa_jogador / 100));
-                jogador.setIntuicao(jogador.getIntuicao() + (intuicao_jogador / 100));
+                buffTurnos ++;
+                if(forca_jogador == 2){
+                    jogador.setHp(jogador.getHp() + (hp_jogador / 100));
+                    jogador.setForca(jogador.getForca() * 2);
+                    jogador.setEstamina(jogador.getEstamina() + (estamina_jogador / 100));
+                    jogador.setAgilidade(jogador.getAgilidade() + (agilidade_jogador / 100));
+                    jogador.setDefesa(jogador.getDefesa() + (defesa_jogador / 100));
+                    jogador.setIntuicao(jogador.getIntuicao() + (intuicao_jogador / 100));
 
-                inimigos.setHp(inimigos.getHp()+(hp_inimigo/100));
-                inimigos.setForca(inimigos.getForca() + (forca_inimigo / 100));
-                inimigos.setEstamina(inimigos.getEstamina() + (estamina_inimigo / 100));
-                inimigos.setAgilidade(inimigos.getAgilidade() + (agilidade_inimigo / 100));
-                inimigos.setDefesa(inimigos.getDefesa() + (defesa_inimigo / 100));
-                inimigos.setIntuicao(inimigos.getIntuicao() + (intuicao_inimigo / 100));
+                    inimigos.setHp(inimigos.getHp() + (hp_inimigo / 100));
+                    inimigos.setForca(inimigos.getForca() + (forca_inimigo / 100));
+                    inimigos.setEstamina(inimigos.getEstamina() + (estamina_inimigo / 100));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (agilidade_inimigo / 100));
+                    inimigos.setDefesa(inimigos.getDefesa() + (defesa_inimigo / 100));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (intuicao_inimigo / 100));
+                }else if(estamina_jogador == 2) {
+                    jogador.setHp(jogador.getHp() + (hp_jogador / 100));
+                    jogador.setForca(jogador.getForca() + (forca_jogador / 100));
+                    jogador.setEstamina(jogador.getEstamina() * 2);
+                    jogador.setAgilidade(jogador.getAgilidade() + (agilidade_jogador / 100));
+                    jogador.setDefesa(jogador.getDefesa() + (defesa_jogador / 100));
+                    jogador.setIntuicao(jogador.getIntuicao() + (intuicao_jogador / 100));
 
-                TurnoInimigo(arg);
+                    inimigos.setHp(inimigos.getHp() + (hp_inimigo / 100));
+                    inimigos.setForca(inimigos.getForca() + (forca_inimigo / 100));
+                    inimigos.setEstamina(inimigos.getEstamina() + (estamina_inimigo / 100));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (agilidade_inimigo / 100));
+                    inimigos.setDefesa(inimigos.getDefesa() + (defesa_inimigo / 100));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (intuicao_inimigo / 100));
+                } else {
+                    jogador.setHp(jogador.getHp() + (hp_jogador / 100));
+                    jogador.setForca(jogador.getForca() + (forca_jogador / 100));
+                    jogador.setEstamina(jogador.getEstamina() + (estamina_jogador / 100));
+                    jogador.setAgilidade(jogador.getAgilidade() + (agilidade_jogador / 100));
+                    jogador.setDefesa(jogador.getDefesa() + (defesa_jogador / 100));
+                    jogador.setIntuicao(jogador.getIntuicao() + (intuicao_jogador / 100));
+
+                    inimigos.setHp(inimigos.getHp() + (hp_inimigo / 100));
+                    inimigos.setForca(inimigos.getForca() + (forca_inimigo / 100));
+                    inimigos.setEstamina(inimigos.getEstamina() + (estamina_inimigo / 100));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (agilidade_inimigo / 100));
+                    inimigos.setDefesa(inimigos.getDefesa() + (defesa_inimigo / 100));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (intuicao_inimigo / 100));
+                }
+                if(quem_e) {
+                    TextView novo = new TextView(getContext());
+                    novo.setText(jogador.getNome() +"  "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    binding.informacoes.addView(novo);
+                    GeraAtaqueInimigo(arg);
+                }else {
+                    TextView novo = new TextView(getContext());
+                    novo.setText(inimigos.getNome() +"  "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    binding.informacoes.addView(novo);
+                    vezdequem[0] = true;
+                }
                 break;
         }
     }
 
+    public void Buff(int palha){
+        if(palha == 1) buffTurnos ++;
+        if(buffTurnos == 2){
+            if(forca_jogador == 2){
+                jogador.setHp(jogador.getHp() - (hp_jogador / 100));
+                jogador.setForca(jogador.getForca() / 2);
+                jogador.setEstamina(jogador.getEstamina() - (estamina_jogador / 100));
+                jogador.setAgilidade(jogador.getAgilidade() - (agilidade_jogador / 100));
+                jogador.setDefesa(jogador.getDefesa() - (defesa_jogador / 100));
+                jogador.setIntuicao(jogador.getIntuicao() - (intuicao_jogador / 100));
+
+                inimigos.setHp(inimigos.getHp() - (hp_inimigo / 100));
+                inimigos.setForca(inimigos.getForca() - (forca_inimigo / 100));
+                inimigos.setEstamina(inimigos.getEstamina() - (estamina_inimigo / 100));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (agilidade_inimigo / 100));
+                inimigos.setDefesa(inimigos.getDefesa() - (defesa_inimigo / 100));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (intuicao_inimigo / 100));
+            }else if(estamina_jogador == 2) {
+                jogador.setHp(jogador.getHp() - (hp_jogador / 100));
+                jogador.setForca(jogador.getForca() - (forca_jogador / 100));
+                jogador.setEstamina(jogador.getEstamina() / 2);
+                jogador.setAgilidade(jogador.getAgilidade() - (agilidade_jogador / 100));
+                jogador.setDefesa(jogador.getDefesa() - (defesa_jogador / 100));
+                jogador.setIntuicao(jogador.getIntuicao() - (intuicao_jogador / 100));
+
+                inimigos.setHp(inimigos.getHp() - (hp_inimigo / 100));
+                inimigos.setForca(inimigos.getForca() - (forca_inimigo / 100));
+                inimigos.setEstamina(inimigos.getEstamina() - (estamina_inimigo / 100));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (agilidade_inimigo / 100));
+                inimigos.setDefesa(inimigos.getDefesa() - (defesa_inimigo / 100));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (intuicao_inimigo / 100));
+            } else {
+                jogador.setHp(jogador.getHp() - (hp_jogador / 100));
+                jogador.setForca(jogador.getForca() - (forca_jogador / 100));
+                jogador.setEstamina(jogador.getEstamina() - (estamina_jogador / 100));
+                jogador.setAgilidade(jogador.getAgilidade() - (agilidade_jogador / 100));
+                jogador.setDefesa(jogador.getDefesa() - (defesa_jogador / 100));
+                jogador.setIntuicao(jogador.getIntuicao() - (intuicao_jogador / 100));
+
+                inimigos.setHp(inimigos.getHp() - (hp_inimigo / 100));
+                inimigos.setForca(inimigos.getForca() - (forca_inimigo / 100));
+                inimigos.setEstamina(inimigos.getEstamina() - (estamina_inimigo / 100));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (agilidade_inimigo / 100));
+                inimigos.setDefesa(inimigos.getDefesa() - (defesa_inimigo / 100));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (intuicao_inimigo / 100));
+            }
+        }
+    }
+
     //Nivela o inimigo para aconpanhar o level do jogador
-    public Inimigos nivelaInimigo(int nivelAtual, int idInim){
+    public Inimigos nivelaInimigo(int idInim){
         Inimigos inimigos = db.inimigosDao().buscaInimigos(idInim);
         int hakiarm = 25;
         int hakiobs = 16;
         Random random = new Random();
         //Força, estamina, agilidade e HP
         inimigos.setAgilidade(inimigos.getAgilidade()+nivelAtual);
-        if(inimigos.getAgilidade() > 75) inimigos.setAgilidade(75);
+        if(inimigos.getAgilidade() > 50) inimigos.setAgilidade(50);
         inimigos.setForca(inimigos.getForca()+(nivelAtual*2));
         inimigos.setEstamina(inimigos.getEstamina()+(nivelAtual*2));
         inimigos.setHp(inimigos.getHp()+(nivelAtual*3));
@@ -634,6 +767,34 @@ public class Batalha    extends Fragment {
             }
         }
         return false;
+    }
+
+    public void GeraAtaqueInimigo(Bundle arg){
+        int qual = random.nextInt(2);
+        int quantosataques = 1;
+        if(qual == 0 || inimigos.getAkumaNoMi().equals("NÃO TEM")){
+            TurnoInimigo(arg,inimigos.getForca(),0);
+        }else {
+            Akumas akumas = db.akumaDao().buscaAkuma(inimigos.getIdakuma());
+            Log.d("Akuma",String.valueOf(inimigos.getIdakuma()));
+            AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+            Log.d("Akuma Ataque",ataqueAkumaNoMi.toString());
+            int totalataques = ataqueAkumaNoMi.getQntataques();
+            if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+            if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+            if(nivelAtual >= 75 && quantosataques <= totalataques) quantosataques ++;
+            if(nivelAtual >= 100 && quantosataques <= totalataques) quantosataques ++;
+
+            int randomAtaque = 0;
+            String tipo ="";
+            do {
+                randomAtaque = random.nextInt(quantosataques);
+                Log.d("TESTE",String.valueOf(randomAtaque));
+                tipo = ataqueAkumaNoMi.getTipoDeAtaque()[randomAtaque];
+                Log.d("TIPO",tipo);
+            }while (ataqueAkumaNoMi.getCusto()[randomAtaque] > inimigos.getEnergia());
+            AtaqueAkuma(ataqueAkumaNoMi,randomAtaque,tipo,arg,false);
+        }
     }
 
     @Override

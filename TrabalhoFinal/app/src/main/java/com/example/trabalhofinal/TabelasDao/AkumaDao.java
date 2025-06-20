@@ -18,6 +18,10 @@ public interface AkumaDao {
 
     @Query("SELECT * FROM akumas WHERE idakuma = :id")
     Akumas buscaAkuma(int id);
+
+    @Query("SELECT idakuma FROM akumas WHERE nome = :nomeakuma")
+    int buscaAkuma(String nomeakuma);
+
     @Insert
     void insertAll(Akumas... akumas);
     @Query("SELECT COUNT(*) FROM akumas")

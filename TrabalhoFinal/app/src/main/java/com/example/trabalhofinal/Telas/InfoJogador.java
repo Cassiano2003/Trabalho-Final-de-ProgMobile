@@ -78,10 +78,12 @@ public class InfoJogador extends Fragment {
             ArrayAdapter adpter = new ArrayAdapter<>(getContext(),android.R.layout.simple_spinner_item,nomesInimigos);
             binding.nomePersonagens.setAdapter(adpter);
 
-            if(!jogador.getImagenPersona().equals("Deffalt") && !jogador.getImagenPersona().isEmpty()) {
-                int resID = requireContext().getResources().getIdentifier(jogador.getImagenPersona(), "drawable", getContext().getPackageName());
-                binding.foto.setImageResource(resID);
+            String nome = jogador.getImagenPersona();
+            int posicao = EncontraNome(nomesInimigos,nome);
+            if(posicao != -1 && posicao != 0){
+                binding.nomePersonagens.setSelection(posicao);
             }
+
 
             nivelInimigo = jogador.getNivel();
             List<Inimigos> inimigosFinal = new ArrayList<>();
@@ -142,7 +144,7 @@ public class InfoJogador extends Fragment {
             binding.rei.setText("Rei \n"+String.valueOf(jogador.getHakirei()));
             binding.observacao.setText("Observação \n"+String.valueOf(jogador.getHakiobs()));
             binding.armamento.setText("Armamento \n"+String.valueOf(jogador.getHakiarm()));
-            AtualizaStatus();
+            AtualizaStatus(arg);
 
             if(jogador.getIdTripula() != 0){
                 Tripulacoes tripulacoes = db.tripulacaoDao().buscaTripulacao(jogador.getIdTripula());
@@ -178,10 +180,6 @@ public class InfoJogador extends Fragment {
         binding.batalha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jogador.setImagenPersona(binding.nomePersonagens.getSelectedItem().toString());
-                jogador.setIdpersonagens(arg.getInt("idPerso"));
-                db.personagensDao().upgrade(jogador);//*/
-
                 Bundle bundle = new Bundle();
                 NavOptions navOptions = new NavOptions.Builder()
                         .setPopUpTo(R.id.infoPersonagenUser, true)
@@ -200,11 +198,28 @@ public class InfoJogador extends Fragment {
         binding.nomePersonagens.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(!jogador.getImagenPersona().equals("Deffalt") && !jogador.getImagenPersona().isEmpty()) {
+                String nome = binding.nomePersonagens.getSelectedItem().toString();
+                if(!nome.equals("Deffalt")){
                     String fotoperfio = db.inimigosDao().buscaInimigos(nomesInimigos.get(position));
-                    int resID = requireContext().getResources().getIdentifier(fotoperfio, "drawable", requireContext().getPackageName());
-                    binding.foto.setImageResource(resID);
-                    jogador.setImagenPersona(fotoperfio);
+                    Log.d("Fotoperfio","A foto do "+fotoperfio+" Nome do cidadao "+nomesInimigos.get(position));
+                    if (fotoperfio != null) {
+                        int resID = requireContext().getResources().getIdentifier(fotoperfio, "drawable", requireContext().getPackageName());
+                        if (resID != 0) { // Verifica se o recurso existe
+                            binding.foto.setImageResource(resID);
+                            jogador.setImagenPersona(nome);
+                            jogador.setIdpersonagens(arg.getInt("idPerso"));
+                            db.personagensDao().upgrade(jogador);
+                            Log.d("Foto colocada","A foto do "+fotoperfio+" foi colocada");
+                        } else {
+                            Log.e("InfoJogador", "Recurso drawable não encontrado: " + fotoperfio);
+                            //binding.foto.setImageResource(R.drawable.imagem_padrao);
+                        }
+                    } else {
+                        Log.e("InfoJogador", "fotoperfio é null");
+                        //binding.foto.setImageResource(R.drawable.imagem_padrao);
+                    }
+                }else{
+                    binding.foto.setImageResource(0);
                 }
             }
 
@@ -215,7 +230,7 @@ public class InfoJogador extends Fragment {
         });
     }
 
-    public void ComtrolePontos(){
+    public void ComtrolePontos(Bundle arg){
         binding.btnAgilidadeMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +239,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX--;
                     pontosMIN++;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -237,7 +252,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX++;
                     pontosMIN--;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -250,7 +265,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX--;
                     pontosMIN++;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -263,7 +278,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX++;
                     pontosMIN--;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -276,7 +291,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX--;
                     pontosMIN++;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -289,7 +304,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX++;
                     pontosMIN--;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -302,7 +317,7 @@ public class InfoJogador extends Fragment {
                     pontosMAX--;
                     pontosMIN++;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
@@ -315,10 +330,13 @@ public class InfoJogador extends Fragment {
                     pontosMAX++;
                     pontosMIN--;
                     jogador.setPontos(pontosMAX);
-                    AtualizaStatus();
+                    AtualizaStatus(arg);
                 }
             }
         });
+
+        jogador.setIdpersonagens(arg.getInt("idPerso"));
+        db.personagensDao().upgrade(jogador);
     }
 
 
@@ -361,7 +379,7 @@ public class InfoJogador extends Fragment {
         }
     }
 
-    public void AtualizaStatus(){
+    public void AtualizaStatus(Bundle arg){
         binding.vida.setText("HP: "+String.valueOf(jogador.getHp()));
         binding.forca.setText("Força: "+String.valueOf(jogador.getForca()));
         binding.estamina.setText("Estamina: "+String.valueOf(jogador.getEstamina()));
@@ -381,12 +399,21 @@ public class InfoJogador extends Fragment {
             binding.btnForcaMais.setVisibility(View.VISIBLE);
             binding.btnForcaMenos.setVisibility(View.VISIBLE);
 
-            if(jogador.getAgilidade() < 75) {
+            if(jogador.getAgilidade() < 50) {
                 binding.btnAgilidadeMais.setVisibility(View.VISIBLE);
                 binding.btnAgilidadeMenos.setVisibility(View.VISIBLE);
             }
-            ComtrolePontos();
+            ComtrolePontos(arg);
         }
+    }
+
+    public int EncontraNome(List<String> nomes,String busca){
+        int i =0;
+        for(String nome : nomes){
+            if(nome.equals(busca)) return i;
+            i++;
+        }
+        return -1;
     }
 
     @Override

@@ -254,25 +254,12 @@ public class AtaqueAkumaNoMi {
     @Override
     public String toString() {
         return "AtaqueAkumaNoMi{" +
-                "id=" + idataque +
+                "idataque=" + idataque +
+                ", qntataques=" + qntataques +
                 ", nomeDoAtaque=" + Arrays.toString(nomeDoAtaque) +
                 ", descricao=" + Arrays.toString(descricao) +
                 ", tipoDeAtaque=" + Arrays.toString(tipoDeAtaque) +
                 ", custo=" + Arrays.toString(custo) +
-                ", hpjogador=" + Arrays.toString(hpjogador) +
-                ", forcajogador=" + Arrays.toString(forcajogador) +
-                ", estaminajogador=" + Arrays.toString(estaminajogador) +
-                ", agilidadejogador=" + Arrays.toString(agilidadejogador) +
-                ", defesajogador=" + Arrays.toString(defesajogador) +
-                ", intuicaojogador=" + Arrays.toString(intuicaojogador) +
-                ", danojogador=" + Arrays.toString(danojogador) +
-                ", hpinimigo=" + Arrays.toString(hpinimigo) +
-                ", forcainimigo=" + Arrays.toString(forcainimigo) +
-                ", estaminainimigo=" + Arrays.toString(estaminainimigo) +
-                ", agilidadeinimigo=" + Arrays.toString(agilidadeinimigo) +
-                ", defesainimigo=" + Arrays.toString(defesainimigo) +
-                ", intuicaoinimigo=" + Arrays.toString(intuicaoinimigo) +
-                ", danoinimigo=" + Arrays.toString(danoinimigo) +
                 '}';
     }
 }

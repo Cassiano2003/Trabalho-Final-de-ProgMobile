@@ -3,6 +3,7 @@ package com.example.trabalhofinal.Telas;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.trabalhofinal.R;
+import com.example.trabalhofinal.Tabelas.Akumas;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.databinding.ConfigUsuarioBinding;
+
+import java.util.List;
 
 public class ConfigUsuario extends Fragment {
     private ConfigUsuarioBinding binding;
@@ -44,6 +48,26 @@ public class ConfigUsuario extends Fragment {
             binding.nome.setText(user.getNome());
             Bitmap fotoBitmap = BitmapFactory.decodeByteArray(user.getFoto(), 0, user.getFoto().length);
             binding.foto.setImageBitmap(fotoBitmap);
+
+            int total = -21;
+            int total_desbloqueado = 0;
+            total += db.akumaDao().quantosAkumas();
+            total += db.inimigosDao().quantosInimigos();
+            total += db.tripulacaoDao().quantosTripulacao();
+
+            total_desbloqueado += user.getInimigos().size();
+            total_desbloqueado += user.getAkumanomis().size();
+            total_desbloqueado += user.getTripulacao().size();
+
+            Log.d("total",String.valueOf(total));
+            Log.d("total desbloqueado",String.valueOf(total_desbloqueado));
+            binding.progreso.setText("Progreço: "+String.valueOf(total_desbloqueado/total)+"%");
+
+            List<Akumas> akumasList = db.akumaDao().getALL();
+            for(int i=0; i< akumasList.size();i++){
+                Log.d("id ataque "+String.valueOf(i+1),String.valueOf(akumasList.get(i).getIdataques()));
+            }
+
         }
 
         binding.seusPersonagens.setOnClickListener(new View.OnClickListener() {

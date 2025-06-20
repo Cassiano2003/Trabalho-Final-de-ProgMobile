@@ -205,7 +205,27 @@ public class MainActivity extends AppCompatActivity {
                         2,  // Numa Numa no Mi
                         5,  // Gasu Gasu no Mi
                         5,  // Yuki Yuki no Mi
-                        2   // Mori Mori no Mi
+                        2,   // Mori Mori no Mi
+                        2,  // Sube Sube no Mi
+                        1,  // Wapu Wapu no Mi
+                        2,  // Shiku Shiku no Mi
+                        3,  // Awa Awa no Mi
+                        3,  // Doa Doa no Mi
+                        4,  // Suke Suke no Mi
+                        1,  // Shiro Shiro no Mi (estava com erro, faltava o número, considerei 1)
+                        3,  // Horu Horu no Mi
+                        1,  // Deka Deka no Mi
+                        2,  // Gabu Gabu no Mi
+                        1,  // Shima Shima no Mi
+                        4,  // Buki Buki no Mi
+                        4,  // Beta Beta no Mi
+                        1,  // Nagi Nagi no Mi
+                        1,  // Sui Sui no Mi
+                        3,  // Maki Maki no Mi
+                        4,  // Netsu Netsu no Mi
+                        3,  // Bisu Bisu no Mi
+                        1,  // Juku Juku no Mi
+                        3   // Gunyo Gunyo no Mi
                 };
                 int iten = 0;
                 for(int i=0; i < numeros_ataques.length;i++){
@@ -288,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                 int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
                     Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),FOTO.getString(i));
-                    akumas.setIdataques(ataqueAkumaNoMiList.get(i).getIdataque());
+                    akumas.setIdataques(i+1);
                     db.akumaDao().insertAll(akumas);
                 }
 
@@ -398,9 +418,6 @@ public class MainActivity extends AppCompatActivity {
                         "P", "P", "P", "P", "P", "P", "M", "P", "P", "M",
                         "M"
                 };
-
-                int level = 0;
-
                 int hakirei = 0;
                 int hakiobs = 0;
                 int hakiarm = 0;
@@ -408,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
                 int qnt = NOMES.length();
                 for (int i = 0; i < qnt; i++) {
                     Inimigos inimigos = new Inimigos(NOMES.getString(i),APELIDO_NOME_POPULAR.getString(i),ARMAS.getString(i),HP.getInt(i),FORÇA.getInt(i),ESTAMINA.getInt(i),AGILIDADE.getInt(i),DEFESA.getInt(i),INTUIÇÃO.getInt(i),energia,AKUMA_NO_MI.getString(i),ASSOCIAÇÃO.getString(i),TRIPULAÇÃO_ORGANIZAÇÃO.getString(i),RECOMPENSA.getString(i),estagios[i],tipo[i],TÍTULO.getString(i),ORIGEM.getString(i),SEXO.getString(i),RAÇA.getString(i), hakiobs, hakiarm,FOTO_PERFIO.getString(i),FOTO_CATALAGO.getString(i),FOTO_COMBATE.getString(i));
+                    if(!AKUMA_NO_MI.getString(i).equals("NÃO TEM")) inimigos.setIdakuma(db.akumaDao().buscaAkuma(AKUMA_NO_MI.getString(i)));
                     db.inimigosDao().insertAll(inimigos);
                 }
             } catch (Exception e) {

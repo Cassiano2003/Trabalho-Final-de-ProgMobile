@@ -234,7 +234,7 @@ public class InfoJogador extends Fragment {
         binding.btnAgilidadeMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX != 0) {
+                if(pontosMAX != 0 && jogador.getPontos() != 0) {
                     jogador.setAgilidade(jogador.getAgilidade() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -247,7 +247,7 @@ public class InfoJogador extends Fragment {
         binding.btnAgilidadeMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN != 0) {
+                if(pontosMIN != 0 && jogador.getPontos() != 0) {
                     jogador.setAgilidade(jogador.getAgilidade() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -260,7 +260,7 @@ public class InfoJogador extends Fragment {
         binding.btnVidaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX != 0) {
+                if(pontosMAX != 0 && jogador.getPontos() != 0) {
                     jogador.setHp(jogador.getHp() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -273,7 +273,7 @@ public class InfoJogador extends Fragment {
         binding.btnVidaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN != 0) {
+                if(pontosMIN != 0 && jogador.getPontos() != 0) {
                     jogador.setHp(jogador.getHp() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -286,7 +286,7 @@ public class InfoJogador extends Fragment {
         binding.btnForcaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX != 0) {
+                if(pontosMAX != 0 && jogador.getPontos() != 0) {
                     jogador.setForca(jogador.getForca() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -299,7 +299,7 @@ public class InfoJogador extends Fragment {
         binding.btnForcaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN != 0) {
+                if(pontosMIN != 0 && jogador.getPontos() != 0) {
                     jogador.setForca(jogador.getForca() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -312,7 +312,7 @@ public class InfoJogador extends Fragment {
         binding.btnEstaminaMais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMAX != 0) {
+                if(pontosMAX != 0 && jogador.getPontos() != 0) {
                     jogador.setEstamina(jogador.getEstamina() + 1);
                     pontosMAX--;
                     pontosMIN++;
@@ -325,7 +325,7 @@ public class InfoJogador extends Fragment {
         binding.btnEstaminaMenos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pontosMIN != 0) {
+                if(pontosMIN != 0 && jogador.getPontos() != 0) {
                     jogador.setEstamina(jogador.getEstamina() - 1);
                     pontosMAX++;
                     pontosMIN--;
@@ -334,9 +334,6 @@ public class InfoJogador extends Fragment {
                 }
             }
         });
-
-        jogador.setIdpersonagens(arg.getInt("idPerso"));
-        db.personagensDao().upgrade(jogador);
     }
 
 
@@ -345,33 +342,33 @@ public class InfoJogador extends Fragment {
         if(jogador.getQntataquesdesbloqueados() != ataqueAkumaNoMi.getQntataques()) {
             switch (ataqueAkumaNoMi.getQntataques()) {
                 case 2:
-                    if (jogador.getNivel() >= 50)
+                    if (jogador.getNivel() == 50)
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
                     break;
                 case 3:
-                    if (jogador.getNivel() >= 50) {
+                    if (jogador.getNivel() == 50) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    } else if (jogador.getNivel() >= 25) {
+                    } else if (jogador.getNivel() == 25) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
                     }
                     break;
                 case 4:
-                    if (jogador.getNivel() >= 75) {
+                    if (jogador.getNivel() == 75) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    } else if (jogador.getNivel() >= 50) {
+                    } else if (jogador.getNivel() == 50) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    }else if (jogador.getNivel() >= 25) {
+                    }else if (jogador.getNivel() == 25) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
                     }
                     break;
                 case 5:
-                    if (jogador.getNivel() >= 100) {
+                    if (jogador.getNivel() == 100) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    } else if (jogador.getNivel() >= 75) {
+                    } else if (jogador.getNivel() == 75) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    }else if (jogador.getNivel() >= 50) {
+                    }else if (jogador.getNivel() == 50) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
-                    }else if (jogador.getNivel() >= 25) {
+                    }else if (jogador.getNivel() == 25) {
                         jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
                     }
                     break;
@@ -388,6 +385,9 @@ public class InfoJogador extends Fragment {
         binding.intuica.setText("Intuição: "+String.valueOf(jogador.getIntuicao())+"%");
         binding.pontos.setText("Pontos: "+String.valueOf(jogador.getPontos()));
 
+        jogador.setIdpersonagens(arg.getInt("idPerso"));
+        db.personagensDao().upgrade(jogador);
+        
         pontosMAX = jogador.getPontos();
         if(pontosMAX != 0){
             binding.btnEstaminaMais.setVisibility(View.VISIBLE);
@@ -399,7 +399,10 @@ public class InfoJogador extends Fragment {
             binding.btnForcaMais.setVisibility(View.VISIBLE);
             binding.btnForcaMenos.setVisibility(View.VISIBLE);
 
-            if(jogador.getAgilidade() < 50) {
+            if(jogador.getAgilidade() == 50) {
+                binding.btnAgilidadeMais.setVisibility(View.INVISIBLE);
+                binding.btnAgilidadeMenos.setVisibility(View.INVISIBLE);
+            }else {
                 binding.btnAgilidadeMais.setVisibility(View.VISIBLE);
                 binding.btnAgilidadeMenos.setVisibility(View.VISIBLE);
             }

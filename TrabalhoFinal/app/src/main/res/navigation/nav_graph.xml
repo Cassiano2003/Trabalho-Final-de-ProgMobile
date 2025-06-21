@@ -8,7 +8,6 @@
     <fragment
         android:id="@+id/inicio"
         android:name="com.example.trabalhofinal.Telas.Inicio"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/inicio">
         <action
             android:id="@+id/action_inicio_to_cadastro"
@@ -20,7 +19,6 @@
     <fragment
         android:id="@+id/cadastro"
         android:name="com.example.trabalhofinal.Telas.Cadastro"
-        android:label="@string/second_fragment_label"
         tools:layout="@layout/cadastro">
         <action
             android:id="@+id/action_cadastro_to_inicio"
@@ -32,7 +30,6 @@
     <fragment
         android:id="@+id/login"
         android:name="com.example.trabalhofinal.Telas.Login"
-        android:label="@string/login"
         tools:layout="@layout/login" >
         <action
             android:id="@+id/action_login_to_inicio"
@@ -47,7 +44,6 @@
     <fragment
         android:id="@+id/listPersonagens"
         android:name="com.example.trabalhofinal.Telas.ListJogadores"
-        android:label="list_personagens"
         tools:layout="@layout/list_jogadores" >
         <action
             android:id="@+id/action_listPersonagens_to_criaPersonagen2"
@@ -62,7 +58,6 @@
     <fragment
         android:id="@+id/batalha2"
         android:name="com.example.trabalhofinal.Telas.Batalha"
-        android:label="batalha"
         tools:layout="@layout/batalha" >
         <action
             android:id="@+id/action_batalha2_to_infoPersonagenUser"
@@ -71,7 +66,6 @@
     <fragment
         android:id="@+id/caracAkuma"
         android:name="com.example.trabalhofinal.Telas.CaracAkuma"
-        android:label="carc_akuma"
         tools:layout="@layout/carc_akuma" >
         <action
             android:id="@+id/action_caracAkuma_to_coleAkumaPersonagen"
@@ -83,7 +77,6 @@
     <fragment
         android:id="@+id/caracPersonagen"
         android:name="com.example.trabalhofinal.Telas.CaracInimigo"
-        android:label="carc_personagens"
         tools:layout="@layout/carc_inimigos" >
         <action
             android:id="@+id/action_caracPersonagen_to_coleAkumaPersonagen"
@@ -92,7 +85,6 @@
     <fragment
         android:id="@+id/coleAkumaPersonagen"
         android:name="com.example.trabalhofinal.Telas.ImagenDoCatalago"
-        android:label="cole_akuma_persona"
         tools:layout="@layout/imagen_do_catalago" >
         <action
             android:id="@+id/action_coleAkumaPersonagen_to_caracPersonagen"
@@ -110,7 +102,6 @@
     <fragment
         android:id="@+id/configUsuario"
         android:name="com.example.trabalhofinal.Telas.ConfigUsuario"
-        android:label="config_usuario"
         tools:layout="@layout/config_usuario" >
         <action
             android:id="@+id/action_configUsuario_to_coleAkumaPersonagen"
@@ -125,7 +116,6 @@
     <fragment
         android:id="@+id/criaPersonagen2"
         android:name="com.example.trabalhofinal.Telas.CriaJogador"
-        android:label="cria_personagen"
         tools:layout="@layout/cria_personagen" >
         <action
             android:id="@+id/action_criaPersonagen2_to_listPersonagens"
@@ -140,7 +130,6 @@
     <fragment
         android:id="@+id/infoPersonagenUser"
         android:name="com.example.trabalhofinal.Telas.InfoJogador"
-        android:label="info_player"
         tools:layout="@layout/info_jogador" >
         <action
             android:id="@+id/action_infoPersonagenUser_to_listPersonagens"
@@ -152,7 +141,6 @@
     <fragment
         android:id="@+id/caracBando"
         android:name="com.example.trabalhofinal.Telas.CaracTripulacao"
-        android:label="carc_bandos"
         tools:layout="@layout/carc_tripulacao" >
         <action
             android:id="@+id/action_caracBando_to_coleAkumaPersonagen"

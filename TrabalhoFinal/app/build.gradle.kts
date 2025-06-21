@@ -36,9 +36,15 @@ android {
 val room_version = "2.3.0"
 
 dependencies {
+    val appcompat_version = "1.7.1"
+
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // For loading and tinting drawables on older versions of the platform
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
 
     implementation("org.mindrot:jbcrypt:0.4")
     implementation ("com.google.code.gson:gson:2.10.1")
+    
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)

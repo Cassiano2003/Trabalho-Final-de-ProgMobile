@@ -1,9 +1,11 @@
 package com.example.trabalhofinal.Telas;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -61,33 +63,18 @@ public class CaracAkuma   extends Fragment {
             String[] tipo_de_ataque = ataqueAkumaNoMi.getTipoDeAtaque();
 
             int[] custo = ataqueAkumaNoMi.getCusto();
-            int[] hp_jogador = ataqueAkumaNoMi.getHpjogador();
-            int[] forca_jogador = ataqueAkumaNoMi.getForcajogador();
-            int[] estamina_jogador = ataqueAkumaNoMi.getEstaminajogador();
-            int[] agilidade_jogador = ataqueAkumaNoMi.getAgilidadejogador();
-            int[] defesa_jogador = ataqueAkumaNoMi.getDefesajogador();
-            int[] intuicao_jogador = ataqueAkumaNoMi.getIntuicaojogador();
-            int[] dano_jogador = ataqueAkumaNoMi.getDanojogador();
-
-            int[] hp_inimigo = ataqueAkumaNoMi.getHpinimigo();
-            int[] forca_inimigo = ataqueAkumaNoMi.getForcainimigo();
-            int[] estamina_inimigo = ataqueAkumaNoMi.getEstaminainimigo();
-            int[] agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo();
-            int[] defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo();
-            int[] intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo();
-            int[] dano_inimigo = ataqueAkumaNoMi.getDanoinimigo();
 
             for(int i=0; i < qntAtaques; i++){
                 TextView novo = new TextView(requireContext());
-                novo.setText(nome_do_ataque[i]+" \n"+descricao[i]+" \n"+tipo_de_ataque[i]+" \n"+String.valueOf(custo[i])+" \n"+
-                        String.valueOf(hp_jogador[i])+" \n"+String.valueOf(forca_jogador[i])+" \n"+String.valueOf(estamina_jogador[i])
-                        +" \n"+String.valueOf(agilidade_jogador[i])+" \n"+String.valueOf(defesa_jogador[i])+" \n"+String.valueOf(intuicao_jogador[i])
-                        +" \n"+String.valueOf(dano_jogador[i])+" \n"+
-                        String.valueOf(hp_inimigo[i])+" \n"+String.valueOf(forca_inimigo[i])+" \n"+String.valueOf(estamina_inimigo[i])
-                        +" \n"+String.valueOf(agilidade_inimigo[i])+" \n"+String.valueOf(defesa_inimigo[i])+" \n"+String.valueOf(intuicao_inimigo[i])
-                        +" \n"+String.valueOf(dano_inimigo[i]));
+                View divisao = new View(requireContext());
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,10);
+                params.setMargins(0,16,0,16);
+                divisao.setLayoutParams(params);
+                divisao.setBackgroundColor(Color.RED);
+                novo.setText(nome_do_ataque[i]+" \n"+tipo_de_ataque[i]+" \n"+"Custo de: "+String.valueOf(custo[i])+" Energia"+" \n"+descricao[i]);
                 novo.setTextSize(15);
                 binding.ataquesakuma.addView(novo);
+                binding.ataquesakuma.addView(divisao);
             }
 
         }

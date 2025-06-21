@@ -2,8 +2,6 @@
     <string name="app_name">TWO PIECES</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">Inicio</string>
-    <string name="second_fragment_label">Cadastro</string>
     <string name="login">Login</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>

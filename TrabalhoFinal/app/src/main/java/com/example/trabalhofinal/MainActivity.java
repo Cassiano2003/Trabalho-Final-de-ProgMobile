@@ -1,5 +1,6 @@
 package com.example.trabalhofinal;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 
@@ -18,12 +19,15 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.trabalhofinal.databinding.ActivityMainBinding;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = AppDataBase.getDataBase(this);
         CriaBanco();
+        exportarBanco(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -104,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void CriaBanco(){
+        //Ataques Akuma No MI
         if(db.ataqueAkumasDao().quantosAtaquesAkumaNoMi() == 0){
             try {
                 AssetManager assetManager = getAssets();
@@ -253,11 +259,11 @@ public class MainActivity extends AppCompatActivity {
 
                     for(int posicao=0;posicao < qntAtaques;posicao++){
                         Log.d("j",String.valueOf(posicao));
-                        nome_do_ataque[posicao] = NOME_DO_ATAQUE.getString(iten);
-                        descricao[posicao] = DESCRICAO.getString(iten);
-                        tipo_de_ataque[posicao] = TIPO_DE_ATAQUE.getString(iten);
-                        custo[posicao] = CUSTO.getInt(iten);
+                        nome_do_ataque[posicao] = NOME_DO_ATAQUE.getString(iten).trim();
+                        descricao[posicao] = DESCRICAO.getString(iten).trim();
+                        tipo_de_ataque[posicao] = TIPO_DE_ATAQUE.getString(iten).trim();
 
+                        custo[posicao] = CUSTO.getInt(iten);
                         hp_jogador[posicao] = HP_JOGADOR.getInt(iten);
                         forca_jogador[posicao] = FORCA_JOGADOR.getInt(iten);
                         estamina_jogador[posicao] = ESTAMINA_JOGADOR.getInt(iten);
@@ -307,10 +313,18 @@ public class MainActivity extends AppCompatActivity {
 
                 int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
-                    Akumas akumas = new Akumas(NOME.getString(i),TIPO.getString(i),USUÁRIOS.getString(i),DESCRIÇÃO.getString(i),NOME_TRADUZIDO.getString(i),FOTO.getString(i));
-                    akumas.setIdataques(i+1);
+                    Akumas akumas = new Akumas(
+                            NOME.getString(i).trim(),
+                            TIPO.getString(i).trim(),
+                            USUÁRIOS.getString(i).trim(),
+                            DESCRIÇÃO.getString(i).trim(),
+                            NOME_TRADUZIDO.getString(i).trim(),
+                            FOTO.getString(i).trim()
+                    );
+                    akumas.setIdataques(i + 1);
                     db.akumaDao().insertAll(akumas);
                 }
+
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -336,9 +350,15 @@ public class MainActivity extends AppCompatActivity {
 
                 int qnt = NOME.length();
                 for (int i = 0; i < qnt; i++) {
-                    Tripulacoes tripulacoes = new Tripulacoes(NOME.getString(i),CAPITÃO.getString(i),INTEGRANTES.getString(i),BANDEIRA.getString(i));
+                    Tripulacoes tripulacoes = new Tripulacoes(
+                            NOME.getString(i).trim(),
+                            CAPITÃO.getString(i).trim(),
+                            INTEGRANTES.getString(i).trim(),
+                            BANDEIRA.getString(i).trim()
+                    );
                     db.tripulacaoDao().insertAll(tripulacoes);
                 }
+
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -424,8 +444,12 @@ public class MainActivity extends AppCompatActivity {
 
                 int qnt = NOMES.length();
                 for (int i = 0; i < qnt; i++) {
-                    Inimigos inimigos = new Inimigos(NOMES.getString(i),APELIDO_NOME_POPULAR.getString(i),ARMAS.getString(i),HP.getInt(i),FORÇA.getInt(i),ESTAMINA.getInt(i),AGILIDADE.getInt(i),DEFESA.getInt(i),INTUIÇÃO.getInt(i),energia,AKUMA_NO_MI.getString(i),ASSOCIAÇÃO.getString(i),TRIPULAÇÃO_ORGANIZAÇÃO.getString(i),RECOMPENSA.getString(i),estagios[i],tipo[i],TÍTULO.getString(i),ORIGEM.getString(i),SEXO.getString(i),RAÇA.getString(i), hakiobs, hakiarm,FOTO_PERFIO.getString(i),FOTO_CATALAGO.getString(i),FOTO_COMBATE.getString(i));
-                    if(!AKUMA_NO_MI.getString(i).equals("NÃO TEM")) inimigos.setIdakuma(db.akumaDao().buscaAkuma(AKUMA_NO_MI.getString(i)));
+                    Inimigos inimigos = new Inimigos(NOMES.getString(i).trim(),APELIDO_NOME_POPULAR.getString(i).trim(),ARMAS.getString(i).trim(),HP.getInt(i),FORÇA.getInt(i),ESTAMINA.getInt(i),AGILIDADE.getInt(i)
+                    ,DEFESA.getInt(i),INTUIÇÃO.getInt(i),energia,AKUMA_NO_MI.getString(i).trim(),ASSOCIAÇÃO.getString(i).trim(),TRIPULAÇÃO_ORGANIZAÇÃO.getString(i).trim(),RECOMPENSA.getString(i).trim()
+                    ,estagios[i],tipo[i],TÍTULO.getString(i).trim(),ORIGEM.getString(i).trim(),SEXO.getString(i).trim(),RAÇA.getString(i).trim(),hakiobs,hakiarm,FOTO_PERFIO.getString(i).trim(),FOTO_CATALAGO.getString(i).trim(),FOTO_COMBATE.getString(i).trim());
+                    if (!AKUMA_NO_MI.getString(i).trim().equals("NÃO TEM") && !AKUMA_NO_MI.getString(i).trim().equals("Desconhecida")) {
+                        inimigos.setIdakuma(db.akumaDao().buscaAkuma(AKUMA_NO_MI.getString(i).trim()));
+                    }
                     db.inimigosDao().insertAll(inimigos);
                 }
             } catch (Exception e) {
@@ -433,5 +457,31 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public void exportarBanco(Context context) {
+        try {
+            File dbFile = context.getDatabasePath("OPDataBase.db"); // Nome do seu banco
+            File exportDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "");
+            if (!exportDir.exists()) exportDir.mkdirs();
+
+            File exportFile = new File(exportDir, "backup_OPDataBase.db");
+
+            FileInputStream fis = new FileInputStream(dbFile);
+            FileOutputStream fos = new FileOutputStream(exportFile);
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = fis.read(buffer)) > 0) {
+                fos.write(buffer, 0, length);
+            }
+
+            fis.close();
+            fos.close();
+
+            Log.d("EXPORT", "Banco exportado com sucesso: " + exportFile.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

@@ -601,7 +601,7 @@ public class Batalha    extends Fragment {
 
     public void TurnoJogador(Bundle arg,int ValorBrutoDano,String nomeataque){
         Buff();
-        int dano = CalculaDano(inimigos.getDefesa() / 100, ValorBrutoDano);
+        int dano = CalculaDano(inimigos.getDefesa(), ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
         if(palha == 0) {
             if (validaChance(inimigos.getIntuicao()) && ataquecerteiro) {
@@ -655,7 +655,7 @@ public class Batalha    extends Fragment {
                 }
             }
         }else if(palha == -1) {
-            dano = CalculaDano(jogador.getDefesa() /100,ValorBrutoDano);
+            dano = CalculaDano(jogador.getDefesa(),ValorBrutoDano);
             palha = 0;
             ataquesTurnos++;
             TextView novo = new TextView(getContext());
@@ -738,7 +738,7 @@ public class Batalha    extends Fragment {
 
     public void TurnoInimigo(Bundle arg,int ValorBrutoDano,String nomeataque){
         Buff();
-        int dano = CalculaDano((jogador.getDefesa()) / 100, ValorBrutoDano);
+        int dano = CalculaDano(jogador.getDefesa(), ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
         if(palha == 0) {
             if (validaChance(jogador.getIntuicao()) && ataquecerteiro) {
@@ -791,7 +791,7 @@ public class Batalha    extends Fragment {
                 }
             }
         }else if(palha == 1){
-            dano = CalculaDano(inimigos.getDefesa() /100,ValorBrutoDano);
+            dano = CalculaDano(inimigos.getDefesa(),ValorBrutoDano);
             palha = 0;
             ataquesTurnos++;
             TextView novo = new TextView(getContext());
@@ -1435,9 +1435,10 @@ public class Batalha    extends Fragment {
     }
 
     //Quanto de dano a arma vaidar
-    public int CalculaDano(double defesa,int forca){
+    public int CalculaDano(int defesa,int forca){
         double danoTotal = 0;
-        double danoRetirado = forca*defesa;
+double def = defesa/100;
+        double danoRetirado = forca*def;
         danoTotal = forca-danoRetirado;
         return (int)danoTotal;
     }

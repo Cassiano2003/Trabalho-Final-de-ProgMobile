@@ -1009,51 +1009,44 @@ private int aplicaBonus(int base, double bonus) {
     }
 }
 
-    public void Buff(){
-        if(buffTurnos != 4){
-            buffTurnos ++;
-        }else{
-            ataquecerteiro = true;
-            if(forca_jogador == 2){
-                jogador.setForca(jogador.getForca() / 2);
-                jogador.setEstamina(jogador.getEstamina() - (jogador.getEstamina() * (estamina_jogador / 100)));
-                jogador.setAgilidade(jogador.getAgilidade() - (jogador.getAgilidade() * (agilidade_jogador / 100)));
-                jogador.setDefesa(jogador.getDefesa() - (jogador.getDefesa() * (defesa_jogador / 100)));
-                jogador.setIntuicao(jogador.getIntuicao() - (jogador.getIntuicao() * (intuicao_jogador / 100)));
+    public void Buff() {
+    if (buffTurnos != 4) {
+        buffTurnos++;
+    } else {
+        ataquecerteiro = true;
 
-                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
-                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
-            }else if(estamina_jogador == 2) {
-                jogador.setForca(jogador.getForca() - (jogador.getForca() * (forca_jogador / 100)));
-                jogador.setEstamina(jogador.getEstamina() / 2);
-                jogador.setAgilidade(jogador.getEstamina() - (jogador.getAgilidade() * (agilidade_jogador / 100)));
-                jogador.setDefesa(jogador.getDefesa() - (jogador.getDefesa() * (defesa_jogador / 100)));
-                jogador.setIntuicao(jogador.getIntuicao() - (jogador.getIntuicao() * (intuicao_jogador / 100)));
+        // Aplica o debuff reverso
+        boolean buffDeForca = dano_jogador == 2 || forca_jogador >= 2.0;
+        boolean buffDeEstamina = estamina_jogador >= 2.0;
 
-                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
-                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
-            } else {
-                jogador.setForca(jogador.getForca() - (forca_jogador / 100));
-                jogador.setEstamina(jogador.getEstamina() - (estamina_jogador / 100));
-                jogador.setAgilidade(jogador.getAgilidade() - (agilidade_jogador / 100));
-                jogador.setDefesa(jogador.getDefesa() - (defesa_jogador / 100));
-                jogador.setIntuicao(jogador.getIntuicao() - (intuicao_jogador / 100));
-
-
-                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
-                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
-            }
+        if (buffDeForca) {
+            jogador.setForca(jogador.getForca() / 2);
+            jogador.setEstamina((int)(jogador.getEstamina() - jogador.getEstamina() * estamina_jogador));
+            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
+            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
+            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
+        } else if (buffDeEstamina) {
+            jogador.setForca((int)(jogador.getForca() - jogador.getForca() * forca_jogador));
+            jogador.setEstamina(jogador.getEstamina() / 2);
+            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
+            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
+            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
+        } else {
+            jogador.setForca((int)(jogador.getForca() - jogador.getForca() * forca_jogador));
+            jogador.setEstamina((int)(jogador.getEstamina() - jogador.getEstamina() * estamina_jogador));
+            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
+            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
+            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
         }
+
+        // Aplica debuff no inimigo (sempre igual)
+        inimigos.setForca((int)(inimigos.getForca() - inimigos.getForca() * forca_inimigo));
+        inimigos.setEstamina((int)(inimigos.getEstamina() - inimigos.getEstamina() * estamina_inimigo));
+        inimigos.setAgilidade((int)(inimigos.getAgilidade() - inimigos.getAgilidade() * agilidade_inimigo));
+        inimigos.setDefesa((int)(inimigos.getDefesa() - inimigos.getDefesa() * defesa_inimigo));
+        inimigos.setIntuicao((int)(inimigos.getIntuicao() - inimigos.getIntuicao() * intuicao_inimigo));
     }
+}
     public void GeraAtaqueInimigo(Bundle arg){
         binding.hakiBnt.setVisibility(View.GONE);
         binding.armaBnt.setVisibility(View.GONE);

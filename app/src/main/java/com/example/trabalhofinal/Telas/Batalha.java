@@ -113,7 +113,10 @@ private int custo;
             "Guandao",
             "Foice",
             "Yoru",
-            "Ace"
+            "Ace",
+            "Gancho",
+            "Lâmina",
+            "Chifres"
     };
     private String[] armaDeFogo = {
             "Arma de Fogo",
@@ -126,7 +129,10 @@ private int custo;
     private String[] desarmado = {
             "Chicote",
             "Soco",
-            "Chute"
+            "Chute",
+            "Cabeçada",
+            "Luva de Cera",
+            "Luva de Boxe"
     };
 
 

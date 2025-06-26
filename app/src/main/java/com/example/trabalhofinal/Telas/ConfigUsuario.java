@@ -105,6 +105,7 @@ public class ConfigUsuario extends Fragment {
 
         ArrayAdapter adpter = ArrayAdapter.createFromResource(getContext(),R.array.musica, android.R.layout.simple_spinner_item);
         binding.spinnerMusica.setAdapter(adpter);
+        binding.spinnerMusica.setSelection(0);
         binding.spinnerMusica.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -171,7 +172,6 @@ public class ConfigUsuario extends Fragment {
                     ((MainActivity) getActivity()).mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mp) {
-                            binding.spinnerMusica.setSelection(0);
                             ((MainActivity) getActivity()).tocarMusicaAleatoria();
                         }
                     });
@@ -241,6 +241,7 @@ public class ConfigUsuario extends Fragment {
         binding.comoJogar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.spinnerMusica.setSelection(0);
                 NavHostFragment.findNavController(ConfigUsuario.this)
                         .navigate(R.id.action_configUsuario_to_introducao);
             }

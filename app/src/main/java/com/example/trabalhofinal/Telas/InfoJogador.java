@@ -313,8 +313,7 @@ public class InfoJogador extends Fragment {
                     pontosMIN_agilidade--;
                     jogador.setPontos(pontosMAX);
                     AtualizaStatus(arg);
-                }
-                if(pontosMIN_agilidade == 0) {
+                }else {
                     binding.btnAgilidadeMenos.setVisibility(View.GONE);
                 }
             }
@@ -343,8 +342,7 @@ public class InfoJogador extends Fragment {
                     pontosMIN_vida--;
                     jogador.setPontos(pontosMAX);
                     AtualizaStatus(arg);
-                }
-                if(pontosMIN_vida == 0){
+                }else {
                     binding.btnVidaMenos.setVisibility(View.GONE);
                 }
             }
@@ -373,8 +371,7 @@ public class InfoJogador extends Fragment {
                     pontosMIN_forca--;
                     jogador.setPontos(pontosMAX);
                     AtualizaStatus(arg);
-                }
-                if(pontosMIN_forca == 0) {
+                }else {
                     binding.btnForcaMenos.setVisibility(View.GONE);
                 }
             }
@@ -403,8 +400,7 @@ public class InfoJogador extends Fragment {
                     pontosMIN_estamina--;
                     jogador.setPontos(pontosMAX);
                     AtualizaStatus(arg);
-                }
-                if(pontosMIN_estamina== 0) {
+                }else {
                     binding.btnEstaminaMenos.setVisibility(View.GONE);
                 }
             }
@@ -603,8 +599,8 @@ public class InfoJogador extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         if(musicaFrente){
-            ((MainActivity) getActivity()) .tocarMusicaAleatoria();
             ((MainActivity) getActivity()) .musicaPrincipal = true;
+            ((MainActivity) getActivity()) .tocarMusicaAleatoria();
         }else {
             musicaFrente = true;
         }

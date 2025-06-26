@@ -64,15 +64,24 @@ public class CaracInimigo extends Fragment {
             }
             int[] soundResources = getSoundResources(inimigos.getNome());
             if (soundResources != null && soundResources.length > 0) {
-                ((MainActivity) getActivity()).mediaPlayer.pause();
+                MainActivity activity = (MainActivity) getActivity();
+                if (activity != null && activity.mediaPlayer != null) {
+                    activity.mediaPlayer.pause();
+                }
+
                 int selectedSound = soundResources[new Random().nextInt(soundResources.length)];
                 MediaPlayer media = MediaPlayer.create(requireContext(), selectedSound);
                 media.start();
+
                 media.setOnCompletionListener(mp -> {
                     mp.release();
-                    ((MainActivity) getActivity()).mediaPlayer.start();
+                    MainActivity act = (MainActivity) getActivity();
+                    if (act != null && act.mediaPlayer != null) {
+                        act.mediaPlayer.start();
+                    }
                 });
             }
+
         }
     }
 
@@ -182,10 +191,13 @@ public class CaracInimigo extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(media != null){
-            media.release();
-            ((MainActivity) getActivity()).mediaPlayer.start();
+        if (media != null) {
+            MainActivity activity = (MainActivity) getActivity();
+            if (activity != null && activity.mediaPlayer != null) {
+                activity.mediaPlayer.start();
+            }
         }
         binding = null;
     }
+
 }

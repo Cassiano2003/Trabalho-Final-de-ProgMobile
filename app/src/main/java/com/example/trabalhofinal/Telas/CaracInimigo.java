@@ -110,7 +110,7 @@ public class CaracInimigo extends Fragment {
             case "Catarina Devon":
                 return new int[]{R.raw.catarina_laugh};
             case "Tony Tony Chopper":
-                return new int[]{R.raw.choppersong, R.raw.chopper_tema, R.raw.chopper_tsundere};
+                return new int[]{R.raw.chopper_tema, R.raw.chopper_tsundere};
             case "Crocodile":
                 return new int[]{R.raw.crocodile_laugh};
             case "Donquixote Doflamingo":
@@ -118,7 +118,7 @@ public class CaracInimigo extends Fragment {
             case "Enel":
                 return new int[]{R.raw.enel_laugh};
             case "Foxy":
-                return new int[]{R.raw.choppersong, R.raw.chopper_tema, R.raw.chopper_tsundere};
+                return new int[]{R.raw.foxy_laugh};
             case "Franky":
                 return new int[]{R.raw.franky_supeeer, R.raw.franky_tema};
             case "Fukurou":
@@ -144,7 +144,7 @@ public class CaracInimigo extends Fragment {
             case "Charlotte Linlin":
                 return new int[]{R.raw.linlin_laugh};
             case "Monkey D. Luffy":
-                return new int[]{R.raw.luffy_laugh, R.raw.luffy_tema, R.raw.luffy_tema_gear5, R.raw.luffy_tema_gear5, R.raw.luffy_tema_wano};
+                return new int[]{R.raw.luffy_laugh, R.raw.luffy_tema, R.raw.luffy_tema_gear5, R.raw.luffy_tema_wano};
             case "Gecko Moria":
                 return new int[]{R.raw.moria_laugh};
             case "Nami":

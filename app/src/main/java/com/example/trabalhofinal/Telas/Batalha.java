@@ -101,10 +101,10 @@ private int custo;
             "Espada",
             "Machado",
             "Garras",
-            "Lâmina Giratória",
+            "Lamina Giratória",
             "Adaga/Faca",
             "Shuriken",
-            "Lâmina Circular",
+            "Lamina Circular",
             "Lança",
             "Tridente",
             "Halberg",
@@ -115,7 +115,7 @@ private int custo;
             "Yoru",
             "Ace",
             "Gancho",
-            "Lâmina",
+            "Lamina",
             "Chifres"
     };
     private String[] armaDeFogo = {

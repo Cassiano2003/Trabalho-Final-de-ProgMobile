@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tela_principal"
+    tools:context=".Telas.ConfigUsuario">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/foto"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:rotation="-90"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nome"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintTop_toTopOf="@id/foto"/>
+
+        <TextView
+            android:id="@+id/progreso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="progreso"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintTop_toBottomOf="@id/nome" />
+
+        <Button
+            android:id="@+id/col_akumas"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Coleção Akuma No Mi"
+            android:layout_marginTop="20dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/col_personagens" />
+
+        <Button
+            android:id="@+id/col_personagens"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Coleção Inimigos"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/como_jogar" />
+
+        <Button
+            android:id="@+id/seus_personagens"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Seus Personagens"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foto"/>
+
+        <Button
+            android:id="@+id/col_bandeira"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Coleçâo Bandeiras"
+            android:layout_marginTop="20dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/col_akumas" />
+
+        <Spinner
+            android:id="@+id/spinner_musica"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:textSize="25dp"
+            android:background="?android:attr/windowBackground"
+            android:fontFamily="@font/one_piece_font"
+            app:layout_constraintTop_toBottomOf="@id/progreso"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/musica"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Musicas"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintBottom_toTopOf="@id/spinner_musica"
+            app:layout_constraintLeft_toLeftOf="@id/spinner_musica" />
+
+        <Button
+            android:id="@+id/como_jogar"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Como Jogar?"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            android:layout_marginTop="110dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seus_personagens"  />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Telas.ImagenDoCatalago">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:ignore="ExtraText">
+
+
+        <GridView
+            android:id="@+id/grid1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:numColumns="3"
+            app:layout_constraintTop_toBottomOf="@id/quantidade"
+            app:layout_constraintLeft_toLeftOf="parent"
+            >
+        </GridView>
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="Titulo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/quantidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:text="quantidade"
+            app:layout_constraintTop_toBottomOf="@id/titulo"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
+

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/catalogo_inimigos"
+    tools:context=".Telas.CaracInimigo">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="Nome do Personagen"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/apelido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            android:inputType="text"
+            android:text="Apelido do Personagen"
+            android:textSize="30dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:textStyle="italic"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foto_personagen" />
+
+        <TextView
+            android:id="@+id/genero"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Genero"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo_de"/>
+
+        <TextView
+            android:id="@+id/akuma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tem Akuma No Mi"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/raca"  />
+
+        <TextView
+            android:id="@+id/associaao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Associacao"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mar" />
+
+        <TextView
+            android:id="@+id/mar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mar"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/arma" />
+
+        <TextView
+            android:id="@+id/arma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sua Arma"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/akuma"  />
+
+        <TextView
+            android:id="@+id/tripulacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tripulacao"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/associaao"  />
+
+        <TextView
+            android:id="@+id/recompenca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="recompenca"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tripulacao"  />
+
+        <TextView
+            android:id="@+id/titulo_de"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="titulo"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/apelido"  />
+
+        <TextView
+            android:id="@+id/raca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sua Raça"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="5dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genero"  />
+
+        <ImageView
+            android:id="@+id/foto_personagen"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nome"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

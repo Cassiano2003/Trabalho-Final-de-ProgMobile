@@ -1,0 +1,207 @@
+<resources>
+    <string name="app_name">TWO PIECES</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="login">Login</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="intro" >
+        Bem-vindo ao mundo de Two Pieces, um RPG onde voce sera colocado a prova ao enfrentar diversos inimigos em um sistema de combate por turnos. Desenvolvido por Lucas Lacerda e Cassiano Carvalho, o app e um projeto amador, porem feito com muito esforco e carinho por dois grandes fas de One Piece que se empolgaram um pouco durante um trabalho de faculdade. Agora sem mais delongas, entre e se divirta!! :D
+    </string>
+
+    <string-array name="origens">
+        <item>West Blue</item>
+        <item>East Blue</item>
+        <item>North Blue</item>
+        <item>South Blue</item>
+    </string-array>
+
+    <string-array name="racas">
+        <item>Tritão</item>
+        <item>Sereia</item>
+        <item>Gigante</item>
+        <item>Humano</item>
+        <item>Kuja</item>
+        <item>Long-Arm</item>
+        <item>Long-Leg</item>
+        <item>Snake-Neck</item>
+        <item>Lunariano</item>
+        <item>Mink</item>
+        <item>Shandia</item>
+        <item>Três Olhos</item>
+        <item>Tontatta</item>
+    </string-array>
+
+    <string-array name="arma">
+        <item>Nonosama Bo</item>
+        <item>Nanashaku Jitte</item>
+        <item>Clima-Tact</item>
+        <item>Hassaikai</item>
+        <item>Kuro Kabuto</item>
+        <item>Wado Ichimonji</item>
+        <item>Kitetsu II</item>
+        <item>Kitetsu III</item>
+        <item>Meito Shigure</item>
+        <item>Shusui</item>
+        <item>Soto Muso</item>
+        <item>Sukesan e Kakusan</item>
+        <item>Ame no Habakiri</item>
+        <item>Enma</item>
+        <item>Espada</item>
+        <item>Bastão</item>
+        <item>Machado</item>
+        <item>Garras</item>
+        <item>Lâmina Giratória</item>
+        <item>Adaga/Faca</item>
+        <item>Shuriken</item>
+        <item>Lâmina Circular</item>
+        <item>Lança</item>
+        <item>Tridente</item>
+        <item>Halberg</item>
+        <item>Bisento</item>
+        <item>Naginata</item>
+        <item>Guandao</item>
+        <item>Foice</item>
+        <item>Maça</item>
+        <item>Nunchaku</item>
+        <item>Arma de Fogo</item>
+        <item>Arco</item>
+        <item>Tiro Laser</item>
+        <item>Chicote</item>
+        <item>Kanabo</item>
+        <item>Soco</item>
+        <item>Chute</item>
+        <item>Yoru</item>
+        <item>Ace</item>
+        <item>Traje Germa</item>
+    </string-array>
+
+    <string-array name="musica">
+        <item>----</item>
+        <item>New Genesis</item>
+        <item>Im Invincible</item>
+        <item>Backlight</item>
+        <item>Fleeting Lullaby</item>
+        <item>Tot Musica</item>
+        <item>Sekai no Tsuzuki</item>
+        <item>Where The Wind Blows</item>
+        <item>Binks no Sake</item>
+        <item>Dr. Tony Tony Chopper</item>
+        <item>Nekomamushi No Danna</item>
+        <item>New World</item>
+        <item>Queens Concert</item>
+        <item>Sogeking Theme</item>
+    </string-array>
+
+    <string name="sumario">SUMARIO</string>
+    <string name="sumario_descricao0">- Dicionario</string>
+    <string name="sumario_descricao1">- Como Jogar</string>
+    <string name="sumario_descricao2">- Sobre os Estagios do Jogo</string>
+    <string name="sumario_descricao3">- Sobre os Atributos</string>
+    <string name="sumario_descricao4">- Sobre os Hakis</string>
+    <string name="sumario_descricao5">- Sobre as Akuma no Mis</string>
+    <string name="sumario_descricao6">- Sobre os Inimigos</string>
+    <string name="sumario_descricao7">- Sobre as Tripulacoes</string>
+
+    <string name="termos">DICIONARIO</string>
+    <string name="termos_descricao1">- Haki: Poder que permite o usuario utilizar de sua propria energia espiritual para realizar feitos sobre-humanos.</string>
+    <string name="termos_descricao2">- Akuma no Mi: Fruta sobrenatural que concede poderes unicos para aquele que a comer.</string>
+    <string name="termos_descricao3">- HP: Abreviacao de "Health Points" ou "Pontos de Saude".</string>
+
+    <string name="como">COMO JOGAR</string>
+    <string name="como_decricao">
+    A primeira coisa a ser feita ao entrar no mundo de Two Pieces e criar seu personagem, que voce podera utilizar para entrar em confrontos com os varios inimigos presentes no jogo. Em suma esta e a principal mecanica presente no aplicativo, onde a cada batalha vencida, voce avanca para o proximo nivel e recebe 8 pontos de experiencia, que voce pode usa-los para aumentar os seu atributos e, como consequencia, se tornar mais forte. Outra funcionalidade existente no aplicativo e que tambem se torna um dos principais objetivos dele sao os catalogos, o app possui 3 catalogos diferentes que voce podera completar conforme for explorando e progredindo no jogo, esses sendo o Catalogo de Akuma no Mis, o Catalogo de Inimigos e o Catalogo de Tripulacoes, cada um contendo uma breve descricao sobre todos os seus respectivos itens presente no aplicativo.
+</string>
+
+    <string name="estagios">SOBRE OS ESTAGIOS DO JOGO</string>
+    <string name="estagios_descricao">
+    Ao longo do jogo, voce passara por 5 estagios diferentes conforme for subindo de nivel (incluindo o estagio inicial), que irao representar a sua jornada ao redor do mundo. A cada 25 niveis um estagio novo e alcancado, causando um aumento na sua recompensa e um novo ataque e desbloqueado, juntamente de inimigos mais fortes que comecarao a surgir. O jogo porem nao possui um fim definitivo, o que significa que apos alcancar o ultimo estagio, no nivel 100, voce podera continuar jogando e subindo de nivel ate completar todos os catalogos ou apenas se cansar.
+</string>
+
+    <string name="atributos">SOBRE OS ATRIBUTOS</string>
+    <string name="atributos_descricao">
+    Ao acessar o perfil do seu personagem, voce ira se deparar com a secao de "Atributos", onde nela estarao listados todos os "Status" do personagem, assim como a sua proficiencia em cada um deles. Eles sao atributos que irao determinar o quao habilidoso em combate o seu personagem e, sendo eles:
+</string>
+
+    <string name="hp">- HP</string>
+    <string name="hp_descricao">
+    O HP e o atributo que representa a vida do seu personagem, se ela chegar a 0 enquanto voce estiver em um combate, o seu personagem sera nocauteado e voce tera perdido a luta. O seu personagem sempre comeca com 50 pontos de HP iniciais.
+</string>
+
+    <string name="forca">- Forca</string>
+    <string name="forca_descricao">
+    A forca e o atributo que ira definir o quanto de dano o seu personagem consegue causar utilizando a sua arma escolhida, ela NAO tem influencia ou determina o dano causado por uma Akuma no Mi. O seu personagem sempre comeca com 15 pontos de Forca iniciais.
+</string>
+
+    <string name="estamina">- Estamina</string>
+    <string name="estamina_descricao">
+    A estamina e o atributo que ira definir o quanto de dano o seu personagem consegue causar utilizando um ataque de sua Akuma no Mi, ela NAO tem influencia ou determina o dano causado por uma arma. A estamina tambem ira influenciar no maximo de energia que o seu personagem possui, visto que ataques de Akuma no Mi gastam energia para serem realizados e nao funcionam caso a sua energia esteja mais baixa que o custo de ataque. O seu personagem sempre comeca com 15 pontos de Estamina iniciais e, como consequencia, possui 5 de energia maxima.
+</string>
+
+    <string name="agilidade">- Agilidade</string>
+    <string name="agilidade_descricao">
+    A agilidade e um atributo representado em porcentagem que ira definir a chance que o seu personagem tem de realizar um ataque extra durante o mesmo turno. A agilidade tambem determina quem podera atacar primeiro no inicio de um combate, onde aquele com maior agilidade comeca. O valor maximo de agilidade que o personagem pode alcancar e 50, ou seja, 50% de chance de realizar um ataque extra. O seu personagem sempre comeca com 0% de Agilidade.
+</string>
+
+    <string name="defesa">- Defesa</string>
+    <string name="defesa_descricao">
+    A defesa e um atributo representado em porcentagem que ira definir quantos por cento do dano recebido o seu personagem consegue reduzir de um ataque. Os valores de defesa nao podem ser definidos pelo jogador, mas sim pelo nivel de proficiencia alcancado com o Haki do Armamento, sendo 75% o maximo de defesa que um personagem pode ter. O personagem sempre comeca com 0% de Defesa.
+</string>
+
+    <string name="intuicao">- Intuicao</string>
+    <string name="intuicao_descricao">
+    A intuicao e um atributo representado em porcentagem que ira definir a chance que o seu personagem tem de desviar de um ataque. Os valores de intuicao nao podem ser definidos pelo jogador, mas sim pelo nivel de proficiencia alcancado com o Haki da Observacao, sendo 50% a chance maxima que um personagem pode ter de desvio. O personagem sempre comeca com 2% de Intuicao.
+</string>
+
+    <string name="haki">SOBRE OS HAKIS</string>
+    <string name="haki_descricao">
+    Assim como em One Piece, em Two Pieces existem 3 tipos diferentes de haki que o seu personagem podera desbloquear e aprimorar a cada 10 niveis alcancados, sendo eles:
+</string>
+
+    <string name="armamento">- Haki do Armamento (HA)</string>
+    <string name="armamento_descricao">
+    E uma forma de haki que permite que o usuario crie uma armadura invisivel ao redor do seu corpo, o concedendo uma capacidade ofensiva e defensiva incriveis. Em Two Pieces, o HA ira definir o nivel de defesa do usuario, permitindo que ele receba menos dano em combate, e ira definir tambem o seu nivel de resistencia contra o Haki do Rei, diminuindo a sua efetividade quando usado contra o usuario.
+</string>
+
+    <string name="observacao">- Haki da Observacao (HO)</string>
+    <string name="observacao_descricao">
+    E uma forma de haki que concede ao usuario um sexto sentido extrassensorial, que o permite sentir a presenca, a forca e as emocoes dos outros. Em Two Pieces, o HO ira definir o nivel de intuicao do usuario, permitindo que ele tenha mais chances de desviar de um ataque durante um combate.
+</string>
+
+    <string name="rei">- Haki do Rei (HR)</string>
+    <string name="rei_descricao">
+    E a forma mais forte de haki que permite que o usuario afirme sua vontade e dominancia sobre os outros, fazendo com que aqueles de espirito inferior sejam intimidados ou ate mesmo percam a consciencia. Em Two Pieces, o HR e uma habilidade que o usuario pode utilizar a cada 5 combates para enfraquecer seu oponente, diminuindo o seu poder de ataque a depender do nivel de Armamento que ele tenha. Em seu nivel maximo (3) o HR consegue:
+</string>
+    <string name="rei0">- Nocautear instantaneamente qualquer um com Armamento nivel 0</string>
+    <string name="rei1">- Reduzir em 30% o ataque de qualquer um com Armamento nivel 1</string>
+    <string name="rei2">- Ter 75% de chance de reduzir em 20% o ataque de qualquer um com Armamento nivel 2 </string>
+    <string name="rei3">- Ter 50% de chance de reduzir em 10% o ataque de qualquer um com Armamento nivel 3</string>
+    <string name="rei_descricao2">
+    O jogador sempre comeca com nivel 0 de proficiencia em todos os hakis e pode chegar no maximo ate o nivel 3 apos debloquear e aprimorar esse haki.
+</string>
+
+    <string name="akumas">SOBRE AS AKUMA NO MIS</string>
+    <string name="akumas_descricao">
+    Assim como em One Piece, em Two Pieces existem 3 tipos diferentes de akuma no mi que voce podera escolher e utilizar apos criar seu personagem, sendo eles:
+</string>
+
+    <string name="paramecia">- Paramecia: Akuma no mis que concedem ao usuario uma vasta gama de habilidades geralmente sobre-humanas.</string>
+    <string name="zoan">- Zoan: Akuma no mis que concedem ao usuario o poder de se transformar em animais.</string>
+    <string name="logia">- Logia: Akuma no mis que concedem ao usuario o poder de se transformar em um elemento da natureza.</string>
+
+    <string name="akumas_descricao2">
+    Durante a criacao do seu personagem, sao apresentadas 3 akuma no mis aleatorias para que voce escolha. Ao clicar na imagem da akuma no mi, voce sera levado para o perfil dela, onde serao descritas todas as suas informacoes, assim como tambem todos os ataques que poderao ser desbloqueados ao subir de nivel. Com relacao ao catalogo de akuma no mis, ele ira listar todas as frutas que voce ja utilizou em algum personagem criado.
+</string>
+
+    <string name="inimigos">SOBRE OS INIMIGOS</string>
+    <string name="inimigos_descricao">
+    Falando sobre os inimigos agora, sempre que voce for entrar em um combate, voce ira se deparar com um inimigo aleatorio ate entao desbloqueado. Cada inimigo possui um estagio proprio, o que significa que, sempre que voce avancar para a proxima fase, todos os inimigos daquele estagio agora serao desbloqueados para que voce os enfrente. Existem porem 2 tipos de inimigos: os Piratas e os Integrantes da Marinha, caso o seu personagem seja pirata, nada sera alterado e voce os enfrentara normalmente, entretanto caso o seu personagem seja da marinha, voce so conseguira enfrentar inimigos piratas, excluindo completamente a possibilidade de se encontrar um inimigo que seja da marinha. Com relacao ao catalogo de inimigos, sempre que voce derrotar um determinado inimigo em um combate pela primeira vez, voce ira desbloquea-lo dentro do catalogo, onde voce tera acesso a um perfil contendo pequenas informacoes sobre ele, juntamente disso, voce tambem ira desbloquear uma foto de perfil desse inimigo para que o seu personagem possa usar.
+</string>
+
+    <string name="tripulacao">SOBRE AS TRIPULACOES</string>
+    <string name="tripulacao_descricao">
+    Falando agora sobre as tripulacoes piratas, ao longo do jogo o seu personagem recebera a oportunidade de entrar para alguma tripulacao pirata aleatoria, isso ocorre a cada 5 niveis alcancados, onde e apresentada a opcao de entrar ou nao para aquela tripulacao. Caso o seu personagem seja um pirata, nada de diferente vai acontecer, porem caso ele seja da marinha, voce vai receber a opcao de entrar para uma tripulacao normalmente, mas se voce escolher aceitar o pedido, o seu personagem sera expulso da marinha e se tornara pirata, tornando impossivel que ele volte a fazer parte da marinha no caso dele mudar de ideia. Com relacao ao catalogo de tripulacoes, ele ira listar todas as tripulacoes piratas que o seu personagem ja fez parte.
+</string>
+
+
+</resources>

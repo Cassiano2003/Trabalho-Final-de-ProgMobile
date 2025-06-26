@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Telas.InfoJogador">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nome"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <ImageView
+            android:id="@+id/foto"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo_per"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Spinner
+            android:id="@+id/nome_personagens"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/foto"/>
+
+        <TextView
+            android:id="@+id/genero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="genero"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintTop_toBottomOf="@id/raca" />
+
+        <TextView
+            android:id="@+id/titulo_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Titulo"
+            android:textSize="30dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nome"  />
+
+        <TextView
+            android:id="@+id/associacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="associacao"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintTop_toBottomOf="@id/genero" />
+
+        <TextView
+            android:id="@+id/regiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Região"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginLeft="100dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/recompenca"
+            app:layout_constraintLeft_toLeftOf="@id/recompenca"
+            app:layout_constraintTop_toTopOf="@id/recompenca" />
+
+        <TextView
+            android:id="@+id/recompenca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="recompenca"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            app:layout_constraintRight_toRightOf="@id/nome_personagens"
+            app:layout_constraintLeft_toLeftOf="@id/nome_personagens"
+            app:layout_constraintTop_toBottomOf="@id/nome_personagens" />
+
+        <TextView
+            android:id="@+id/raca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Raca"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            app:layout_constraintLeft_toRightOf="@id/foto"
+            app:layout_constraintTop_toTopOf="@id/foto"/>
+
+
+        <TextView
+            android:id="@+id/vida"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="HP: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/status"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_vida_mais"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/vida"
+            app:layout_constraintBottom_toBottomOf="@id/vida"
+            app:layout_constraintTop_toTopOf="@id/vida" />
+
+        <Button
+            android:id="@+id/btn_vida_menos"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/btn_vida_mais"
+            app:layout_constraintBottom_toBottomOf="@id/btn_vida_mais"
+            app:layout_constraintTop_toTopOf="@id/btn_vida_mais" />
+
+        <TextView
+            android:id="@+id/forca"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Força: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/vida"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_forca_mais"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/forca"
+            app:layout_constraintBottom_toBottomOf="@id/forca"
+            app:layout_constraintTop_toTopOf="@id/forca" />
+
+        <Button
+            android:id="@+id/btn_forca_menos"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/btn_forca_mais"
+            app:layout_constraintBottom_toBottomOf="@id/btn_forca_mais"
+            app:layout_constraintTop_toTopOf="@id/btn_forca_mais" />
+
+        <TextView
+            android:id="@+id/estamina"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Estamina: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/forca"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_estamina_mais"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/estamina"
+            app:layout_constraintBottom_toBottomOf="@id/estamina"
+            app:layout_constraintTop_toTopOf="@id/estamina" />
+
+        <Button
+            android:id="@+id/btn_estamina_menos"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/btn_estamina_mais"
+            app:layout_constraintBottom_toBottomOf="@id/btn_estamina_mais"
+            app:layout_constraintTop_toTopOf="@id/btn_estamina_mais" />
+
+
+        <TextView
+            android:id="@+id/agilidade"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Agilidade: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/estamina"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/btn_agilidade_mais"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="+"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/agilidade"
+            app:layout_constraintBottom_toBottomOf="@id/agilidade"
+            app:layout_constraintTop_toTopOf="@id/agilidade" />
+
+        <Button
+            android:id="@+id/btn_agilidade_menos"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
+            android:text="-"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintLeft_toRightOf="@id/btn_agilidade_mais"
+            app:layout_constraintBottom_toBottomOf="@id/btn_agilidade_mais"
+            app:layout_constraintTop_toTopOf="@id/btn_agilidade_mais" />
+
+        <TextView
+            android:id="@+id/defesa"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Defesa: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/agilidade"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/intuica"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Intuiçao: "
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/defesa"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/rei"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Rei: --"
+            android:textSize="23sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/haki"
+            app:layout_constraintRight_toLeftOf="@id/armamento"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/armamento"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Armamento: --"
+            android:textSize="23sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/rei"
+            app:layout_constraintBottom_toBottomOf="@id/rei"
+            app:layout_constraintLeft_toRightOf="@id/rei"
+            app:layout_constraintRight_toLeftOf="@id/observacao"/>
+
+        <TextView
+            android:id="@+id/observacao"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Observaçao: --"
+            android:textSize="23sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/armamento"
+            app:layout_constraintBottom_toBottomOf="@id/armamento"
+            app:layout_constraintLeft_toRightOf="@id/armamento"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/ataques"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ataques"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/akuma"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/ataques_linar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/ataques"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/batalha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar por Batalhas"
+            android:layout_marginTop="20dp"
+            android:textSize="30dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ataques_linar" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@id/rei"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/pontos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pontos"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginLeft="150dp"
+            app:layout_constraintLeft_toRightOf="@id/status"
+            app:layout_constraintTop_toTopOf="@id/status"
+            app:layout_constraintBottom_toBottomOf="@id/status"/>
+
+        <TextView
+            android:id="@+id/haki"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HAKI"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/recompenca"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LV"
+            android:layout_marginTop="10dp"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nome" />
+
+        <TextView
+            android:id="@+id/arma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Arma"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/intuica"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/akuma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Akuma"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/arma"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <ImageView
+            android:id="@+id/qual_tripulacao"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/associacao"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/regiao"
+            tools:src="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

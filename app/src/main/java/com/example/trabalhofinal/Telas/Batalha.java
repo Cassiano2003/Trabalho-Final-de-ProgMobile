@@ -1,0 +1,1903 @@
+package com.example.trabalhofinal.Telas;
+
+import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+
+import com.example.trabalhofinal.MainActivity;
+import com.example.trabalhofinal.R;
+import com.example.trabalhofinal.Tabelas.Akumas;
+import com.example.trabalhofinal.Tabelas.AtaqueAkumaNoMi;
+import com.example.trabalhofinal.Tabelas.Inimigos;
+import com.example.trabalhofinal.Tabelas.Jogador;
+import com.example.trabalhofinal.Tabelas.Usuario;
+import com.example.trabalhofinal.TabelasDao.AppDataBase;
+import com.example.trabalhofinal.TabelasDao.AtaqueAkumasDao;
+import com.example.trabalhofinal.databinding.BatalhaBinding;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
+
+public class Batalha    extends Fragment {
+    private BatalhaBinding binding;
+
+    private AppDataBase db;
+
+    private int vidaInimigo = 0;
+
+    private int vidaJogador = 0;
+    private int energiaJogador = 0;
+    private int frutaAntiga = 0;
+    private Inimigos inimigos;
+    private Jogador jogador;
+
+    private boolean ataquecerteiro = true;
+
+    private Random random = new Random();
+    final boolean[] vezdequem = {true};
+
+    private boolean observacao = false;
+
+    private int ataquesTurnos = 0;
+
+    private int buffTurnos = 0;
+
+    private int custo;
+    private int hp_jogador;
+    private int forca_jogador;
+    private int estamina_jogador;
+    private int agilidade_jogador;
+    private int defesa_jogador;
+    private int intuicao_jogador;
+    private int dano_jogador;
+
+    private int hp_inimigo;
+    private int forca_inimigo;
+    private int estamina_inimigo;
+    private int agilidade_inimigo;
+    private int defesa_inimigo;
+    private int intuicao_inimigo;
+    private int dano_inimigo;
+
+    private int nivelAtual;
+
+    private int resucitou = 0;
+
+    private int time = 0;
+
+    private int palha = 0;
+    private Typeface fonte;
+
+
+    private  boolean ataquerei = true;
+    private String[] armaBranca = {
+            "Wado Ichimonji",
+            "Kitetsu II",
+            "Kitetsu III",
+            "Meito Shigure",
+            "Shusui",
+            "Soto Muso",
+            "Sukesan e Kakusan",
+            "Ame no Habakiri",
+            "Enma",
+            "Espada",
+            "Machado",
+            "Garras",
+            "Lâmina Giratória",
+            "Adaga/Faca",
+            "Shuriken",
+            "Lâmina Circular",
+            "Lança",
+            "Tridente",
+            "Halberg",
+            "Bisento",
+            "Naginata",
+            "Guandao",
+            "Foice",
+            "Yoru",
+            "Ace"
+    };
+    private String[] armaDeFogo = {
+            "Arma de Fogo",
+            "Arco"
+    };
+    private String[] laser = {
+            "Tiro Laser",
+            "Traje Germa"
+    };
+    private String[] desarmado = {
+            "Chicote",
+            "Soco",
+            "Chute"
+    };
+
+
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState
+    ) {
+
+        binding = BatalhaBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+
+    }
+
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (isAdded()) {
+                    mostrarDialogoDeConfirmacao();
+                }
+            }
+        });
+        requireActivity().getSupportFragmentManager().addOnBackStackChangedListener(() -> {
+            AppCompatActivity activity = (AppCompatActivity) requireActivity();
+            Objects.requireNonNull(activity.getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+            setHasOptionsMenu(true);
+        });
+
+        db = AppDataBase.getDataBase(getContext());
+        fonte = ResourcesCompat.getFont(requireContext(), R.font.one_piece_font);
+
+        Bundle arg = getArguments();
+        if(arg != null) {
+            binding.hakiBnt.setVisibility(View.GONE);
+            binding.armaBnt.setVisibility(View.GONE);
+            binding.akumaBnt.setVisibility(View.GONE);
+            nivelAtual = arg.getInt("nivelIni");
+            jogador = db.jogadorDao().buscaPer(arg.getInt("idPerso"));
+            inimigos = nivelaInimigo(arg.getInt("idInimi"));
+
+            binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
+            binding.armaBnt.setText(jogador.getArmas());
+            vidaInimigo = inimigos.getHp();
+
+            int resID = requireContext().getResources().getIdentifier(inimigos.getFotocombate(), "drawable", getContext().getPackageName());
+            binding.imagemInimigo.setImageResource(resID);
+
+            vidaJogador = jogador.getHp();
+            energiaJogador = jogador.getEnergia();
+
+            binding.nomeInimigo.setText(inimigos.getNome());
+            binding.hakiInimigo.setText("Nivel: "+String.valueOf(arg.getInt("nivelIni"))+"\nARM: "+String.valueOf(inimigos.getHakiarm())+"\nOBS: "+String.valueOf(inimigos.getHakiobs()));
+            binding.nomeJogador.setText(jogador.getNome());
+            binding.energia.setText("Energia: "+String.valueOf(energiaJogador)+" / "+String.valueOf(jogador.getEnergia()));
+
+            binding.vidaInimigo.setText("Vida Inimigo: \n"+String.valueOf(vidaInimigo)+" / "+String.valueOf(inimigos.getHp()));
+            binding.vidaJogador.setText("Vida Jogador: \n"+String.valueOf(vidaJogador)+" / "+String.valueOf(jogador.getHp()));
+
+            binding.vidaJogadorBar.setMax(jogador.getHp());
+            binding.vidaJogadorBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+            binding.vidaJogadorBar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#555555")));
+            ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, vidaJogador);
+            animator.setDuration(500); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+
+
+            binding.vidaInimigoBar.setMax(inimigos.getHp());
+            binding.vidaInimigoBar.setProgressTintList(ColorStateList.valueOf(Color.RED));
+            binding.vidaInimigoBar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#555555")));
+            animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, vidaInimigo);
+            animator.setDuration(500); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+
+            binding.ennergiaBar.setIndeterminate(false);
+            binding.ennergiaBar.setMax(jogador.getEnergia());
+            binding.ennergiaBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#26FF00")));
+            binding.ennergiaBar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#555555")));
+            animator = ObjectAnimator.ofInt(binding.ennergiaBar, "progress", jogador.getEnergia(), jogador.getEnergia());
+            animator.setDuration(500); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+
+            if(jogador.getHakirei() != 0 && jogador.getTurnohakirei() != 0){
+                jogador.setTurnohakirei(jogador.getTurnohakirei() - 1);
+            }
+
+
+            if(jogador.getHakiarm() > 0) {
+                MediaPlayer media = MediaPlayer.create(requireContext(), R.raw.armament_haki);
+                ((MainActivity) getActivity()).mediaPlayer.setVolume(0.25f, 0.25f);
+                media.start();
+                media.setOnCompletionListener(mp -> {
+                    mp.release();
+                    ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
+                    decideAtaque(arg);
+                });
+            }else{
+                decideAtaque(arg);
+            }
+
+
+
+            binding.armaBnt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    binding.hakiBnt.setVisibility(View.GONE);
+                    binding.armaBnt.setVisibility(View.GONE);
+                    binding.akumaBnt.setVisibility(View.GONE);
+                    if(vezdequem[0]) {
+                        ((MainActivity) getActivity()).mediaPlayer.setVolume(0.25f, 0.25f);
+                        MediaPlayer media = MediaPlayer.create(requireContext(), R.raw.bonk);
+                        if (buscaPalavra(armaBranca, jogador.getArmas())) {
+                            if (random.nextInt(2) == 0) {
+                                media = MediaPlayer.create(requireContext(), R.raw.espada1);
+                            } else {
+                                media = MediaPlayer.create(requireContext(), R.raw.espada2);
+                            }
+                        } else if (buscaPalavra(armaDeFogo, jogador.getArmas())) {
+                            media = MediaPlayer.create(requireContext(), R.raw.arma);
+                        } else if (buscaPalavra(laser, jogador.getArmas())) {
+                            media = MediaPlayer.create(requireContext(), R.raw.laser);
+                        } else if (buscaPalavra(desarmado, jogador.getArmas())) {
+                            if (random.nextInt(2) == 0) {
+                                media = MediaPlayer.create(requireContext(), R.raw.soco1);
+                            } else {
+                                media = MediaPlayer.create(requireContext(), R.raw.soco2);
+                            }
+                        } else if (jogador.getArmas().equals("Kuro Kabuto")) {
+                            media = MediaPlayer.create(requireContext(), R.raw.estilingue);
+                        }
+                        media.start();
+                        media.setOnCompletionListener(mp -> {
+                            ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
+                            TurnoJogador(arg, jogador.getForca(), jogador.getArmas());
+                            mp.release();
+                        });
+                    }
+                }
+            });
+
+            binding.akumaBnt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Akumas akumas = db.akumaDao().buscaAkuma(jogador.getAkumaNoMi());
+                    AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View botoes = inflater.inflate(R.layout.combate_botoes, null);
+                    builder.setView(botoes);
+
+                    final AlertDialog ataques = builder.create();
+
+                    Button ataque1 = botoes.findViewById(R.id.ataque1);
+                    Button ataque2 = botoes.findViewById(R.id.ataque2);
+                    Button ataque3 = botoes.findViewById(R.id.ataque3);
+                    Button ataque4 = botoes.findViewById(R.id.ataque4);
+                    Button ataque5 = botoes.findViewById(R.id.ataque5);
+
+                    TextView descricao1 = botoes.findViewById(R.id.descricao_ataque1);
+                    TextView descricao2 = botoes.findViewById(R.id.descricao_ataque2);
+                    TextView descricao3 = botoes.findViewById(R.id.descricao_ataque3);
+                    TextView descricao4 = botoes.findViewById(R.id.descricao_ataque4);
+                    TextView descricao5 = botoes.findViewById(R.id.descricao_ataque5);
+                    MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.akuma);
+                    if(jogador.getQntataquesdesbloqueados() >= 1) {
+                        ataque1.setVisibility(View.VISIBLE);
+                        descricao1.setVisibility(View.VISIBLE);
+                        ataque1.setText(ataqueAkumaNoMi.getNomeDoAtaque()[0]);
+                        descricao1.setText(ataqueAkumaNoMi.getTipoDeAtaque()[0] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[0]);
+                        ataque1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[0]) {
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                                    media.start();
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                    media.setOnCompletionListener(mp -> {
+                                        ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                        AtaqueAkuma(ataqueAkumaNoMi, 0, ataqueAkumaNoMi.getTipoDeAtaque()[0], arg,true);
+                                        mp.release();
+                                    });
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                                ataques.dismiss();
+                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 2) {
+                        ataque2.setVisibility(View.VISIBLE);
+                        descricao2.setVisibility(View.VISIBLE);
+                        ataque2.setText(ataqueAkumaNoMi.getNomeDoAtaque()[1]);
+                        descricao2.setText(ataqueAkumaNoMi.getTipoDeAtaque()[1] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[1]);
+                        ataque2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[1]) {
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                                    media.start();
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                    media.setOnCompletionListener(mp -> {
+                                        ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                        AtaqueAkuma(ataqueAkumaNoMi, 1, ataqueAkumaNoMi.getTipoDeAtaque()[1], arg,true);
+                                        mp.release();
+                                    });
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                                ataques.dismiss();
+                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 3) {
+                        ataque3.setVisibility(View.VISIBLE);
+                        descricao3.setVisibility(View.VISIBLE);
+                        ataque3.setText(ataqueAkumaNoMi.getNomeDoAtaque()[2]);
+                        descricao3.setText(ataqueAkumaNoMi.getTipoDeAtaque()[2] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[2]);
+                        ataque3.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[2]) {
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                                    media.start();
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                    media.setOnCompletionListener(mp -> {
+                                        ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                        AtaqueAkuma(ataqueAkumaNoMi, 2, ataqueAkumaNoMi.getTipoDeAtaque()[2], arg,true);
+                                        mp.release();
+                                    });
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                                ataques.dismiss();
+                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 4) {
+                        ataque4.setVisibility(View.VISIBLE);
+                        descricao4.setVisibility(View.VISIBLE);
+                        ataque4.setText(ataqueAkumaNoMi.getNomeDoAtaque()[3]);
+                        descricao4.setText(ataqueAkumaNoMi.getTipoDeAtaque()[3] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[3]);
+                        ataque4.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[3]) {
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                                    media.start();
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                    media.setOnCompletionListener(mp -> {
+                                        ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                        AtaqueAkuma(ataqueAkumaNoMi, 3, ataqueAkumaNoMi.getTipoDeAtaque()[3], arg,true);
+                                        mp.release();
+                                    });
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                                ataques.dismiss();
+                            }
+                        });
+                    }if(jogador.getQntataquesdesbloqueados() >= 5) {
+                        ataque5.setVisibility(View.VISIBLE);
+                        descricao5.setVisibility(View.VISIBLE);
+                        ataque5.setText(ataqueAkumaNoMi.getNomeDoAtaque()[4]);
+                        descricao5.setText(ataqueAkumaNoMi.getTipoDeAtaque()[4] + " \n"+"Custo: "+ataqueAkumaNoMi.getCusto()[4]);
+                        ataque5.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(jogador.getEnergia() >= ataqueAkumaNoMi.getCusto()[4]) {
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                                    media.start();
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                    media.setOnCompletionListener(mp -> {
+                                        AtaqueAkuma(ataqueAkumaNoMi, 4, ataqueAkumaNoMi.getTipoDeAtaque()[4], arg,true);
+                                        mp.release();
+                                    });
+                                }else{
+                                    Toast.makeText(requireContext(), "Jogador sem Energia", Toast.LENGTH_LONG).show();
+                                }
+                                ataques.dismiss();
+                            }
+                        });
+                    }
+
+                    ataques.show();
+                }
+            });
+
+            binding.hakiBnt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                    MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.haki_rei);
+                        switch (jogador.getHakirei()){
+                            case 1:
+                                media.start();
+                                if(inimigos.getHakiarm() == 0 && validaChance(75)){
+                                    inimigos.setForca(inimigos.getForca()-(20/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(20/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 20%");
+                                                                        binding.informacoes.addView(novo);
+                                }else if(inimigos.getHakiarm() == 1 && validaChance(50)){
+                                    inimigos.setForca(inimigos.getForca()-(10/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(10/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 10%");
+                                                                        binding.informacoes.addView(novo);
+                                }else{
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(jogador.getNome() + " não conseguiu diminuir a força do inimigo");
+                                    binding.informacoes.addView(novo);
+                                }
+                                media.setOnCompletionListener(mp -> {
+                                    mp.release();
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                    jogador.setTurnohakirei(5);
+                                    jogador.setIdpersonagens(arg.getInt("idPerso"));
+                                    db.jogadorDao().upgrade(jogador);
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    GeraAtaqueInimigo(arg);
+                                });
+                                break;
+                            case 2:
+                                media.start();
+                                if(inimigos.getHakiarm() == 0){
+                                    inimigos.setForca(inimigos.getForca()-(30/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(30/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 30%");
+                                                                        binding.informacoes.addView(novo);
+                                }else if(inimigos.getHakiarm() == 1 && validaChance(75)){
+                                    inimigos.setForca(inimigos.getForca()-(20/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(20/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 20%");
+                                                                        binding.informacoes.addView(novo);
+                                }else if(inimigos.getHakiarm() == 2 && validaChance(50)){
+                                    inimigos.setForca(inimigos.getForca()-(10/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(10/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 10%");
+                                                                        binding.informacoes.addView(novo);
+                                }else{
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(jogador.getNome() + " não conseguiu diminuir a força do inimigo");
+                                                                        binding.informacoes.addView(novo);
+                                }
+                                media.setOnCompletionListener(mp -> {
+                                    mp.release();
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                    jogador.setTurnohakirei(5);
+                                    jogador.setIdpersonagens(arg.getInt("idPerso"));
+                                    db.jogadorDao().upgrade(jogador);
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    GeraAtaqueInimigo(arg);
+                                });
+                                break;
+                            case 3:
+                                media.start();
+                                if(inimigos.getHakiarm() == 0){
+                                    ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, 0);
+                                    animator.setDuration(500); // meio segundo
+                                    animator.setInterpolator(new DecelerateInterpolator());
+                                    animator.start();
+                                    vidaInimigo = 0;
+                                    binding.titulo.setText("Combate");
+                                    binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+                                    androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                                    dlg.setMessage("VITÓRIA!!\nPontos de Experiência foram adquiridos.\nRetorne ao perfil do seu personagem para distribuir esses pontos.");
+                                    dlg.setPositiveButton("OK", (dialog, which) -> {
+                                        dialog.dismiss(); // Fecha o diálogo
+                                        Nivelamento(jogador, arg);
+                                    });
+                                    dlg.show();
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("idU", arg.getInt("idU"));
+                                    bundle.putInt("idPerso", arg.getInt("idPerso"));
+                                    binding.armaBnt.setVisibility(View.GONE);
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    binding.akumaBnt.setVisibility(View.GONE);
+                                }else if(inimigos.getHakiarm() == 1){
+                                    inimigos.setForca(inimigos.getForca()-(30/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(30/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 30%");
+                                                                        binding.informacoes.addView(novo);
+                                }else if(inimigos.getHakiarm() == 2 && validaChance(75)){
+                                    inimigos.setForca(inimigos.getForca()-(20/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(20/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 20%");
+                                                                        binding.informacoes.addView(novo);
+                                }else if(inimigos.getHakiarm() == 3 && validaChance(50)){
+                                    inimigos.setForca(inimigos.getForca()-(10/100));
+                                    inimigos.setForca(inimigos.getEstamina()-(10/100));
+                                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                
+                                    novo.setTypeface(fonte);
+                                    novo.setTextSize(20);
+                                    novo.setText(inimigos.getNome() + " teve sua força diminuida em 10%");
+                                                                        binding.informacoes.addView(novo);
+                                }
+                                media.setOnCompletionListener(mp -> {
+                                    mp.release();
+                                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                                    jogador.setTurnohakirei(5);
+                                    jogador.setIdpersonagens(arg.getInt("idPerso"));
+                                    db.jogadorDao().upgrade(jogador);
+                                    binding.hakiBnt.setVisibility(View.GONE);
+                                    GeraAtaqueInimigo(arg);
+                                });
+                                break;
+                        }
+                }
+            });
+
+            jogador.setIdpersonagens(arg.getInt("idPerso"));
+            db.jogadorDao().upgrade(jogador);
+        }
+    }
+
+
+    public void TurnoJogador(Bundle arg,int ValorBrutoDano,String nomeataque){
+        Buff();
+        int dano = CalculaDano(inimigos.getDefesa() / 100, ValorBrutoDano);
+        MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
+        if(palha == 0) {
+            if (validaChance(inimigos.getIntuicao()) && ataquecerteiro) {
+                ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                media.start();
+                observacao = true;
+                ataquesTurnos++;
+                TextView novo = new TextView(getContext());
+                novo.setTextColor(Color.BLACK);
+                novo.setTypeface(fonte);
+                novo.setTextSize(20);
+                novo.setText(inimigos.getNome() + " desviou do seu ataque");
+                binding.informacoes.addView(novo);
+            } else {
+                ataquesTurnos++;
+                TextView novo = new TextView(getContext());
+                novo.setTextColor(Color.BLACK);
+                novo.setTypeface(fonte);
+                novo.setTextSize(20);
+                novo.setText(jogador.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
+                binding.informacoes.addView(novo);
+                if (VerficaVida(vidaInimigo - dano,inimigos.getIdakuma(),true)) {
+                    ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, 0);
+                    animator.setDuration(500); // meio segundo
+                    animator.setInterpolator(new DecelerateInterpolator());
+                    animator.start();
+                    vidaInimigo = 0;
+                    binding.titulo.setText("Combate");
+                    binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+                    androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                    dlg.setMessage("VITÓRIA!!\nPontos de Experiência foram adquiridos.\nRetorne ao perfil do seu personagem para distribuir esses pontos.");
+                    dlg.setPositiveButton("OK", (dialog, which) -> {
+                        dialog.dismiss(); // Fecha o diálogo
+                        Nivelamento(jogador, arg);
+                    });
+                    dlg.show();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idU", arg.getInt("idU"));
+                    bundle.putInt("idPerso", arg.getInt("idPerso"));
+                    binding.armaBnt.setVisibility(View.GONE);
+                    binding.hakiBnt.setVisibility(View.GONE);
+                    binding.akumaBnt.setVisibility(View.GONE);
+                    return;
+                } else {
+                    ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, vidaInimigo - dano);
+                    animator.setDuration(500); // meio segundo
+                    animator.setInterpolator(new DecelerateInterpolator());
+                    animator.start();
+                    vidaInimigo = vidaInimigo - dano;
+                    binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+                }
+            }
+        }else if(palha == -1) {
+            dano = CalculaDano(jogador.getDefesa() /100,ValorBrutoDano);
+            palha = 0;
+            ataquesTurnos++;
+            TextView novo = new TextView(getContext());
+            novo.setTextColor(Color.BLACK);
+            novo.setTypeface(fonte);
+            novo.setTextSize(20);
+            novo.setText(jogador.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
+            binding.informacoes.addView(novo);
+            if (VerficaVida(vidaJogador - dano,jogador.getAkumaNoMi(),false)) {
+                ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, 0);
+                animator.setDuration(500); // meio segundo
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
+                vidaJogador = 0;
+                binding.titulo.setText("Combate");
+                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                dlg.setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.");
+                dlg.setPositiveButton("OK", (dialog, which) -> {
+                    dialog.dismiss(); // Fecha o diálogo
+                });
+                dlg.show();
+                Bundle bundle = new Bundle();
+                bundle.putInt("idU", arg.getInt("idU"));
+                bundle.putInt("idPerso", arg.getInt("idPerso"));
+                binding.armaBnt.setVisibility(View.GONE);
+                binding.hakiBnt.setVisibility(View.GONE);
+                binding.akumaBnt.setVisibility(View.GONE);
+                return;
+            } else {
+                ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, vidaJogador - dano);
+                animator.setDuration(500); // meio segundo
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
+                vidaJogador = vidaJogador - dano;
+                binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+            }
+        }
+        if(observacao) {
+            observacao = false;
+            media.setOnCompletionListener(mp -> {
+                ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                mp.release();
+                if (validaChance(jogador.getAgilidade()) && ataquesTurnos < 2) {
+                    liberaBotoes();
+                    ataquesTurnos++;
+                    binding.titulo.setText("Vez " + jogador.getNome());
+                    androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                    dlg.setMessage(jogador.getNome() + " foi mais agil que " + inimigos.getNome() + " e conseguiu mais uma oportunidade de ataque.");
+                    dlg.show();
+                } else {
+                    binding.hakiBnt.setVisibility(View.GONE);
+                    binding.armaBnt.setVisibility(View.GONE);
+                    binding.akumaBnt.setVisibility(View.GONE);
+                    ataquesTurnos = 0;
+                    vezdequem[0] = false;
+                    binding.titulo.setText("Vez " + inimigos.getNome());
+                    GeraAtaqueInimigo(arg);
+                }
+            });
+        }else{
+            if (validaChance(jogador.getAgilidade()) && ataquesTurnos < 2) {
+                liberaBotoes();
+                ataquesTurnos++;
+                binding.titulo.setText("Vez " + jogador.getNome());
+                androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                dlg.setMessage(jogador.getNome() + " foi mais agil que " + inimigos.getNome() + " e conseguiu mais uma oportunidade de ataque.");
+                dlg.show();
+            } else {
+                binding.hakiBnt.setVisibility(View.GONE);
+                binding.armaBnt.setVisibility(View.GONE);
+                binding.akumaBnt.setVisibility(View.GONE);
+                ataquesTurnos = 0;
+                vezdequem[0] = false;
+                binding.titulo.setText("Vez " + inimigos.getNome());
+                GeraAtaqueInimigo(arg);
+            }
+        }
+    }
+
+    public void TurnoInimigo(Bundle arg,int ValorBrutoDano,String nomeataque){
+        Buff();
+        int dano = CalculaDano((jogador.getDefesa()) / 100, ValorBrutoDano);
+        MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
+        if(palha == 0) {
+            if (validaChance(jogador.getIntuicao()) && ataquecerteiro) {
+                ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                media.start();
+                observacao = true;
+                TextView novo = new TextView(getContext());
+                novo.setTextColor(Color.BLACK);
+                novo.setTypeface(fonte);
+                novo.setTextSize(20);
+                novo.setText(jogador.getNome() + " desviou do ataque de " + inimigos.getNome());
+                binding.informacoes.addView(novo);
+                ataquesTurnos++;
+            } else {
+                ataquesTurnos++;
+                TextView novo = new TextView(getContext());
+                novo.setTextColor(Color.BLACK);
+                novo.setTypeface(fonte);
+                novo.setTextSize(20);
+                novo.setText(inimigos.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
+                binding.informacoes.addView(novo);
+                if (VerficaVida(vidaJogador - dano,jogador.getAkumaNoMi(),false)) {
+                    ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, 0);
+                    animator.setDuration(500); // meio segundo
+                    animator.setInterpolator(new DecelerateInterpolator());
+                    animator.start();
+                    vidaJogador = 0;
+                    binding.titulo.setText("Combate");
+                    binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                    androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                    dlg.setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.");
+                    dlg.setPositiveButton("OK", (dialog, which) -> {
+                        dialog.dismiss(); // Fecha o diálogo
+                    });
+                    dlg.show();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idU", arg.getInt("idU"));
+                    bundle.putInt("idPerso", arg.getInt("idPerso"));
+                    binding.armaBnt.setVisibility(View.GONE);
+                    binding.hakiBnt.setVisibility(View.GONE);
+                    binding.akumaBnt.setVisibility(View.GONE);
+                    return;
+                } else {
+                    ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, vidaJogador - dano);
+                    animator.setDuration(500); // meio segundo
+                    animator.setInterpolator(new DecelerateInterpolator());
+                    animator.start();
+                    vidaJogador = vidaJogador - dano;
+                    binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                }
+            }
+        }else if(palha == 1){
+            dano = CalculaDano(inimigos.getDefesa() /100,ValorBrutoDano);
+            palha = 0;
+            ataquesTurnos++;
+            TextView novo = new TextView(getContext());
+            novo.setTextColor(Color.BLACK);
+            novo.setTypeface(fonte);
+            novo.setTextSize(20);
+            novo.setText(inimigos.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
+            binding.informacoes.addView(novo);
+            if (VerficaVida(vidaInimigo - dano,inimigos.getIdakuma(),true)) {
+                ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, 0);
+                animator.setDuration(500); // meio segundo
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
+                vidaInimigo = 0;
+                binding.titulo.setText("Combate");
+                binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+                androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                dlg.setMessage("VITÓRIA!!\nPontos de Experiência foram adquiridos.\nRetorne ao perfil do seu personagem para distribuir esses pontos.");
+                dlg.setPositiveButton("OK", (dialog, which) -> {
+                    dialog.dismiss(); // Fecha o diálogo
+                    Nivelamento(jogador, arg);
+                });
+                dlg.show();
+                Bundle bundle = new Bundle();
+                bundle.putInt("idU", arg.getInt("idU"));
+                bundle.putInt("idPerso", arg.getInt("idPerso"));
+                binding.armaBnt.setVisibility(View.GONE);
+                binding.hakiBnt.setVisibility(View.GONE);
+                binding.akumaBnt.setVisibility(View.GONE);
+                return;
+            } else {
+                ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, vidaInimigo - dano);
+                animator.setDuration(500); // meio segundo
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
+                vidaInimigo = vidaInimigo - dano;
+                binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+            }
+        }
+        if(observacao) {
+            observacao = false;
+            media.setOnCompletionListener(mp -> {
+                ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                mp.release();
+                if (validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2) {
+                    ataquesTurnos++;
+                    binding.titulo.setText("Vez " + inimigos.getNome());
+                    GeraAtaqueInimigo(arg);
+                } else {
+                    liberaBotoes();
+                    binding.titulo.setText("Vez " + jogador.getNome());
+                    vezdequem[0] = true;
+                }
+            });
+        }else {
+            if (validaChance(inimigos.getAgilidade()) && ataquesTurnos < 2) {
+                ataquesTurnos++;
+                binding.titulo.setText("Vez " + inimigos.getNome());
+                GeraAtaqueInimigo(arg);
+            } else {
+                liberaBotoes();
+                binding.titulo.setText("Vez " + jogador.getNome());
+                vezdequem[0] = true;
+            }
+        }
+    }
+
+    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi,int qualataque, String tipoAtaque, Bundle arg,boolean quem_e){
+        custo = ataqueAkumaNoMi.getCusto()[qualataque];
+        hp_jogador = ataqueAkumaNoMi.getHpjogador()[qualataque];
+        forca_jogador = ataqueAkumaNoMi.getForcajogador()[qualataque];
+        estamina_jogador = ataqueAkumaNoMi.getEstaminajogador()[qualataque];
+        agilidade_jogador = ataqueAkumaNoMi.getAgilidadejogador()[qualataque];
+        defesa_jogador = ataqueAkumaNoMi.getDefesajogador()[qualataque];
+        intuicao_jogador = ataqueAkumaNoMi.getIntuicaojogador()[qualataque];
+        dano_jogador = ataqueAkumaNoMi.getDanojogador()[qualataque];
+
+        hp_inimigo = ataqueAkumaNoMi.getHpinimigo()[qualataque];
+        forca_inimigo = ataqueAkumaNoMi.getForcainimigo()[qualataque];
+        estamina_inimigo = ataqueAkumaNoMi.getEstaminainimigo()[qualataque];
+        agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo()[qualataque];
+        defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo()[qualataque];
+        intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo()[qualataque];
+        dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
+
+        int custo = ataqueAkumaNoMi.getCusto()[qualataque];
+        if(quem_e) {
+            ObjectAnimator animator = ObjectAnimator.ofInt(binding.ennergiaBar, "progress", jogador.getEnergia(), jogador.getEnergia()-custo);
+            animator.setDuration(100); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+            jogador.setEnergia(jogador.getEnergia()-custo);
+            binding.energia.setText("Energia: "+String.valueOf(jogador.getEnergia())+" / "+String.valueOf(energiaJogador));
+        }else {
+            inimigos.setEnergia(inimigos.getEnergia()-custo);
+        }
+        switch (tipoAtaque){
+            case"ATAQUE SIMPLES":
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina(),ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }
+                break;
+            case"ATAQUE FORTE":
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina()*2,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina()*2,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }
+                break;
+            case"ATAQUE FORTE 2":
+                if(quem_e) {
+                    TurnoJogador(arg, jogador.getEstamina()*3,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }else {
+                    TurnoInimigo(arg,inimigos.getEstamina()*3,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                }
+                break;
+            case"ESPECIAL":
+                if(dano_jogador == -1){
+                    if(quem_e) {
+                        palha = 1;
+                        TurnoJogador(arg, 0,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    }else {
+                        palha = -1;
+                        TurnoInimigo(arg,0,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    }
+                }else {
+                    if(quem_e) {
+                        TurnoJogador(arg, jogador.getEstamina()*4,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    }else {
+                        TurnoInimigo(arg,inimigos.getEstamina()*4,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    }
+                }
+                break;
+            default:
+                Log.d("buff para ", inimigos.getNome());
+                buffTurnos ++;
+                if(dano_jogador == 3){
+                    if(quem_e) {
+                        frutaAntiga = jogador.getAkumaNoMi();
+                        jogador.setAkumaNoMi(random.nextInt(db.akumaDao().quantosAkumas()) + 1);
+                        binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
+                        Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
+                        List<Integer> akumas = usuario.getAkumanomis();
+                        if(!procuraRepeticao(akumas,jogador.getAkumaNoMi())) akumas.add(jogador.getAkumaNoMi());
+                        usuario.setAkumanomis(akumas);
+                        usuario.setIdUser(arg.getInt("idU"));
+                        db.usuarioDao().upgrade(usuario);
+                        DesbloqueiaAtaques(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()));
+                    }else {
+                        inimigos.setIdakuma(random.nextInt(db.akumaDao().quantosAkumastotal()) + 1);
+                    }
+                } else if (dano_jogador == 2) {
+                    ataquecerteiro = false;
+                } else if(forca_jogador == 2){
+                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
+                    jogador.setForca(jogador.getForca() * 2);
+                    jogador.setEstamina(jogador.getEstamina() + (jogador.getEstamina() * (estamina_jogador / 100)));
+                    jogador.setAgilidade(jogador.getAgilidade() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
+                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
+                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
+
+                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
+                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
+                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+                }else if(estamina_jogador == 2) {
+                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
+                    jogador.setForca(jogador.getForca() + (jogador.getForca() * (forca_jogador / 100)));
+                    jogador.setEstamina(jogador.getEstamina() * 2);
+                    jogador.setAgilidade(jogador.getEstamina() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
+                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
+                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
+
+                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
+                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
+                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+                } else {
+                    Log.d("buff padrao",ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
+                    jogador.setForca(jogador.getForca() + (jogador.getForca() * (forca_jogador / 100)));
+                    jogador.setEstamina(jogador.getEstamina() + (jogador.getEstamina() * (estamina_jogador / 100)));
+                    jogador.setAgilidade(jogador.getAgilidade() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
+                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
+                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
+
+                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
+                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
+                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+                }
+                if(quem_e) {
+                    TextView novo = new TextView(getContext());
+                                    novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                                        novo.setText(jogador.getNome() +" usou o buff "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    binding.informacoes.addView(novo);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        binding.titulo.setText("Vez "+inimigos.getNome());
+                        GeraAtaqueInimigo(arg);
+                    }, time);
+                }else {
+                    Log.d("vez jogador", "Vez "+jogador.getNome());
+                    TextView novo = new TextView(getContext());
+                    novo.setTextColor(Color.BLACK);
+                    novo.setTypeface(fonte);
+                    novo.setTextSize(20);
+                    novo.setText(inimigos.getNome() +" usou o buff "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    binding.informacoes.addView(novo);
+                    if(jogador.getHakirei() != 0 && jogador.getTurnohakirei() == 0){
+                        binding.hakiBnt.setVisibility(View.VISIBLE);
+                    }
+                    binding.armaBnt.setVisibility(View.VISIBLE);
+                    binding.akumaBnt.setVisibility(View.VISIBLE);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        binding.titulo.setText("Vez "+jogador.getNome());
+                        vezdequem[0] = true;
+                    }, time);
+                }
+                break;
+        }
+    }
+
+    public void Buff(){
+        if(buffTurnos == 1){
+            buffTurnos ++;
+        }else if(buffTurnos == 2){
+            ataquecerteiro = true;
+            if(forca_jogador == 2){
+                jogador.setForca(jogador.getForca() / 2);
+                jogador.setEstamina(jogador.getEstamina() - (jogador.getEstamina() * (estamina_jogador / 100)));
+                jogador.setAgilidade(jogador.getAgilidade() - (jogador.getAgilidade() * (agilidade_jogador / 100)));
+                jogador.setDefesa(jogador.getDefesa() - (jogador.getDefesa() * (defesa_jogador / 100)));
+                jogador.setIntuicao(jogador.getIntuicao() - (jogador.getIntuicao() * (intuicao_jogador / 100)));
+
+                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
+                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+            }else if(estamina_jogador == 2) {
+                jogador.setForca(jogador.getForca() - (jogador.getForca() * (forca_jogador / 100)));
+                jogador.setEstamina(jogador.getEstamina() / 2);
+                jogador.setAgilidade(jogador.getEstamina() - (jogador.getAgilidade() * (agilidade_jogador / 100)));
+                jogador.setDefesa(jogador.getDefesa() - (jogador.getDefesa() * (defesa_jogador / 100)));
+                jogador.setIntuicao(jogador.getIntuicao() - (jogador.getIntuicao() * (intuicao_jogador / 100)));
+
+                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
+                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+            } else {
+                jogador.setForca(jogador.getForca() - (forca_jogador / 100));
+                jogador.setEstamina(jogador.getEstamina() - (estamina_jogador / 100));
+                jogador.setAgilidade(jogador.getAgilidade() - (agilidade_jogador / 100));
+                jogador.setDefesa(jogador.getDefesa() - (defesa_jogador / 100));
+                jogador.setIntuicao(jogador.getIntuicao() - (intuicao_jogador / 100));
+
+
+                inimigos.setForca(inimigos.getForca() - (inimigos.getForca() * (forca_inimigo / 100)));
+                inimigos.setEstamina(inimigos.getEstamina() - (inimigos.getEstamina() * (estamina_inimigo / 100)));
+                inimigos.setAgilidade(inimigos.getAgilidade() - (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
+                inimigos.setDefesa(inimigos.getDefesa() - (inimigos.getDefesa() * (defesa_inimigo / 100)));
+                inimigos.setIntuicao(inimigos.getIntuicao() - (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+            }
+        }
+    }
+    public void GeraAtaqueInimigo(Bundle arg){
+        binding.hakiBnt.setVisibility(View.GONE);
+        binding.armaBnt.setVisibility(View.GONE);
+        binding.akumaBnt.setVisibility(View.GONE);
+        int qual = random.nextInt(3);
+        Log.d("qual ataque",String.valueOf(qual));
+        int quantosataques = 1;
+        if(qual == 0 || inimigos.getAkumaNoMi().equals("NÃO TEM") || inimigos.getAkumaNoMi().equals("Desconhecida")
+                || inimigos.getAkumaNoMi().equals("Mane Mane no Mi") || inimigos.getAkumaNoMi().equals("Fuku Fuku no Mi")){
+            ataqueFisicoInimigo(arg);
+        }else if(qual == 1){
+            Akumas akumas = db.akumaDao().buscaAkuma(inimigos.getIdakuma());
+            Log.d("Akuma",String.valueOf(inimigos.getIdakuma()));
+            AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+            Log.d("Akuma Ataque",ataqueAkumaNoMi.toString());
+            int totalataques = ataqueAkumaNoMi.getQntataques();
+            switch (ataqueAkumaNoMi.getQntataques()){
+                case 2:
+                    if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                    break;
+                case 3:
+                    if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                    break;
+                case 4:
+                    if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 75 && quantosataques <= totalataques) quantosataques ++;
+                    break;
+                case 5:
+                    if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 75 && quantosataques <= totalataques) quantosataques ++;
+                    if(nivelAtual >= 100 && quantosataques <= totalataques) quantosataques ++;
+                    break;
+            }
+
+            int randomAtaque = 0;
+            String tipo ="";
+            int num = 0;
+            do {
+                randomAtaque = random.nextInt(quantosataques);
+                Log.d("TESTE",String.valueOf(randomAtaque) + " "+ String.valueOf(quantosataques));
+                tipo = ataqueAkumaNoMi.getTipoDeAtaque()[randomAtaque];
+                Log.d("TIPO",tipo);
+                num ++;
+            }while (ataqueAkumaNoMi.getCusto()[randomAtaque] > inimigos.getEnergia() && num < 10);
+            if(num != 10) {
+                ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.akuma);
+                media.start();
+                int finalRandomAtaque = randomAtaque;
+                String finalTipo = tipo;
+                media.setOnCompletionListener(mp -> {
+                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                    mp.release();
+                    AtaqueAkuma(ataqueAkumaNoMi, finalRandomAtaque, finalTipo, arg, false);
+                });
+            }else{
+                ataqueFisicoInimigo(arg);
+            }
+        }else if(qual == 2 && ataquerei)  {
+            ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+            MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.haki_rei);
+            switch (inimigos.getHakirei()) {
+                case 1:
+                    media.start();
+                    if (jogador.getHakiarm() == 0 && validaChance(75)) {
+                        jogador.setForca(jogador.getForca() - (20 / 100));
+                        jogador.setForca(jogador.getEstamina() - (20 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 20%");
+                        binding.informacoes.addView(novo);
+                    } else if (jogador.getHakiarm() == 1 && validaChance(50)) {
+                        jogador.setForca(jogador.getForca() - (10 / 100));
+                        jogador.setForca(jogador.getEstamina() - (10 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 10%");
+                        binding.informacoes.addView(novo);
+                    } else {
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(inimigos.getNome() + " não conseguiu diminuir a força do inimigo");
+                        binding.informacoes.addView(novo);
+                    }
+                    media.setOnCompletionListener(mp -> {
+                        mp.release();
+                        ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
+                        if (jogador.getHp() > 0) {
+                            liberaBotoes();
+                            ataquerei = false;
+                            vezdequem[0] = true;
+                        }
+                    });
+                    break;
+                case 2:
+                    media.start();
+                    if (jogador.getHakiarm() == 0) {
+                        jogador.setForca(jogador.getForca() - (30 / 100));
+                        jogador.setForca(jogador.getEstamina() - (30 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 30%");
+                        binding.informacoes.addView(novo);
+                    } else if (jogador.getHakiarm() == 1 && validaChance(75)) {
+                        jogador.setForca(jogador.getForca() - (20 / 100));
+                        jogador.setForca(jogador.getEstamina() - (20 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 20%");
+                        binding.informacoes.addView(novo);
+                    } else if (jogador.getHakiarm() == 2 && validaChance(50)) {
+                        jogador.setForca(jogador.getForca() - (10 / 100));
+                        jogador.setForca(jogador.getEstamina() - (10 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 10%");
+                        binding.informacoes.addView(novo);
+                    } else {
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(inimigos.getNome() + " não conseguiu diminuir a força do inimigo");
+                        binding.informacoes.addView(novo);
+                    }
+                    media.setOnCompletionListener(mp -> {
+                        mp.release();
+                        ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
+                        if (jogador.getHp() > 0) {
+                            liberaBotoes();
+                            ataquerei = false;
+                            vezdequem[0] = true;
+                        }
+                    });
+                    break;
+                case 3:
+                    media.start();
+                    if (jogador.getHakiarm() == 0) {
+                        ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, 0);
+                        animator.setDuration(500); // meio segundo
+                        animator.setInterpolator(new DecelerateInterpolator());
+                        animator.start();
+                        vidaJogador = 0;
+                        binding.titulo.setText("Combate");
+                        binding.vidaJogador.setText("Vida jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                        androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                        dlg.setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.");
+                        dlg.setPositiveButton("OK", (dialog, which) -> {
+                            dialog.dismiss(); // Fecha o diálogo
+                        });
+                        dlg.show();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("idU", arg.getInt("idU"));
+                        bundle.putInt("idPerso", arg.getInt("idPerso"));
+                        binding.armaBnt.setVisibility(View.GONE);
+                        binding.hakiBnt.setVisibility(View.GONE);
+                        binding.akumaBnt.setVisibility(View.GONE);
+                    } else if (jogador.getHakiarm() == 1) {
+                        jogador.setForca(jogador.getForca() - (30 / 100));
+                        jogador.setForca(jogador.getEstamina() - (30 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 30%");
+                        binding.informacoes.addView(novo);
+                    } else if (jogador.getHakiarm() == 2 && validaChance(75)) {
+                        jogador.setForca(jogador.getForca() - (20 / 100));
+                        jogador.setForca(jogador.getEstamina() - (20 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 20%");
+                        binding.informacoes.addView(novo);
+                    } else if (jogador.getHakiarm() == 3 && validaChance(50)) {
+                        jogador.setForca(jogador.getForca() - (10 / 100));
+                        jogador.setForca(jogador.getEstamina() - (10 / 100));
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(jogador.getNome() + " teve sua força diminuida em 10%");
+                        binding.informacoes.addView(novo);
+                    }else {
+                        TextView novo = new TextView(getContext());
+                        novo.setTextColor(Color.BLACK);
+                        novo.setTypeface(fonte);
+                        novo.setTextSize(20);
+                        novo.setText(inimigos.getNome() + " não conseguiu diminuir a força do inimigo");
+                        binding.informacoes.addView(novo);
+                    }
+                    media.setOnCompletionListener(mp -> {
+                        mp.release();
+                        ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
+                        if (jogador.getHp() > 0) {
+                            liberaBotoes();
+                            ataquerei = false;
+                            vezdequem[0] = true;
+                        }
+                    });
+                    break;
+                default:
+                    ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                    Akumas akumas = db.akumaDao().buscaAkuma(inimigos.getIdakuma());
+                    Log.d("Akuma",String.valueOf(inimigos.getIdakuma()));
+                    AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+                    Log.d("Akuma Ataque",ataqueAkumaNoMi.toString());
+                    int totalataques = ataqueAkumaNoMi.getQntataques();
+                    switch (ataqueAkumaNoMi.getQntataques()){
+                        case 2:
+                            if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                            break;
+                        case 3:
+                            if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                            break;
+                        case 4:
+                            if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 75 && quantosataques <= totalataques) quantosataques ++;
+                            break;
+                        case 5:
+                            if(nivelAtual >= 25 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 50 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 75 && quantosataques <= totalataques) quantosataques ++;
+                            if(nivelAtual >= 100 && quantosataques <= totalataques) quantosataques ++;
+                            break;
+                    }
+
+                    int randomAtaque = 0;
+                    String tipo ="";
+                    int num = 0;
+                    do {
+                        randomAtaque = random.nextInt(quantosataques);
+                        Log.d("TESTE",String.valueOf(randomAtaque) + " "+ String.valueOf(quantosataques));
+                        tipo = ataqueAkumaNoMi.getTipoDeAtaque()[randomAtaque];
+                        Log.d("TIPO",tipo);
+                        num ++;
+                    }while (ataqueAkumaNoMi.getCusto()[randomAtaque] > inimigos.getEnergia() && num < 10);
+                    if(num != 10) {
+                        ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+                        media = MediaPlayer.create(requireContext(),R.raw.akuma);
+                        media.start();
+                        int finalRandomAtaque = randomAtaque;
+                        String finalTipo = tipo;
+                        media.setOnCompletionListener(mp -> {
+                            mp.release();
+                            ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+                            AtaqueAkuma(ataqueAkumaNoMi, finalRandomAtaque, finalTipo, arg, false);
+                        });
+                    }else {
+                        ataqueFisicoInimigo(arg);
+                    }
+                    break;
+            }
+        }else {
+            GeraAtaqueInimigo(arg);
+        }
+    }
+
+    public void ataqueFisicoInimigo(Bundle arg){
+        ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
+        MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.bonk);
+        if(buscaPalavra(armaBranca,inimigos.getArmas())){
+            if(random.nextInt(2) == 0) {
+                media = MediaPlayer.create(requireContext(), R.raw.espada1);
+            }else{
+                media = MediaPlayer.create(requireContext(), R.raw.espada2);
+            }
+        }else if(buscaPalavra(armaDeFogo,inimigos.getArmas())){
+            media = MediaPlayer.create(requireContext(),R.raw.arma);
+        }else if(buscaPalavra(laser,inimigos.getArmas())){
+            media = MediaPlayer.create(requireContext(),R.raw.laser);
+        }else if(buscaPalavra(desarmado,inimigos.getArmas())){
+            if(random.nextInt(2) == 0) {
+                media = MediaPlayer.create(requireContext(), R.raw.soco1);
+            }else {
+                media = MediaPlayer.create(requireContext(), R.raw.soco2);
+            }
+        }else if (inimigos.getArmas().equals("Kuro Kabuto")){
+            media = MediaPlayer.create(requireContext(), R.raw.estilingue);
+        }
+        media.start();
+        media.setOnCompletionListener(mp -> {
+            ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
+            TurnoInimigo(arg,inimigos.getForca(),inimigos.getArmas());
+            mp.release();
+        });
+    }
+
+    public boolean procuraRepeticao(List<Integer> array, int targetNumber) {
+        for (int number : array) {
+            if (number == targetNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void DesbloqueiaAtaques(Akumas akumas){
+        AtaqueAkumaNoMi ataqueAkumaNoMi = db.ataqueAkumasDao().buscaAtaqueAkumaNoMi(akumas.getIdataques());
+        if(jogador.getQntataquesdesbloqueados() != ataqueAkumaNoMi.getQntataques()) {
+            switch (ataqueAkumaNoMi.getQntataques()) {
+                case 2:
+                    if (jogador.getNivel() == 50)
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    break;
+                case 3:
+                    if (jogador.getNivel() == 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() == 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+                case 4:
+                    if (jogador.getNivel() == 75) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() == 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() == 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+                case 5:
+                    if (jogador.getNivel() == 100) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    } else if (jogador.getNivel() == 75) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() == 50) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }else if (jogador.getNivel() == 25) {
+                        jogador.setQntataquesdesbloqueados(jogador.getQntataquesdesbloqueados() + 1);
+                    }
+                    break;
+            }
+        }
+    }
+    //Vai ser para ver se tem chance de atacar novamente ou de desviar do ataque
+    public boolean validaChance(int num){
+        Random random = new Random();
+        int chance = random.nextInt(101);
+        if(chance < num) {
+            Log.d("chance",String.valueOf(chance));
+            Log.d("num",String.valueOf(num));
+            return true;
+        }
+        return false;
+    }
+
+    //Quanto de dano a arma vaidar
+    public int CalculaDano(double defesa,int forca){
+        double danoTotal = 0;
+        double danoRetirado = forca*defesa;
+        danoTotal = forca-danoRetirado;
+        return (int)danoTotal;
+    }
+
+    public boolean VerficaVida(int vida, int idakuma, boolean quem_e){
+        if(vida <= 0) {
+            if(idakuma != 0) {
+                Akumas akumas = db.akumaDao().buscaAkuma(idakuma);
+                if (resucitou != 1 && akumas.getNome().equals("Yomi Yomi no Mi")) {
+                    if (quem_e) {
+                        vidaInimigo = inimigos.getHp();
+                    } else {
+                        vidaJogador = jogador.getHp();
+                    }
+                    resucitou++;
+                    return false;
+                } else if (resucitou != 2 && akumas.getNome().equals("Tama Tama no Mi")) {
+                    if (quem_e) {
+                        vidaInimigo = inimigos.getHp();
+                    } else {
+                        vidaJogador = jogador.getHp();
+                    }
+                    resucitou++;
+                    return false;
+                } else {
+                    resucitou = 0;
+                    return true;
+                }
+            }else{
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void decideAtaque(Bundle arg){
+        if(inimigos.getAgilidade() > jogador.getAgilidade()){
+            binding.hakiBnt.setVisibility(View.GONE);
+            binding.armaBnt.setVisibility(View.GONE);
+            binding.akumaBnt.setVisibility(View.GONE);
+            binding.titulo.setText("Vez "+inimigos.getNome());
+            vezdequem[0] = false;
+            GeraAtaqueInimigo(arg);
+        }else if (inimigos.getAgilidade() == jogador.getAgilidade() && random.nextInt(2) == 0){
+            binding.hakiBnt.setVisibility(View.GONE);
+            binding.armaBnt.setVisibility(View.GONE);
+            binding.akumaBnt.setVisibility(View.GONE);
+            binding.titulo.setText("Vez "+inimigos.getNome());
+            vezdequem[0] = false;
+            GeraAtaqueInimigo(arg);
+        }else {
+            liberaBotoes();
+            binding.titulo.setText("Vez "+jogador.getNome());
+        }
+    }
+
+    public void liberaBotoes(){
+        if(jogador.getHakirei() != 0 && jogador.getTurnohakirei() == 0){
+            binding.hakiBnt.setVisibility(View.VISIBLE);
+        }
+        binding.armaBnt.setVisibility(View.VISIBLE);
+        binding.akumaBnt.setVisibility(View.VISIBLE);
+    }
+
+    public Inimigos nivelaInimigo(int idInim){
+        Inimigos inimigos = db.inimigosDao().buscaInimigos(idInim);
+        int hakiarm = 25;
+        int hakiobs = 16;
+        Random random = new Random();
+        if(nivelAtual > 50) {
+            inimigos.setAgilidade(inimigos.getAgilidade()+50);
+        }else{
+            inimigos.setAgilidade(inimigos.getAgilidade()+nivelAtual);
+        }
+        inimigos.setForca(inimigos.getForca()+(nivelAtual*2));
+        inimigos.setEstamina(inimigos.getEstamina()+(nivelAtual*2));
+        inimigos.setHp(inimigos.getHp()+(nivelAtual*3));
+
+        if(nivelAtual >= 90){
+            inimigos.setHakiobs(3);
+        } else if (nivelAtual >= 60) {
+            inimigos.setHakiobs(2);
+        }else if (nivelAtual >= 30) {
+            inimigos.setHakiobs(1);
+        }
+        inimigos.setIntuicao(inimigos.getIntuicao()+(inimigos.getHakiobs()*hakiobs));
+
+        if(nivelAtual <= 9){
+            inimigos.setHakiarm(0);
+            inimigos.setHakirei(0);
+        } else if (nivelAtual <= 19) {
+            inimigos.setHakiarm(random.nextInt(2));
+            inimigos.setHakirei(random.nextInt(2));
+        }else if (nivelAtual <= 29) {
+            inimigos.setHakiarm(random.nextInt(3));
+            inimigos.setHakirei(random.nextInt(3));
+        }else if (nivelAtual <= 69) {
+            inimigos.setHakiarm(random.nextInt(4));
+            inimigos.setHakirei(random.nextInt(4));
+        }else if (nivelAtual <= 79) {
+            inimigos.setHakiarm(random.nextInt(3)+1);
+            inimigos.setHakirei(random.nextInt(3)+1);
+        }else if (nivelAtual <= 89) {
+            inimigos.setHakiarm(random.nextInt(2)+2);
+            inimigos.setHakirei(random.nextInt(2)+2);
+        }else {
+            inimigos.setHakiarm(3);
+            inimigos.setHakirei(3);
+        }
+        inimigos.setDefesa(inimigos.getDefesa()+(inimigos.getHakiarm()*hakiarm));
+
+        if(inimigos.getEstamina() <= 30){
+            inimigos.setEnergia(5);
+        } else if (inimigos.getEstamina() <= 45) {
+            inimigos.setEnergia(8);
+        }else if (inimigos.getEstamina() <= 60) {
+            inimigos.setEnergia(11);
+        }else if (inimigos.getEstamina() <= 75) {
+            inimigos.setEnergia(14);
+        }else if (inimigos.getEstamina() <= 90) {
+            inimigos.setEnergia(17);
+        }else if (inimigos.getEstamina() <= 105) {
+            inimigos.setEnergia(20);
+        }else if (inimigos.getEstamina() <= 120) {
+            inimigos.setEnergia(23);
+        }else if (inimigos.getEstamina() <= 135) {
+            inimigos.setEnergia(26);
+        }else if (inimigos.getEstamina() <= 150) {
+            inimigos.setEnergia(29);
+        }else{
+            inimigos.setEnergia(32);
+        }
+
+        if(jogador.getNivel() >= 25 && (jogador.getEstamina() >= 165 || jogador.getForca() >= 165)){
+            inimigos.setHp(inimigos.getHp()+165);
+        }else if(jogador.getNivel() >= 50 && (jogador.getEstamina() >= 315 || jogador.getForca() >= 315)){
+            inimigos.setHp(inimigos.getHp()+480);
+        }else if(jogador.getNivel() >= 75 && (jogador.getEstamina() >= 465 || jogador.getForca() >= 465)){
+            inimigos.setHp(inimigos.getHp()+945);
+        }else if((jogador.getEstamina() >= 615 || jogador.getForca() >= 615)){
+            inimigos.setHp(inimigos.getHp()+1560);
+        }
+
+        return inimigos;
+    }
+
+    public void Nivelamento(Jogador jogador, Bundle arg){
+        int idini = arg.getInt("idInimi");
+        if(frutaAntiga > 0) jogador.setAkumaNoMi(frutaAntiga);
+        int hakiobs = 16;
+        int hakiarm = 25;
+
+        boolean haobs = false;
+        boolean haarm = false;
+        boolean harei = false;
+        boolean evo = false;
+
+        Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
+        List<Integer> inimigoList = usuario.getInimigos();
+        if(!procuraRepeticao(inimigoList,idini)) inimigoList.add(idini);
+        usuario.setInimigos(inimigoList);
+
+
+        int nivelAtual = jogador.getNivel() + 1;
+        jogador.setNivel(nivelAtual);
+        jogador.setVitorias5(jogador.getVitorias5()+1);
+        jogador.setVitorias10(jogador.getVitorias10()+1);
+        jogador.setVitorias25(jogador.getVitorias25()+1);
+        if(jogador.getAgilidade() < 50) {
+            jogador.setPontos(jogador.getPontos()+8);
+        }else{
+            jogador.setAgilidade(50);
+            jogador.setPontos(jogador.getPontos()+8);
+        }
+
+        if(jogador.getEstamina() <= 30){
+            jogador.setEnergia(5);
+        } else if (jogador.getEstamina() <= 45) {
+            jogador.setEnergia(8);
+        }else if (jogador.getEstamina() <= 60) {
+            jogador.setEnergia(11);
+        }else if (jogador.getEstamina() <= 75) {
+            jogador.setEnergia(14);
+        }else if (jogador.getEstamina() <= 90) {
+            jogador.setEnergia(17);
+        }else if (jogador.getEstamina() <= 105) {
+            jogador.setEnergia(20);
+        }else if (jogador.getEstamina() <= 120) {
+            jogador.setEnergia(23);
+        }else if (jogador.getEstamina() <= 135) {
+            jogador.setEnergia(26);
+        }else if (jogador.getEstamina() <= 150) {
+            jogador.setEnergia(29);
+        }else{
+            jogador.setEnergia(32);
+        }
+        //EU SÓ TRANSFERI A OPÇÃO DE ENTRAR PARA UMA TRIPULAÇÃO PIRATA QUANDO VC É DA MARINHA, PRA APARECER A CADA 25 NÍVEIS, INVÉS DE 5
+        //(eu acredito q se vc é da marinha, os convites para entrar em uma tripulação deveriam ser mais raros doq quando vc ja é pirata)
+        if(jogador.getVitorias5() == 5){
+            jogador.setVitorias5(0);
+            if(jogador.getTipo().equals("P")) {
+                androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                dlg.setMessage("Um convite para participar de uma nova tripulação pirata foi recebido.\nDeseja aceitar?");
+                dlg.setPositiveButton("Aceitar", (dialog, which) -> {
+                    int qualTripulacao = new Random().nextInt(db.tripulacaoDao().quantosTripulacao())+1;
+                    jogador.setIdTripula(qualTripulacao);
+                    List<Integer> tripulacaoList = usuario.getTripulacao();
+                    if(!procuraRepeticao(tripulacaoList,qualTripulacao)) tripulacaoList.add(qualTripulacao);
+                    usuario.setTripulacao(tripulacaoList);
+                    //Esse "dialog.dismiss()" tava dentro do if (jogador = marinha), ent eu n sei ao certo como vc iria fechar o dialogo caso o jogador fosse pirata, por isso eu deixei ele aqui fora
+                    //se n era pra fazer isso ou se vc ja tem uma forma de arruma isso ent desculpa, é só apagar essa linha de baixo q vai voltar ao q tava
+                    dialog.dismiss(); // Fecha o diálogo
+                    usuario.setIdUser(arg.getInt("idU"));
+                    db.usuarioDao().upgrade(usuario);
+                    jogador.setIdpersonagens(arg.getInt("idPerso"));
+                    db.jogadorDao().upgrade(jogador);
+                });
+                dlg.setNegativeButton("Recusar",null);
+
+                dlg.show();
+            }
+        }
+        if (jogador.getVitorias10() == 10 && jogador.getNivel() < 91){
+            boolean jafoi = false;
+            do {
+                int qualHaki = new Random().nextInt(3);
+                String[] haki = {"Haki da Observação", "Haki do Armamento", "Haki do rei"};
+                String seuHaki = haki[qualHaki];
+                switch (seuHaki) {
+                    case "Haki da Observação":
+                        if (jogador.getHakiobs() < 3) {
+                            haobs = true;
+                            jafoi = false;
+                            jogador.setHakiobs(jogador.getHakiobs() + 1);
+                            jogador.setIntuicao(2+(jogador.getHakiobs()*hakiobs));
+                        } else {
+                            jafoi = true;
+                        }
+                        break;
+                    case "Haki do Armamento":
+                        if (jogador.getHakiarm() < 3) {
+                            haarm = true;
+                            jafoi = false;
+                            jogador.setHakiarm(jogador.getHakiarm() + 1);
+                            jogador.setDefesa(0+(jogador.getHakiarm()*hakiarm));
+                        } else {
+                            jafoi = true;;
+                        }
+                        break;
+                    case "Haki do rei":
+                        if (jogador.getHakirei() < 3) {
+                            harei = true;
+                            jafoi = false;
+                            jogador.setHakirei(jogador.getHakirei() + 1);
+                        } else {
+                            jafoi = true;
+                        }
+                        break;
+                    default:
+                        jafoi = true;
+                        break;
+                }
+            }while (jafoi);
+            jogador.setVitorias10(0);
+
+        }
+        if (jogador.getVitorias25() == 25) {
+            jogador.setVitorias25(0);
+            if(jogador.getTipo().equals("M")) {
+                androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                dlg.setMessage("Um grupo de piratas tentou convencer você a entrar na tripulação deles.\nDeseja trair a Marinha e se tornar um pirata?\nOBS: É um caminho sem volta caso aceite.");
+                dlg.setPositiveButton("Aceitar", (dialog, which) -> {
+                    int qualTripulacao = new Random().nextInt(db.tripulacaoDao().quantosTripulacao())+1;
+                    jogador.setIdTripula(qualTripulacao);
+                    List<Integer> tripulacaoList = usuario.getTripulacao();
+                    if(!procuraRepeticao(tripulacaoList,qualTripulacao)) tripulacaoList.add(qualTripulacao);
+                    usuario.setTripulacao(tripulacaoList);
+
+                    jogador.setTipo("P");
+                    jogador.setAssociacao("Pirata");
+                    switch (jogador.getTitulo()) {
+                        //Pirata
+                        case "Aprendiz de Marinheiro":
+                            jogador.setTitulo("Bandido");
+                            jogador.setRecompensa("B$ 0");
+                            break;
+                        case "Sargento-Mor":
+                            jogador.setTitulo("Pirata");
+                            jogador.setRecompensa("B$ 30.000.000");
+                            jogador.setOrigem("Grand Line");
+                            break;
+                        case "Capitão da Marinha":
+                            jogador.setTitulo("Super Nova");
+                            jogador.setRecompensa("B$ 250.000.000");
+                            jogador.setOrigem("New World");
+                            break;
+                        case "Vice-Almirante":
+                            jogador.setTitulo("Shichibukai");
+                            jogador.setRecompensa("B$ 1.500.000.000");
+                            jogador.setOrigem("New World (Pós-Dressrosa)");
+                            break;
+                        case "Almirante":
+                            jogador.setTitulo("Yonko");
+                            jogador.setRecompensa("B$ 3.000.000.000");
+                            jogador.setOrigem("New World (Pós-Wano)");
+                            break;
+                    }
+                    dialog.dismiss(); // Fecha o diálogo
+
+                    usuario.setIdUser(arg.getInt("idU"));
+                    db.usuarioDao().upgrade(usuario);
+                    jogador.setIdpersonagens(arg.getInt("idPerso"));
+                    db.jogadorDao().upgrade(jogador);
+                });
+                dlg.setNegativeButton("Recusar",null);
+
+                dlg.show();
+            }
+            if (nivelAtual <= 100) { //coloquei aqui, pq assim, o jogador ainda pode receber pedido de tripulação msm depois do nivel 100
+                switch (jogador.getTitulo()){
+                    //Pirata
+                    case "Bandido":
+                        jogador.setTitulo("Pirata");
+                        jogador.setRecompensa("B$ 30.000.000");
+                        jogador.setOrigem("Grand Line");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Pirata":
+                        jogador.setTitulo("Super Nova");
+                        jogador.setRecompensa("B$ 250.000.000");
+                        jogador.setOrigem("New World");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Super Nova":
+                        jogador.setTitulo("Shichibukai");
+                        jogador.setRecompensa("B$ 1.500.000.000");
+                        jogador.setOrigem("New World (Pós-Dressrosa)");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Shichibukai":
+                        jogador.setTitulo("Yonko");
+                        jogador.setRecompensa("B$ 3.000.000.000");
+                        jogador.setOrigem("New World (Pós-Wano)");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    //Marinha
+                    case "Aprendiz de Marinheiro":
+                        jogador.setTitulo("Sargento-Mor");
+                        jogador.setRecompensa("★★");
+                        jogador.setOrigem("Grand Line");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Sargento-Mor":
+                        jogador.setTitulo("Capitão da Marinha");
+                        jogador.setRecompensa("★★★★★");
+                        jogador.setOrigem("New World");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Capitão da Marinha":
+                        jogador.setTitulo("Vice-Almirante");
+                        jogador.setRecompensa("♛♛♛");
+                        jogador.setOrigem("New World (Pós-Dressrosa)");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    case "Vice-Almirante":
+                        jogador.setTitulo("Almirante");
+                        jogador.setRecompensa("♛♛♛♛♛");
+                        jogador.setOrigem("New World (Pós-Wano)");
+                        jogador.setHp(jogador.getHp()+72);
+                        evo = true;
+                        break;
+                    default:
+                        Log.d("Batalha Swithc","Erro no swithc");
+                        break;
+                }
+            }
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+        dlg.setPositiveButton("OK", (dialog, which) -> {
+            dialog.dismiss(); // Fecha o diálogo
+        });
+        String mensagem = "";
+        if(haobs){
+            mensagem += ("Você sente seus reflexos se tornarem mais apurados...\nUm Haki acaba de ser adquirido ou aprimorado!\n"+
+                    "Haki da Observação: "+String.valueOf(jogador.getHakiobs())+".\n");
+        } else if (haarm) {
+            mensagem += ("Você sente seu corpo se tornar mais resistente...\nUm haki acaba de ser adquirido ou aprimorado!\n"+
+                    "Haki do Armamento: "+String.valueOf(jogador.getHakiarm())+".\n");
+        } else if (harei) {
+            mensagem += ("Você sente suas convicções se tornarem mais poderosas...\nUm haki acaba de ser adquirido ou aprimorado!\n"+
+                    "Haki do Rei: "+String.valueOf(jogador.getHakirei())+".\n");
+        }
+        if(evo){
+            mensagem += ("UM NOVO ESTÁGIO FOI DESBLOQUEADO!!\nPrepare-se para enfrentar inimigos ainda mais fortes.\n"+"Fase atual: "+jogador.getOrigem()+".\n"
+                    +"Além disso, sua recompensa também foi aumentada para "+jogador.getRecompensa());
+        }
+        if(!mensagem.equals("")){
+            dlg.setMessage(mensagem);
+            dlg.show();
+        }
+        usuario.setIdUser(arg.getInt("idU"));
+        db.usuarioDao().upgrade(usuario);
+
+        jogador.setIdpersonagens(arg.getInt("idPerso"));
+        db.jogadorDao().upgrade(jogador);
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Indicar que este fragmento tem opções de menu para a ActionBar/Toolbar
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mostrarDialogoDeConfirmacao();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+
+    private void mostrarDialogoDeConfirmacao() {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Sair")
+                    .setMessage("Deseja mesmo sair do Combate?")
+                    .setPositiveButton("Sim", (dialog, which) -> {
+                        // Sai do fragmento (volta para o anterior)
+                        requireActivity().getSupportFragmentManager().popBackStack();
+                    })
+                    .setNegativeButton("Não", null)
+                    .show();
+    }
+
+    public boolean buscaPalavra(String []conjunto, String palavra){
+        for(String pala : conjunto){
+            if(pala.equals(palavra)) return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}

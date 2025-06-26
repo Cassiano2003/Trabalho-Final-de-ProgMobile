@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tela_inicio"
+    tools:context=".Telas.Login">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/nomeLogin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Nome ou Email"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="43dp"
+            android:layout_marginTop="70dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <EditText
+            android:id="@+id/senhaLogin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="Senha"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="125dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/nomeLogin"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Button
+            android:id="@+id/entrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Entrar"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"
+            android:layout_marginTop="100dp"
+            app:layout_constraintTop_toBottomOf="@id/trocar"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <Button
+            android:id="@+id/trocar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Esqueci a Senha"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"
+            app:layout_constraintTop_toBottomOf="@id/senhaVisivel"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/senhaVisivel"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Senha Visivel"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/black"
+            tools:layout_editor_absoluteX="14dp"
+            tools:layout_editor_absoluteY="211dp"
+            app:layout_constraintTop_toBottomOf="@id/senhaLogin"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

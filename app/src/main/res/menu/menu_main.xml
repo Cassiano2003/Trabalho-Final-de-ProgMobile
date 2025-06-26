@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.trabalhoprogmoba2.MainActivity">
+
+
+    <item
+        android:id="@+id/atualiza"
+        android:orderInCategory="100"
+        android:title="Atualiza"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Excluir"
+        android:orderInCategory="100"
+        android:title="Excluir"
+        app:showAsAction="never" />
+</menu>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tela_principal"
+    tools:context=".Telas.CriaJogador">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cria Personagen"
+            android:textAlignment="center"
+            android:textSize="40dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <EditText
+            android:id="@+id/nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:inputType="text"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:background="?android:attr/windowBackground"
+            android:hint="Nome do Jogador"
+            app:layout_constraintTop_toBottomOf="@id/titulo"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/sx_maculino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginLeft="100dp"
+            app:layout_constraintLeft_toRightOf="@id/raca"
+            app:layout_constraintTop_toTopOf="@id/raca"
+            app:layout_constraintBottom_toBottomOf="@id/raca"/>
+
+        <CheckBox
+            android:id="@+id/sx_feminino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="F"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toRightOf="@id/sx_maculino"
+            app:layout_constraintTop_toTopOf="@id/sx_maculino"
+            app:layout_constraintBottom_toBottomOf="@id/sx_maculino"/>
+
+        <CheckBox
+            android:id="@+id/akuma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tem Akuma No Mi"
+            android:layout_marginTop="30dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintTop_toBottomOf="@id/marinha"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/pirata"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pirata"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@id/raca"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/marinha"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Marinha"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintTop_toBottomOf="@id/pirata"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Spinner
+            android:id="@+id/mar"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintLeft_toRightOf="@id/nome"
+            app:layout_constraintBottom_toBottomOf="@id/nome"
+            app:layout_constraintTop_toTopOf="@id/nome"/>
+
+        <Spinner
+            android:id="@+id/raca"
+            android:layout_width="150dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintTop_toBottomOf="@id/nome"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <Spinner
+            android:id="@+id/arma"
+            android:layout_width="150dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintTop_toTopOf="@id/pirata"
+            app:layout_constraintBottom_toBottomOf="@id/pirata"
+            app:layout_constraintLeft_toRightOf="@id/pirata"/>
+
+        <TextView
+            android:id="@+id/genero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Genero"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="@id/sx_maculino"
+            app:layout_constraintBottom_toTopOf="@id/sx_maculino"/>
+
+        <TextView
+            android:id="@+id/associacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Associação"
+            android:layout_marginTop="30dp"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="@id/pirata"
+            app:layout_constraintBottom_toTopOf="@id/pirata"/>
+
+        <TextView
+            android:id="@+id/txt_arma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sua Arma"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="@id/arma"
+            app:layout_constraintBottom_toTopOf="@id/arma"/>
+
+        <TextView
+            android:id="@+id/txt_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sua Origen"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintBottom_toTopOf="@id/mar"
+            app:layout_constraintLeft_toLeftOf="@id/mar" />
+
+        <TextView
+            android:id="@+id/txt_raca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sua Raça"
+            android:textSize="25dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="@id/raca"
+            app:layout_constraintBottom_toTopOf="@id/raca"/>
+
+        <ImageButton
+            android:id="@+id/fruta1"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="30dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/akuma"
+            app:layout_constraintLeft_toLeftOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageButton
+            android:id="@+id/fruta2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/fruta1"
+            app:layout_constraintRight_toRightOf="@id/fruta1"
+            app:layout_constraintLeft_toLeftOf="@id/fruta1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageButton
+            android:id="@+id/fruta3"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/fruta2"
+            app:layout_constraintRight_toRightOf="@id/fruta2"
+            app:layout_constraintLeft_toLeftOf="@id/fruta2"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:textSize="30dp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/cor2"            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@id/fruta3"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <CheckBox
+            android:id="@+id/c_fruta1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/fruta1"
+            app:layout_constraintBottom_toBottomOf="@id/fruta1"
+            app:layout_constraintTop_toTopOf="@id/fruta1"/>
+
+        <CheckBox
+            android:id="@+id/c_fruta2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/fruta2"
+            app:layout_constraintBottom_toBottomOf="@id/fruta2"
+            app:layout_constraintTop_toTopOf="@id/fruta2"/>
+
+        <CheckBox
+            android:id="@+id/c_fruta3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            app:layout_constraintLeft_toRightOf="@id/fruta3"
+            app:layout_constraintBottom_toBottomOf="@id/fruta3"
+            app:layout_constraintTop_toTopOf="@id/fruta3"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -1434,14 +1434,12 @@ public class Batalha    extends Fragment {
         return false;
     }
 
-    //Quanto de dano a arma vaidar
-    public int CalculaDano(int defesa,int forca){
-        double danoTotal = 0;
-double def = defesa/100;
-        double danoRetirado = forca*def;
-        danoTotal = forca-danoRetirado;
-        return (int)danoTotal;
-    }
+   public int CalculaDano(int defesa, int forca) {
+    double def = defesa / 100.0; // agora def = 0.75
+    double danoRetirado = forca * def;
+    double danoTotal = forca - danoRetirado;
+    return (int) danoTotal;
+}
 
     public boolean VerficaVida(int vida, int idakuma, boolean quem_e){
         if(vida <= 0) {

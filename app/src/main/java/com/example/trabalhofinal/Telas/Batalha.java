@@ -485,7 +485,7 @@ private int custo;
 
                         exibeMensagem(inimigos.getNome() + " teve sua força diminuída em " + (int)(fator * 100) + "%");
                     } else if (hakiRei != 3 || hakiArm != 0) {
-                        exibeMensagem(jogador.getNome() + " não conseguiu diminuir a força do inimigo");
+                        exibeMensagem(jogador.getNome() + " nao conseguiu diminuir a força do inimigo");
                     }
 
                     media.setOnCompletionListener(mp -> {
@@ -565,7 +565,7 @@ private int custo;
                 binding.titulo.setText("Combate");
                 binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
                 androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
-                dlg.setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.");
+                dlg.setMessage("DERROTA... \nRetorne ao perfil do seu personagem e tente novamente.");
                 dlg.setPositiveButton("OK", (dialog, which) -> {
                     dialog.dismiss(); // Fecha o diálogo
                 });
@@ -651,7 +651,7 @@ private int custo;
                     binding.titulo.setText("Combate");
                     binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
                     androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
-                    dlg.setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.");
+                    dlg.setMessage("DERROTA... \nRetorne ao perfil do seu personagem e tente novamente.");
                     dlg.setPositiveButton("OK", (dialog, which) -> {
                         dialog.dismiss(); // Fecha o diálogo
                     });
@@ -942,7 +942,7 @@ private int custo;
                         binding.vidaJogador.setText("Vida jogador: \n" + vidaJogador + " / " + jogador.getHp());
 
                         new AlertDialog.Builder(getContext())
-                                .setMessage("DERROTA... \n Retorne ao perfil do seu personagem e tente novamente.")
+                                .setMessage("DERROTA... \nRetorne ao perfil do seu personagem e tente novamente.")
                                 .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
                                 .show();
 

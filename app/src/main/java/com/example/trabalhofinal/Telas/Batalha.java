@@ -67,22 +67,16 @@ public class Batalha    extends Fragment {
 
     private int buffTurnos = 0;
 
-    private int custo;
-    private int hp_jogador;
-    private int forca_jogador;
-    private int estamina_jogador;
-    private int agilidade_jogador;
-    private int defesa_jogador;
-    private int intuicao_jogador;
-    private int dano_jogador;
+    // Variáveis do jogador
+private double hp_jogador, forca_jogador, estamina_jogador, agilidade_jogador, defesa_jogador, intuicao_jogador;
+private int dano_jogador;
 
-    private int hp_inimigo;
-    private int forca_inimigo;
-    private int estamina_inimigo;
-    private int agilidade_inimigo;
-    private int defesa_inimigo;
-    private int intuicao_inimigo;
-    private int dano_inimigo;
+// Variáveis do inimigo
+private double hp_inimigo, forca_inimigo, estamina_inimigo, agilidade_inimigo, defesa_inimigo, intuicao_inimigo;
+private int dano_inimigo;
+
+// Outros
+private int custo;
 
     private int nivelAtual;
 
@@ -859,175 +853,166 @@ public class Batalha    extends Fragment {
         }
     }
 
-    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi,int qualataque, String tipoAtaque, Bundle arg,boolean quem_e){
-        custo = ataqueAkumaNoMi.getCusto()[qualataque];
-        hp_jogador = ataqueAkumaNoMi.getHpjogador()[qualataque];
-        forca_jogador = ataqueAkumaNoMi.getForcajogador()[qualataque];
-        estamina_jogador = ataqueAkumaNoMi.getEstaminajogador()[qualataque];
-        agilidade_jogador = ataqueAkumaNoMi.getAgilidadejogador()[qualataque];
-        defesa_jogador = ataqueAkumaNoMi.getDefesajogador()[qualataque];
-        intuicao_jogador = ataqueAkumaNoMi.getIntuicaojogador()[qualataque];
-        dano_jogador = ataqueAkumaNoMi.getDanojogador()[qualataque];
 
-        hp_inimigo = ataqueAkumaNoMi.getHpinimigo()[qualataque];
-        forca_inimigo = ataqueAkumaNoMi.getForcainimigo()[qualataque];
-        estamina_inimigo = ataqueAkumaNoMi.getEstaminainimigo()[qualataque];
-        agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo()[qualataque];
-        defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo()[qualataque];
-        intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo()[qualataque];
-        dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
+private int aplicaBonus(int base, double bonus) {
+    return (int) (base + (base * bonus));
+}
 
-        int custo = ataqueAkumaNoMi.getCusto()[qualataque];
-        if(quem_e) {
-            ObjectAnimator animator = ObjectAnimator.ofInt(binding.ennergiaBar, "progress", jogador.getEnergia(), jogador.getEnergia()-custo);
-            animator.setDuration(100); // meio segundo
-            animator.setInterpolator(new DecelerateInterpolator());
-            animator.start();
-            jogador.setEnergia(jogador.getEnergia()-custo);
-            binding.energia.setText("Energia: "+String.valueOf(jogador.getEnergia())+" / "+String.valueOf(energiaJogador));
-        }else {
-            inimigos.setEnergia(inimigos.getEnergia()-custo);
-        }
-        switch (tipoAtaque){
-            case"ATAQUE SIMPLES":
-                if(quem_e) {
-                    TurnoJogador(arg, jogador.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }else {
-                    TurnoInimigo(arg,inimigos.getEstamina(),ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }
-                break;
-            case"ATAQUE FORTE":
-                if(quem_e) {
-                    TurnoJogador(arg, jogador.getEstamina()*2,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }else {
-                    TurnoInimigo(arg,inimigos.getEstamina()*2,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }
-                break;
-            case"ATAQUE FORTE 2":
-                if(quem_e) {
-                    TurnoJogador(arg, jogador.getEstamina()*3,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }else {
-                    TurnoInimigo(arg,inimigos.getEstamina()*3,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                }
-                break;
-            case"ESPECIAL":
-                if(dano_jogador == -1){
-                    if(quem_e) {
-                        palha = 1;
-                        TurnoJogador(arg, 0,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    }else {
-                        palha = -1;
-                        TurnoInimigo(arg,0,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    }
-                }else {
-                    if(quem_e) {
-                        TurnoJogador(arg, jogador.getEstamina()*4,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    }else {
-                        TurnoInimigo(arg,inimigos.getEstamina()*4,ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    }
-                }
-                break;
-            default:
-                Log.d("buff para ", inimigos.getNome());
-                buffTurnos ++;
-                if(dano_jogador == 3){
-                    if(quem_e) {
-                        frutaAntiga = jogador.getAkumaNoMi();
-                        jogador.setAkumaNoMi(random.nextInt(db.akumaDao().quantosAkumas()) + 1);
-                        binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
-                        Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
-                        List<Integer> akumas = usuario.getAkumanomis();
-                        if(!procuraRepeticao(akumas,jogador.getAkumaNoMi())) akumas.add(jogador.getAkumaNoMi());
-                        usuario.setAkumanomis(akumas);
-                        usuario.setIdUser(arg.getInt("idU"));
-                        db.usuarioDao().upgrade(usuario);
-                        DesbloqueiaAtaques(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()));
-                    }else {
-                        inimigos.setIdakuma(random.nextInt(db.akumaDao().quantosAkumastotal()) + 1);
-                    }
-                } else if (dano_jogador == 2) {
-                    ataquecerteiro = false;
-                } else if(forca_jogador == 2){
-                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
-                    jogador.setForca(jogador.getForca() * 2);
-                    jogador.setEstamina(jogador.getEstamina() + (jogador.getEstamina() * (estamina_jogador / 100)));
-                    jogador.setAgilidade(jogador.getAgilidade() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
-                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
-                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
+    public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi, int qualataque, String tipoAtaque, Bundle arg, boolean quem_e) {
+    // Atribui valores dos vetores (conversão de int para double percentual)
+    custo = ataqueAkumaNoMi.getCusto()[qualataque];
 
-                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
-                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
-                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
-                }else if(estamina_jogador == 2) {
-                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
-                    jogador.setForca(jogador.getForca() + (jogador.getForca() * (forca_jogador / 100)));
-                    jogador.setEstamina(jogador.getEstamina() * 2);
-                    jogador.setAgilidade(jogador.getEstamina() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
-                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
-                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
+    hp_jogador = ataqueAkumaNoMi.getHpjogador()[qualataque] / 100.0;
+    forca_jogador = ataqueAkumaNoMi.getForcajogador()[qualataque] / 100.0;
+    estamina_jogador = ataqueAkumaNoMi.getEstaminajogador()[qualataque] / 100.0;
+    agilidade_jogador = ataqueAkumaNoMi.getAgilidadejogador()[qualataque] / 100.0;
+    defesa_jogador = ataqueAkumaNoMi.getDefesajogador()[qualataque] / 100.0;
+    intuicao_jogador = ataqueAkumaNoMi.getIntuicaojogador()[qualataque] / 100.0;
+    dano_jogador = ataqueAkumaNoMi.getDanojogador()[qualataque];
 
-                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
-                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
-                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+    hp_inimigo = ataqueAkumaNoMi.getHpinimigo()[qualataque] / 100.0;
+    forca_inimigo = ataqueAkumaNoMi.getForcainimigo()[qualataque] / 100.0;
+    estamina_inimigo = ataqueAkumaNoMi.getEstaminainimigo()[qualataque] / 100.0;
+    agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo()[qualataque] / 100.0;
+    defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo()[qualataque] / 100.0;
+    intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo()[qualataque] / 100.0;
+    dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
+
+    // Aplica custo de energia
+    if (quem_e) {
+        ObjectAnimator animator = ObjectAnimator.ofInt(binding.ennergiaBar, "progress", jogador.getEnergia(), jogador.getEnergia() - custo);
+        animator.setDuration(100);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.start();
+        jogador.setEnergia(jogador.getEnergia() - custo);
+        binding.energia.setText("Energia: " + jogador.getEnergia() + " / " + energiaJogador);
+    } else {
+        inimigos.setEnergia(inimigos.getEnergia() - custo);
+    }
+
+    // Verifica tipo de ataque
+    switch (tipoAtaque) {
+        case "ATAQUE SIMPLES":
+            if (quem_e)
+                TurnoJogador(arg, jogador.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            else
+                TurnoInimigo(arg, inimigos.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            break;
+
+        case "ATAQUE FORTE":
+            if (quem_e)
+                TurnoJogador(arg, jogador.getEstamina() * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            else
+                TurnoInimigo(arg, inimigos.getEstamina() * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            break;
+
+        case "ATAQUE FORTE 2":
+            if (quem_e)
+                TurnoJogador(arg, jogador.getEstamina() * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            else
+                TurnoInimigo(arg, inimigos.getEstamina() * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            break;
+
+        case "ESPECIAL":
+            if (dano_jogador == -1) {
+                palha = quem_e ? 1 : -1;
+                if (quem_e)
+                    TurnoJogador(arg, 0, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                else
+                    TurnoInimigo(arg, 0, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            } else {
+                if (quem_e)
+                    TurnoJogador(arg, jogador.getEstamina() * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                else
+                    TurnoInimigo(arg, inimigos.getEstamina() * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            }
+            break;
+
+        default:
+            Log.d("buff para", inimigos.getNome());
+            buffTurnos++;
+
+            if (dano_jogador == 3) {
+                // Troca de fruta
+                if (quem_e) {
+                    frutaAntiga = jogador.getAkumaNoMi();
+                    jogador.setAkumaNoMi(random.nextInt(db.akumaDao().quantosAkumas()) + 1);
+                    binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
+                    Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
+                    List<Integer> akumas = usuario.getAkumanomis();
+                    if (!procuraRepeticao(akumas, jogador.getAkumaNoMi()))
+                        akumas.add(jogador.getAkumaNoMi());
+                    usuario.setAkumanomis(akumas);
+                    usuario.setIdUser(arg.getInt("idU"));
+                    db.usuarioDao().upgrade(usuario);
+                    DesbloqueiaAtaques(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()));
                 } else {
-                    Log.d("buff padrao",ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    jogador.setHp(jogador.getHp() + (jogador.getHp() * (hp_jogador / 100)));
-                    jogador.setForca(jogador.getForca() + (jogador.getForca() * (forca_jogador / 100)));
-                    jogador.setEstamina(jogador.getEstamina() + (jogador.getEstamina() * (estamina_jogador / 100)));
-                    jogador.setAgilidade(jogador.getAgilidade() + (jogador.getAgilidade() * (agilidade_jogador / 100)));
-                    jogador.setDefesa(jogador.getDefesa() + (jogador.getDefesa() * (defesa_jogador / 100)));
-                    jogador.setIntuicao(jogador.getIntuicao() + (jogador.getIntuicao() * (intuicao_jogador / 100)));
-
-                    inimigos.setHp(inimigos.getHp() + (inimigos.getHp() * (hp_inimigo / 100)));
-                    inimigos.setForca(inimigos.getForca() + (inimigos.getForca() * (forca_inimigo / 100)));
-                    inimigos.setEstamina(inimigos.getEstamina() + (inimigos.getEstamina() * (estamina_inimigo / 100)));
-                    inimigos.setAgilidade(inimigos.getAgilidade() + (inimigos.getAgilidade() * (agilidade_inimigo / 100)));
-                    inimigos.setDefesa(inimigos.getDefesa() + (inimigos.getDefesa() * (defesa_inimigo / 100)));
-                    inimigos.setIntuicao(inimigos.getIntuicao() + (inimigos.getIntuicao() * (intuicao_inimigo / 100)));
+                    inimigos.setIdakuma(random.nextInt(db.akumaDao().quantosAkumastotal()) + 1);
                 }
-                if(quem_e) {
-                    TextView novo = new TextView(getContext());
-                                    novo.setTextColor(Color.BLACK);
-                        novo.setTypeface(fonte);
-                        novo.setTextSize(20);
-                                        novo.setText(jogador.getNome() +" usou o buff "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    binding.informacoes.addView(novo);
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        binding.titulo.setText("Vez "+inimigos.getNome());
-                        GeraAtaqueInimigo(arg);
-                    }, time);
-                }else {
-                    Log.d("vez jogador", "Vez "+jogador.getNome());
-                    TextView novo = new TextView(getContext());
-                    novo.setTextColor(Color.BLACK);
-                    novo.setTypeface(fonte);
-                    novo.setTextSize(20);
-                    novo.setText(inimigos.getNome() +" usou o buff "+ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
-                    binding.informacoes.addView(novo);
-                    if(jogador.getHakirei() != 0 && jogador.getTurnohakirei() == 0){
+            } else if (dano_jogador == 2) {
+                ataquecerteiro = false;
+            } else if (forca_jogador == 2.0) {
+                // Super buff jogador
+                jogador.setHp(aplicaBonus(jogador.getHp(), hp_jogador));
+                jogador.setForca(jogador.getForca() * 2);
+                jogador.setEstamina(aplicaBonus(jogador.getEstamina(), estamina_jogador));
+                jogador.setAgilidade(aplicaBonus(jogador.getAgilidade(), agilidade_jogador));
+                jogador.setDefesa(aplicaBonus(jogador.getDefesa(), defesa_jogador));
+                jogador.setIntuicao(aplicaBonus(jogador.getIntuicao(), intuicao_jogador));
+
+                inimigos.setHp(aplicaBonus(inimigos.getHp(), hp_inimigo));
+                inimigos.setForca(aplicaBonus(inimigos.getForca(), forca_inimigo));
+                inimigos.setEstamina(aplicaBonus(inimigos.getEstamina(), estamina_inimigo));
+                inimigos.setAgilidade(aplicaBonus(inimigos.getAgilidade(), agilidade_inimigo));
+                inimigos.setDefesa(aplicaBonus(inimigos.getDefesa(), defesa_inimigo));
+                inimigos.setIntuicao(aplicaBonus(inimigos.getIntuicao(), intuicao_inimigo));
+            } else {
+                // Buff padrão
+                jogador.setHp(aplicaBonus(jogador.getHp(), hp_jogador));
+                jogador.setForca(aplicaBonus(jogador.getForca(), forca_jogador));
+                jogador.setEstamina(aplicaBonus(jogador.getEstamina(), estamina_jogador));
+                jogador.setAgilidade(aplicaBonus(jogador.getAgilidade(), agilidade_jogador));
+                jogador.setDefesa(aplicaBonus(jogador.getDefesa(), defesa_jogador));
+                jogador.setIntuicao(aplicaBonus(jogador.getIntuicao(), intuicao_jogador));
+
+                inimigos.setHp(aplicaBonus(inimigos.getHp(), hp_inimigo));
+                inimigos.setForca(aplicaBonus(inimigos.getForca(), forca_inimigo));
+                inimigos.setEstamina(aplicaBonus(inimigos.getEstamina(), estamina_inimigo));
+                inimigos.setAgilidade(aplicaBonus(inimigos.getAgilidade(), agilidade_inimigo));
+                inimigos.setDefesa(aplicaBonus(inimigos.getDefesa(), defesa_inimigo));
+                inimigos.setIntuicao(aplicaBonus(inimigos.getIntuicao(), intuicao_inimigo));
+            }
+
+            // Feedback visual e lógica de turno
+            TextView novo = new TextView(getContext());
+            novo.setTextColor(Color.BLACK);
+            novo.setTypeface(fonte);
+            novo.setTextSize(20);
+            novo.setText((quem_e ? jogador.getNome() : inimigos.getNome()) + " usou o buff " + ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+            binding.informacoes.addView(novo);
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (quem_e) {
+                    binding.titulo.setText("Vez " + inimigos.getNome());
+                    GeraAtaqueInimigo(arg);
+                } else {
+                    binding.titulo.setText("Vez " + jogador.getNome());
+                    vezdequem[0] = true;
+                    if (jogador.getHakirei() != 0 && jogador.getTurnohakirei() == 0) {
                         binding.hakiBnt.setVisibility(View.VISIBLE);
                     }
                     binding.armaBnt.setVisibility(View.VISIBLE);
                     binding.akumaBnt.setVisibility(View.VISIBLE);
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        binding.titulo.setText("Vez "+jogador.getNome());
-                        vezdequem[0] = true;
-                    }, time);
                 }
-                break;
-        }
+            }, time);
+            break;
     }
+}
 
     public void Buff(){
-        if(buffTurnos == 1){
+        if(buffTurnos != 4){
             buffTurnos ++;
-        }else if(buffTurnos == 2){
+        }else{
             ataquecerteiro = true;
             if(forca_jogador == 2){
                 jogador.setForca(jogador.getForca() / 2);

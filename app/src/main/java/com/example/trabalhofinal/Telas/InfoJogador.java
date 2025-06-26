@@ -159,13 +159,13 @@ public class InfoJogador extends Fragment {
 
             binding.nome.setText(jogador.getNome());
             binding.tituloPer.setText(jogador.getTitulo());
-            binding.arma.setText(jogador.getArmas());
+            binding.arma.setText("Arma escolhida: "+jogador.getArmas());
             binding.level.setText("LV "+ String.valueOf(jogador.getNivel()));
-            binding.raca.setText(jogador.getRaca());
+            binding.raca.setText("Raça: "+jogador.getRaca());
             binding.genero.setText(jogador.getSexo());
             binding.associacao.setText(jogador.getAssociacao());
-            binding.recompenca.setText(jogador.getRecompensa());
-            binding.regiao.setText(jogador.getOrigem());
+            binding.recompenca.setText("Recompensa:\n"+jogador.getRecompensa());
+            binding.regiao.setText("Região Atual:\n"+jogador.getOrigem());
 
             binding.rei.setText("Haki do\nRei \n"+String.valueOf(jogador.getHakirei()));
             binding.observacao.setText("Haki da\nObservação \n"+String.valueOf(jogador.getHakiobs()));

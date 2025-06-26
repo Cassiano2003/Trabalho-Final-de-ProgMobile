@@ -150,7 +150,7 @@
             android:id="@+id/inf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Informaçães de Batalha"
+            android:text="Informaçoes de Batalha"
             android:layout_marginTop="30dp"
             android:textSize="30dp"
             android:fontFamily="@font/one_piece_font"

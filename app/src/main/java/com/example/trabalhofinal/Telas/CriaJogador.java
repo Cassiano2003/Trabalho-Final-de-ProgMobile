@@ -22,6 +22,8 @@ import com.example.trabalhofinal.Tabelas.Usuario;
 import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.databinding.CriaPersonagenBinding;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -143,6 +145,8 @@ public class CriaJogador extends Fragment {
                             int hakiarm = 0;
 
                             Jogador jogador = new Jogador(nomePersonagem, level, armaSelecionada, hp, forca, estamina, agilidade, defesa, intuicao, energia, idakuma, associacaoSelecionada, tipo, titulo, marOrigem, recompensa, generoSelecionado, racaSelecionada, hakirei, hakiobs, hakiarm, 1);
+                            List<Integer> vezInimigos = new ArrayList<>(Collections.nCopies(db.inimigosDao().quantosInimigos(), 5));
+                            jogador.setVezInimigos(vezInimigos);
                             jogador.setImagenPersona("Deffalt");
                             db.jogadorDao().insertAll(jogador);
                             Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();

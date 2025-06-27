@@ -17,7 +17,7 @@ import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.Tabelas.Usuario;
 
 
-@Database(entities = {Usuario.class, Akumas.class,AtaqueAkumaNoMi.class, Tripulacoes.class, Inimigos.class, Jogador.class},version = 7)//Almentar as vesoes se colocar mais classes
+@Database(entities = {Usuario.class, Akumas.class,AtaqueAkumaNoMi.class, Tripulacoes.class, Inimigos.class, Jogador.class},version = 8)//Almentar as vesoes se colocar mais classes
 @TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase INSTANCE;
@@ -25,19 +25,11 @@ public abstract class AppDataBase extends RoomDatabase {
     public static AppDataBase getDataBase(Context context){
         if(INSTANCE == null){
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDataBase.class, "OPDataBase")
-                    .addMigrations(MIGRATION_6_7)
                     .allowMainThreadQueries()
                     .build();
         }
         return INSTANCE;
     }
-
-    static final Migration MIGRATION_6_7 = new Migration(6, 7) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE inimigos ADD COLUMN vezesbatalha INTEGER NOT NULL DEFAULT 5");
-        }
-    };
 
 
     public abstract UsuarioDao usuarioDao();

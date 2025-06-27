@@ -360,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
                     if (!AKUMA_NO_MI.getString(i).trim().equals("NÃO TEM") && !AKUMA_NO_MI.getString(i).trim().equals("Desconhecida")) {
                         inimigos.setIdakuma(db.akumaDao().buscaAkuma(AKUMA_NO_MI.getString(i).trim()));
                     }
+                    inimigos.setVezesBatalha(5);
                     db.inimigosDao().insertAll(inimigos);
                 }
             } catch (Exception e) {

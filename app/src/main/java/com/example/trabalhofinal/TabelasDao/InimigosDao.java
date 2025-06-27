@@ -27,11 +27,17 @@ public interface InimigosDao {
     @Query("SELECT fotoperfio FROM inimigos WHERE nome = :nome")
     String buscaInimigos(String nome);
 
+    @Query("SELECT vezesbatalha FROM inimigos WHERE idinimigos = :id")
+    int buscaVezInimigos(int id);
+
     @Query("SELECT * FROM inimigos WHERE estagio = :estagio AND vezesbatalha != 0")
     List<Inimigos> geraInimigosPorEstagios(int estagio);
 
     @Query("UPDATE Inimigos SET vezesbatalha = CASE WHEN vezesbatalha > 0 THEN vezesbatalha - 1 ELSE 0 END WHERE idinimigos = :id")
     void reduzirVez(int id);
+
+    @Query("UPDATE Inimigos SET vezesbatalha = :novoValor WHERE idinimigos = :id")
+    void setarVezes(int id, int novoValor);
 
     @Update
     void upgrade(Inimigos inimigos);

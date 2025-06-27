@@ -39,6 +39,7 @@ import com.example.trabalhofinal.TabelasDao.AppDataBase;
 import com.example.trabalhofinal.TabelasDao.AtaqueAkumasDao;
 import com.example.trabalhofinal.databinding.BatalhaBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -1693,9 +1694,16 @@ public class Batalha    extends Fragment {
         usuario.setIdUser(arg.getInt("idU"));
         db.usuarioDao().upgrade(usuario);
 
+        db.inimigosDao().reduzirVez(inimigos.getIdinimigos());
+        List<Integer> VezInimigos = new ArrayList<>();
+        for(int i=0; i < db.inimigosDao().quantosInimigos();i++){
+            VezInimigos.add(db.inimigosDao().buscaVezInimigos(i+1));
+        }
+        Log.d("Vez",VezInimigos.toString());
+        jogador.setVezInimigos(VezInimigos);
+
         jogador.setIdpersonagens(arg.getInt("idPerso"));
         db.jogadorDao().upgrade(jogador);
-        db.inimigosDao().reduzirVez(inimigos.getIdinimigos());
     }
 
 

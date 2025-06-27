@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.lang.annotation.Native;
+import java.util.List;
 
 @Entity(tableName = "jogador")
 public class Jogador {
@@ -92,6 +93,8 @@ public class Jogador {
 
     @ColumnInfo(name = "turnohakirei")
     public int turnohakirei;
+    @ColumnInfo(name = "vezinimigos")
+    public List<Integer> vezInimigos;
 
     public Jogador(String nome, int nivel, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, int akumaNoMi, String associacao, String tipo, String titulo, String origem, String recompensa, String sexo, String raca, int hakirei, int hakiobs, int hakiarm, int qntataquesdesbloqueados) {
         this.nome = nome;
@@ -116,6 +119,14 @@ public class Jogador {
         this.hakiobs = hakiobs;
         this.hakiarm = hakiarm;
         this.qntataquesdesbloqueados = qntataquesdesbloqueados;
+    }
+
+    public List<Integer> getVezInimigos() {
+        return vezInimigos;
+    }
+
+    public void setVezInimigos(List<Integer> vezInimigos) {
+        this.vezInimigos = vezInimigos;
     }
 
     public int getTurnohakirei() {

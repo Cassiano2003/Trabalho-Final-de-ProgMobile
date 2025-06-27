@@ -107,7 +107,6 @@ public class InfoJogador extends Fragment {
                 binding.nomePersonagens.setSelection(0);
             }
 
-
             nivelInimigo = jogador.getNivel();
 
             if (jogador.getNivel() >= 0){
@@ -142,6 +141,11 @@ public class InfoJogador extends Fragment {
             }else{
                 levelMIN = jogador.getNivel()-30;
                 levelMAX = jogador.getNivel()+30;
+            }
+
+            List<Integer> inimigosVez = jogador.getVezInimigos();
+            for (int i=0;i<db.inimigosDao().quantosInimigos();i++){
+                db.inimigosDao().setarVezes(i+1,inimigosVez.get(i));
             }
 
             binding.nome.setText(jogador.getNome());

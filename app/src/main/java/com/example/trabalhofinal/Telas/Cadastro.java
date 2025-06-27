@@ -132,6 +132,7 @@ public class Cadastro extends Fragment {
                                 binding.senhaNovamente.setVisibility(View.VISIBLE);
                                 binding.salvar.setVisibility(View.VISIBLE);
                                 binding.senhaVisivel.setVisibility(View.VISIBLE);
+                                fotoBitmap = BitmapFactory.decodeByteArray(usuario.getFoto(), 0, usuario.getFoto().length);
                             }
                         }else {
                             Toast.makeText(requireContext(), "Usuário não encontrado", Toast.LENGTH_LONG).show();

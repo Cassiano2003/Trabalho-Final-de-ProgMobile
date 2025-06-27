@@ -23,6 +23,9 @@ public interface JogadorDao {
     @Query("SELECT idpersonagens FROM Jogador WHERE nome = :nome")
     int buscaID(String nome);
 
+    @Query("SELECT EXISTS(SELECT 1 FROM jogador WHERE nome = :nome)")
+    boolean checaNome(String nome);
+
     @Insert
     void insertAll(Jogador... personagens);
 

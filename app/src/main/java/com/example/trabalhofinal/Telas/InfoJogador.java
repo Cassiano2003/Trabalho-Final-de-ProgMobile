@@ -62,7 +62,6 @@ public class InfoJogador extends Fragment {
     int levelMAX = 0;
 
     public boolean continuaMusica = true;
-    List<Inimigos> inimigosFinal = new ArrayList<>();
 
     @Override
     public View onCreateView(
@@ -84,12 +83,6 @@ public class InfoJogador extends Fragment {
         Inimigos inimigos = db.inimigosDao().buscaInimigos(1);
         int nivelInimigo = 0;
         Random random = new Random();
-        int qnt_ini = 0;
-        List<Inimigos> inimigosE1 = db.inimigosDao().geraInimigosPorEstagios(1);
-        List<Inimigos> inimigosE2 = db.inimigosDao().geraInimigosPorEstagios(2);
-        List<Inimigos> inimigosE3 = db.inimigosDao().geraInimigosPorEstagios(3);
-        List<Inimigos> inimigosE4 = db.inimigosDao().geraInimigosPorEstagios(4);
-        List<Inimigos> inimigosE5 = db.inimigosDao().geraInimigosPorEstagios(5);
 
         List<String> nomesInimigos = new ArrayList<>();
         nomesInimigos.add("Default");
@@ -120,25 +113,19 @@ public class InfoJogador extends Fragment {
             if (jogador.getNivel() >= 0){
                 binding.getRoot().setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.tela_jogador_0));
                 estagio_persangem = 1;
-                inimigosFinal.addAll(inimigosE1);
             }if(jogador.getNivel() >= 25){
                 binding.getRoot().setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.tela_jogador_25));
                 estagio_persangem = 2;
-                inimigosFinal.addAll(inimigosE2);
             }if (jogador.getNivel() >= 50){
                 binding.getRoot().setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.tela_jogador_50));
                 estagio_persangem = 3;
-                inimigosFinal.addAll(inimigosE3);
             }if (jogador.getNivel() >= 75){
                 binding.getRoot().setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.tela_jogador_75));
                 estagio_persangem = 4;
-                inimigosFinal.addAll(inimigosE4);
             }if (jogador.getNivel() >= 100){
                 binding.getRoot().setBackground(ContextCompat.getDrawable(requireContext(),R.drawable.tela_jogador_100));
                 estagio_persangem = 5;
-                inimigosFinal.addAll(inimigosE5);
             }
-            qnt_ini = inimigosFinal.size();
 
             if(jogador.getNivel() < 25){
                 levelMIN = jogador.getNivel()-10;
@@ -206,11 +193,31 @@ public class InfoJogador extends Fragment {
             Log.d("estagio Inimigo",String.valueOf(estagio_persangem));
         }
 
-        int finalQnt_ini = qnt_ini;
         binding.batalha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pair<Inimigos, Integer> dados = GeraInimigos(inimigosFinal, finalQnt_ini);
+                int qnt_ini = 0;
+                List<Inimigos> inimigosFinal = new ArrayList<>();
+
+                if (jogador.getNivel() >= 0){
+                    List<Inimigos> inimigosE1 = db.inimigosDao().geraInimigosPorEstagios(1);
+                    inimigosFinal.addAll(inimigosE1);
+                }if(jogador.getNivel() >= 25){
+                    List<Inimigos> inimigosE2 = db.inimigosDao().geraInimigosPorEstagios(2);
+                    inimigosFinal.addAll(inimigosE2);
+                }if (jogador.getNivel() >= 50){
+                    List<Inimigos> inimigosE3 = db.inimigosDao().geraInimigosPorEstagios(3);
+                    inimigosFinal.addAll(inimigosE3);
+                }if (jogador.getNivel() >= 75){
+                    List<Inimigos> inimigosE4 = db.inimigosDao().geraInimigosPorEstagios(4);
+                    inimigosFinal.addAll(inimigosE4);
+                }if (jogador.getNivel() >= 100){
+                    List<Inimigos> inimigosE5 = db.inimigosDao().geraInimigosPorEstagios(5);
+                    inimigosFinal.addAll(inimigosE5);
+                }
+                qnt_ini = inimigosFinal.size();
+
+                Pair<Inimigos, Integer> dados = GeraInimigos(inimigosFinal, qnt_ini);
                 Bundle bundle = new Bundle();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -489,10 +496,15 @@ public class InfoJogador extends Fragment {
     public Pair<Inimigos, Integer> GeraInimigos(List<Inimigos> inimigosFinal, int qnt_ini){
         Random random = new Random();
         Inimigos inimigos;
-        do {
+        if(jogador.getTipo().equals("M")) {
+            do {
+                int inimigoAleatorio = random.nextInt(qnt_ini);
+                inimigos = inimigosFinal.get(inimigoAleatorio);
+            } while (inimigos.getTipo().equals("M"));
+        }else {
             int inimigoAleatorio = random.nextInt(qnt_ini);
             inimigos = inimigosFinal.get(inimigoAleatorio);
-        }while (inimigos.getTipo().equals(jogador.getTipo()));
+        }
 
          int nivelInimigo;
         do {

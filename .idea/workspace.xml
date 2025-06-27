@@ -97,26 +97,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1938e03b-01da-4e61-8d28-a23a642bb02d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/kagekage.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/assets/ataquesakuma.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/ataquesakuma.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Tabelas/Inimigos.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Tabelas/Inimigos.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/AppDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/AppDataBase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/InimigosDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/InimigosDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/JogadorDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/JogadorDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Batalha.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Batalha.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Cadastro.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Cadastro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/CriaJogador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/CriaJogador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/InfoJogador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/InfoJogador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/cadastro.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cadastro.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/info_jogador.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/info_jogador.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +122,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/kirito/.android/avd/Medium_Phone.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=RQCT4028B5H)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -179,10 +175,11 @@
   },
   "keyToStringList": {
     "com.android.tools.idea.sqlite.queryhistory": [
-      "SELECT * FROM ataquesakuma WHERE idataque=88",
-      "/*INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)\nINSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)*/\niNSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)",
-      "/*INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)*/\nINSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)\n/*INSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)",
-      "INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)\n/*INSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)\nINSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)"
+      "SELECT * FROM inimigos WHERE estagio = 1 AND vezesbatalha != 0",
+      "SELECT * FROM inimigos WHERE nome='Dalton'",
+      "SELECT * FROM inimigos WHERE nome='Zeff'",
+      "SELECT * FROM inimigos WHERE nome='Enel'",
+      "SELECT * FROM inimigos WHERE nome='Gaimon'"
     ]
   }
 }]]></component>

@@ -97,6 +97,9 @@ public class Inimigos {
     @ColumnInfo(name = "fotocombate")
     public String fotocombate;
 
+    @ColumnInfo(name = "vezesbatalha")
+    public int vezesBatalha;
+
 
     public Inimigos(String nome, String apelidoNomePopular, String armas, int hp, int forca, int estamina, int agilidade, int defesa, int intuicao, int energia, String akumaNoMi, String associacao, String tripulacaoOrganizacao, String recompensa, int estagio, String tipo, String titulo, String origem, String sexo, String raca, int hakiobs, int hakiarm, String fotoperfio, String fotocatalogo, String fotocombate) {
         this.nome = nome;
@@ -124,6 +127,14 @@ public class Inimigos {
         this.fotoperfio = fotoperfio;
         this.fotocatalogo = fotocatalogo;
         this.fotocombate = fotocombate;
+    }
+
+    public int getVezesBatalha() {
+        return vezesBatalha;
+    }
+
+    public void setVezesBatalha(int vezesBatalha) {
+        this.vezesBatalha = vezesBatalha;
     }
 
     public int getHakirei() {

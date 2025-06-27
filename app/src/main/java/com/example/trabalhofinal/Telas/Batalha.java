@@ -1415,14 +1415,14 @@ public class Batalha    extends Fragment {
             inimigos.setEnergia(32);
         }
 
-        if(jogador.getNivel() >= 25 && (jogador.getEstamina() >= 165 || jogador.getForca() >= 165)){
-            inimigos.setHp(inimigos.getHp()+165);
-        }if(jogador.getNivel() >= 50 && (jogador.getEstamina() >= 315 || jogador.getForca() >= 315)){
-            inimigos.setHp(inimigos.getHp()+480);
-        }if(jogador.getNivel() >= 75 && (jogador.getEstamina() >= 465 || jogador.getForca() >= 465)){
-            inimigos.setHp(inimigos.getHp()+945);
-        }if((jogador.getEstamina() >= 615 || jogador.getForca() >= 615)){
+        if((jogador.getEstamina() >= 615 || jogador.getForca() >= 615)){
             inimigos.setHp(inimigos.getHp()+1560);
+        }else if(jogador.getNivel() >= 75 && (jogador.getEstamina() >= 465 || jogador.getForca() >= 465)){
+            inimigos.setHp(inimigos.getHp()+945);
+        }else if(jogador.getNivel() >= 50 && (jogador.getEstamina() >= 315 || jogador.getForca() >= 315)){
+            inimigos.setHp(inimigos.getHp()+480);
+        }else if(jogador.getNivel() >= 25 && (jogador.getEstamina() >= 165 || jogador.getForca() >= 165)){
+            inimigos.setHp(inimigos.getHp()+165);
         }
 
         return inimigos;
@@ -1695,6 +1695,7 @@ public class Batalha    extends Fragment {
 
         jogador.setIdpersonagens(arg.getInt("idPerso"));
         db.jogadorDao().upgrade(jogador);
+        db.inimigosDao().reduzirVez(inimigos.getIdinimigos());
     }
 
 

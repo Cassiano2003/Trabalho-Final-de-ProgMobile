@@ -128,49 +128,53 @@ public class CriaJogador extends Fragment {
                         recompensa = "nada";
                     }
                     if(!nomePersonagem.isEmpty() && !generoSelecionado.isEmpty() && !associacaoSelecionada.isEmpty()) {
+                        if(!db.jogadorDao().checaNome(nomePersonagem)) {
+                            int level = 0;
+                            int intuicao = 2;
+                            int defesa = 0;
+                            int agilidade = 0;
+                            int estamina = 15;
+                            int forca = 15;
+                            int hp = 50;
+                            int energia = 5;
 
-                        int level = 0;
-                        int intuicao = 2;
-                        int defesa = 0;
-                        int agilidade = 0;
-                        int estamina = 15;
-                        int forca = 15;
-                        int hp = 50;
-                        int energia = 5;
+                            int hakirei = 0;
+                            int hakiobs = 0;
+                            int hakiarm = 0;
 
-                        int hakirei = 0;
-                        int hakiobs = 0;
-                        int hakiarm = 0;
+                            Jogador jogador = new Jogador(nomePersonagem, level, armaSelecionada, hp, forca, estamina, agilidade, defesa, intuicao, energia, idakuma, associacaoSelecionada, tipo, titulo, marOrigem, recompensa, generoSelecionado, racaSelecionada, hakirei, hakiobs, hakiarm, 1);
+                            jogador.setImagenPersona("Deffalt");
+                            db.jogadorDao().insertAll(jogador);
+                            Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
 
-                        Jogador jogador =new Jogador(nomePersonagem,level,armaSelecionada,hp,forca,estamina,agilidade,defesa,intuicao,energia,idakuma,associacaoSelecionada,tipo,titulo,marOrigem,recompensa,generoSelecionado,racaSelecionada,hakirei,hakiobs,hakiarm,1);
-                        jogador.setImagenPersona("Deffalt");
-                        db.jogadorDao().insertAll(jogador);
-                        Toast.makeText(requireContext(), "Personagen Adicionado", Toast.LENGTH_SHORT).show();
+                            Bundle arg = getArguments();
+                            if (arg != null) {
+                                int idU = arg.getInt("idU");
+                                Usuario usuario = db.usuarioDao().buscaUsuario(idU);
+                                List<Integer> personaList = usuario.getPersonagens();
+                                List<Integer> akumaList = usuario.getAkumanomis();
+                                if (idakuma != 0 && !procuraRepeticao(akumaList, idakuma))
+                                    akumaList.add(idakuma);
+                                personaList.add(db.jogadorDao().buscaID(nomePersonagem));
+                                usuario.setAkumanomis(akumaList);
+                                usuario.setPersonagens(personaList);
+                                usuario.setIdUser(idU);
+                                db.usuarioDao().upgrade(usuario);
 
-                        Bundle arg = getArguments();
-                        if (arg != null) {
-                            int idU = arg.getInt("idU");
-                            Usuario usuario = db.usuarioDao().buscaUsuario(idU);
-                            List<Integer> personaList = usuario.getPersonagens();
-                            List<Integer> akumaList = usuario.getAkumanomis();
-                            if (idakuma != 0 && !procuraRepeticao(akumaList,idakuma)) akumaList.add(idakuma);
-                            personaList.add(db.jogadorDao().buscaID(nomePersonagem));
-                            usuario.setAkumanomis(akumaList);
-                            usuario.setPersonagens(personaList);
-                            usuario.setIdUser(idU);
-                            db.usuarioDao().upgrade(usuario);
+                                NavOptions navOptions = new NavOptions.Builder()
+                                        .setPopUpTo(R.id.criaPersonagen2, true)
+                                        .build();
 
-                            NavOptions navOptions = new NavOptions.Builder()
-                                    .setPopUpTo(R.id.criaPersonagen2, true)
-                                    .build();
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("idU", arg.getInt("idU"));
 
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("idU", arg.getInt("idU"));
-
-                            NavHostFragment.findNavController(CriaJogador.this)
-                                    .navigate(R.id.action_criaPersonagen2_self, bundle, navOptions);
-                        } else {
-                            Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
+                                NavHostFragment.findNavController(CriaJogador.this)
+                                        .navigate(R.id.action_criaPersonagen2_self, bundle, navOptions);
+                            } else {
+                                Toast.makeText(requireContext(), "ARG nao gerado", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
+                            Toast.makeText(requireContext(), "Nome de jogador já existente", Toast.LENGTH_SHORT).show();
                         }
                         resetFormFields();
                     }else {

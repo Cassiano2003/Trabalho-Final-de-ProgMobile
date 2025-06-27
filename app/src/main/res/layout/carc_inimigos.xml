@@ -18,11 +18,12 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:text="Nome do Personagen"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textSize="40dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/cor"
             android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +31,7 @@
             android:id="@+id/apelido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:gravity="center"
             android:layout_marginTop="20dp"
             android:inputType="text"
             android:text="Apelido do Personagen"

@@ -21,7 +21,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginTop="5dp"
-            android:textAlignment="center"
+            android:gravity="center"
             android:inputType="text"
             android:text="Nome do bando"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,17 +29,16 @@
 
         <TextView
             android:id="@+id/capitao"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:text="capitao"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textSize="30dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
             android:textStyle="italic"
             android:layout_marginTop="20dp"
-            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/foto_fruta" />
 
@@ -52,7 +51,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
-            android:textAlignment="center"
+            android:gravity="center"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/capitao" />
 

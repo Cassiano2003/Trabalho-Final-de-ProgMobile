@@ -47,12 +47,26 @@ public class Batalha    extends Fragment {
     private BatalhaBinding binding;
 
     private AppDataBase db;
+    private Random random = new Random();
 
     private int vidaInimigo = 0;
-    private Random random = new Random();
+    private int forcaInimigo = 0;
+    private int estaminaInimigo = 0;
+    private int agilidadeInimigo = 0;
+    private int defesaInimigo = 0;
+    private int intuicaoInimigo = 0;
+
+
 
     private int vidaJogador = 0;
     private int energiaJogador = 0;
+
+    private int forcajogador = 0;
+    private int estaminajogador = 0;
+    private int agilidadejogador = 0;
+    private int defesajogador = 0;
+    private int intuicaojogador = 0;
+
     private int frutaAntiga = 0;
     private Inimigos inimigos;
     private Jogador jogador;
@@ -71,12 +85,11 @@ public class Batalha    extends Fragment {
     private double hp_jogador, forca_jogador, estamina_jogador, agilidade_jogador, defesa_jogador, intuicao_jogador;
     private int dano_jogador;
 
-// Variáveis do inimigo
+    // Variáveis do inimigo
     private double hp_inimigo, forca_inimigo, estamina_inimigo, agilidade_inimigo, defesa_inimigo, intuicao_inimigo;
-    private int dano_inimigo;
 
-// Outros
-private int custo;
+    // Outros
+    private int custo;
 
     private int nivelAtual;
 
@@ -176,6 +189,18 @@ private int custo;
             jogador = db.jogadorDao().buscaPer(arg.getInt("idPerso"));
             inimigos = nivelaInimigo(arg.getInt("idInimi"));
 
+            forcajogador = jogador.getForca();
+            estaminajogador = jogador.getEstamina();
+            agilidadejogador = jogador.getAgilidade();
+            defesajogador = jogador.getDefesa();
+            intuicaojogador = jogador.getIntuicao();
+
+            forcaInimigo = inimigos.getForca();
+            estaminaInimigo = inimigos.getEstamina();
+            agilidadeInimigo = inimigos.getAgilidade();
+            defesaInimigo = inimigos.getDefesa();
+            intuicaoInimigo = inimigos.getIntuicao();
+
             binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
             binding.armaBnt.setText(jogador.getArmas());
             vidaInimigo = inimigos.getHp();
@@ -271,7 +296,7 @@ private int custo;
                         media.start();
                         media.setOnCompletionListener(mp -> {
                             ((MainActivity) getActivity()).mediaPlayer.setVolume(1, 1);
-                            TurnoJogador(arg, jogador.getForca(), jogador.getArmas());
+                            TurnoJogador(arg, forcajogador, jogador.getArmas());
                             mp.release();
                         });
                     }
@@ -486,8 +511,8 @@ private int custo;
                     }
 
                     if (fator > 0) {
-                        inimigos.setForca((int)(inimigos.getForca() - inimigos.getForca() * fator));
-                        inimigos.setEstamina((int)(inimigos.getEstamina() - inimigos.getEstamina() * fator));
+                        forcaInimigo = ((int)(forcaInimigo - forcaInimigo * fator));
+                        estaminaInimigo = ((int)(estaminaInimigo - estaminaInimigo * fator));
 
                         exibeMensagem(inimigos.getNome() + " teve sua força diminuída em " + (int)(fator * 100) + "%");
                     } else if (hakiRei != 3 || hakiArm != 0) {
@@ -513,11 +538,11 @@ private int custo;
 
 
     public void TurnoJogador(Bundle arg,int ValorBrutoDano,String nomeataque){
-        int dano = CalculaDano(inimigos.getDefesa(), ValorBrutoDano);
+        int dano = CalculaDano(defesaInimigo, ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
         Buff();
         if(palha == 0) {
-            if (validaChance(inimigos.getIntuicao()) && ataquecerteiro) {
+            if (validaChance(intuicaoInimigo) && ataquecerteiro) {
                 ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
                 media.start();
                 observacao = true;
@@ -558,7 +583,7 @@ private int custo;
                 }
             }
         }else if(palha == -1) {
-            dano = CalculaDano(jogador.getDefesa(),ValorBrutoDano);
+            dano = CalculaDano(defesajogador,ValorBrutoDano);
             palha = 0;
             ataquesTurnos++;
             exibeMensagem(jogador.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
@@ -635,11 +660,11 @@ private int custo;
     }
 
     public void TurnoInimigo(Bundle arg,int ValorBrutoDano,String nomeataque){
-        int dano = CalculaDano(jogador.getDefesa(), ValorBrutoDano);
+        int dano = CalculaDano(defesajogador, ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
         Buff();
         if(palha == 0) {
-            if (validaChance(jogador.getIntuicao()) && ataquecerteiro) {
+            if (validaChance(intuicaojogador) && ataquecerteiro) {
                 ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
                 media.start();
                 observacao = true;
@@ -679,7 +704,7 @@ private int custo;
                 }
             }
         }else if(palha == 1){
-            dano = CalculaDano(inimigos.getDefesa(),ValorBrutoDano);
+            dano = CalculaDano(defesaInimigo,ValorBrutoDano);
             palha = 0;
             ataquesTurnos++;
             exibeMensagem(inimigos.getNome() + " atacou com " + nomeataque + " / Dano:" + String.valueOf(dano));
@@ -744,8 +769,8 @@ private int custo;
 
 
     private int aplicaBonus(int base, double bonus) {
-    return (int) (base + (base * bonus));
-}
+        return (int) (base + (base * bonus));
+    }
 
     public void AtaqueAkuma(AtaqueAkumaNoMi ataqueAkumaNoMi, int qualataque, String tipoAtaque, Bundle arg, boolean quem_e) {
     // Atribui valores dos vetores (conversão de int para double percentual)
@@ -765,7 +790,6 @@ private int custo;
     agilidade_inimigo = ataqueAkumaNoMi.getAgilidadeinimigo()[qualataque] / 100.0;
     defesa_inimigo = ataqueAkumaNoMi.getDefesainimigo()[qualataque] / 100.0;
     intuicao_inimigo = ataqueAkumaNoMi.getIntuicaoinimigo()[qualataque] / 100.0;
-    dano_inimigo = ataqueAkumaNoMi.getDanoinimigo()[qualataque];
 
     // Aplica custo de energia
     if (quem_e) {
@@ -783,23 +807,23 @@ private int custo;
     switch (tipoAtaque) {
         case "ATAQUE SIMPLES":
             if (quem_e)
-                TurnoJogador(arg, jogador.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, energiaJogador, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
-                TurnoInimigo(arg, inimigos.getEstamina(), ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoInimigo(arg, estaminaInimigo, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
 
         case "ATAQUE FORTE":
             if (quem_e)
-                TurnoJogador(arg, jogador.getEstamina() * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, energiaJogador* 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
-                TurnoInimigo(arg, inimigos.getEstamina() * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoInimigo(arg, estaminaInimigo * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
 
         case "ATAQUE FORTE 2":
             if (quem_e)
-                TurnoJogador(arg, jogador.getEstamina() * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, energiaJogador * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
-                TurnoInimigo(arg, inimigos.getEstamina() * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoInimigo(arg, estaminaInimigo * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
 
         case "ESPECIAL":
@@ -811,9 +835,9 @@ private int custo;
                     TurnoInimigo(arg, 0, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             } else {
                 if (quem_e)
-                    TurnoJogador(arg, jogador.getEstamina() * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    TurnoJogador(arg, energiaJogador* 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
                 else
-                    TurnoInimigo(arg, inimigos.getEstamina() * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    TurnoInimigo(arg, estaminaInimigo * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             }
             break;
 
@@ -842,34 +866,34 @@ private int custo;
                 ataquecerteiro = false;
             } else if (forca_jogador == 2.0) {
                 // Super buff jogador
-                jogador.setHp(aplicaBonus(jogador.getHp(), hp_jogador));
-                jogador.setForca(jogador.getForca() * 2);
-                jogador.setEstamina(aplicaBonus(jogador.getEstamina(), estamina_jogador));
-                jogador.setAgilidade(aplicaBonus(jogador.getAgilidade(), agilidade_jogador));
-                jogador.setDefesa(aplicaBonus(jogador.getDefesa(), defesa_jogador));
-                jogador.setIntuicao(aplicaBonus(jogador.getIntuicao(), intuicao_jogador));
+                vidaJogador = (aplicaBonus(vidaJogador, hp_jogador));
+                forcajogador = (forcajogador * 2);
+                estaminajogador = (aplicaBonus(estaminajogador, estamina_jogador));
+                agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_jogador));
+                defesajogador = (aplicaBonus(defesajogador, defesa_jogador));
+                intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_jogador));
 
-                inimigos.setHp(aplicaBonus(inimigos.getHp(), hp_inimigo));
-                inimigos.setForca(aplicaBonus(inimigos.getForca(), forca_inimigo));
-                inimigos.setEstamina(aplicaBonus(inimigos.getEstamina(), estamina_inimigo));
-                inimigos.setAgilidade(aplicaBonus(inimigos.getAgilidade(), agilidade_inimigo));
-                inimigos.setDefesa(aplicaBonus(inimigos.getDefesa(), defesa_inimigo));
-                inimigos.setIntuicao(aplicaBonus(inimigos.getIntuicao(), intuicao_inimigo));
+                vidaInimigo = (aplicaBonus(vidaInimigo, hp_inimigo));
+                forcaInimigo = (aplicaBonus(forcaInimigo, forca_inimigo));
+                estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_inimigo));
+                agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_inimigo));
+                defesaInimigo = (aplicaBonus(defesaInimigo, defesa_inimigo));
+                intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_inimigo));
             } else {
                 // Buff padrão
-                jogador.setHp(aplicaBonus(jogador.getHp(), hp_jogador));
-                jogador.setForca(aplicaBonus(jogador.getForca(), forca_jogador));
-                jogador.setEstamina(aplicaBonus(jogador.getEstamina(), estamina_jogador));
-                jogador.setAgilidade(aplicaBonus(jogador.getAgilidade(), agilidade_jogador));
-                jogador.setDefesa(aplicaBonus(jogador.getDefesa(), defesa_jogador));
-                jogador.setIntuicao(aplicaBonus(jogador.getIntuicao(), intuicao_jogador));
+                vidaJogador = (aplicaBonus(vidaJogador, hp_jogador));
+                forcajogador = (aplicaBonus(forcajogador, forca_jogador));
+                estaminajogador = (aplicaBonus(estaminajogador, estamina_jogador));
+                agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_jogador));
+                defesajogador = (aplicaBonus(defesajogador, defesa_jogador));
+                intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_jogador));
 
-                inimigos.setHp(aplicaBonus(inimigos.getHp(), hp_inimigo));
-                inimigos.setForca(aplicaBonus(inimigos.getForca(), forca_inimigo));
-                inimigos.setEstamina(aplicaBonus(inimigos.getEstamina(), estamina_inimigo));
-                inimigos.setAgilidade(aplicaBonus(inimigos.getAgilidade(), agilidade_inimigo));
-                inimigos.setDefesa(aplicaBonus(inimigos.getDefesa(), defesa_inimigo));
-                inimigos.setIntuicao(aplicaBonus(inimigos.getIntuicao(), intuicao_inimigo));
+                vidaInimigo = (aplicaBonus(vidaInimigo, hp_inimigo));
+                forcaInimigo = (aplicaBonus(forcaInimigo, forca_inimigo));
+                estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_inimigo));
+                agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_inimigo));
+                defesaInimigo = (aplicaBonus(defesaInimigo, defesa_inimigo));
+                intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_inimigo));
             }
 
             // Feedback visual e lógica de turno
@@ -880,11 +904,67 @@ private int custo;
             novo.setText((quem_e ? jogador.getNome() : inimigos.getNome()) + " usou o buff " + ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             binding.informacoes.addView(novo);
 
+            ObjectAnimator animator = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", inimigos.getHp(), vidaInimigo);
+            animator.setDuration(500); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+            binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+            animator = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", jogador.getHp(), vidaJogador);
+            animator.setDuration(500); // meio segundo
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+            binding.vidaJogador.setText("Vida Inimigo: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (quem_e) {
+                    if (VerficaVida(vidaInimigo,inimigos.getIdakuma(),true)) {
+                        ObjectAnimator animator1 = ObjectAnimator.ofInt(binding.vidaInimigoBar, "progress", vidaInimigo, 0);
+                        animator1.setDuration(500); // meio segundo
+                        animator1.setInterpolator(new DecelerateInterpolator());
+                        animator1.start();
+                        vidaInimigo = 0;
+                        binding.titulo.setText("Combate");
+                        binding.vidaInimigo.setText("Vida Inimigo: \n" + String.valueOf(vidaInimigo) + " / " + String.valueOf(inimigos.getHp()));
+                        androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                        dlg.setMessage("VITÓRIA!!\nPontos de Experiência foram adquiridos.\nRetorne ao perfil do seu personagem para distribuir esses pontos.");
+                        dlg.setPositiveButton("OK", (dialog, which) -> {
+                            dialog.dismiss(); // Fecha o diálogo
+                            Nivelamento(jogador, arg);
+                        });
+                        dlg.show();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("idU", arg.getInt("idU"));
+                        bundle.putInt("idPerso", arg.getInt("idPerso"));
+                        binding.armaBnt.setVisibility(View.GONE);
+                        binding.hakiBnt.setVisibility(View.GONE);
+                        binding.akumaBnt.setVisibility(View.GONE);
+                        return;
+                    }
                     binding.titulo.setText("Vez " + inimigos.getNome());
                     GeraAtaqueInimigo(arg);
                 } else {
+                    if (VerficaVida(vidaJogador,jogador.getAkumaNoMi(),false)) {
+                        ObjectAnimator animator2 = ObjectAnimator.ofInt(binding.vidaJogadorBar, "progress", vidaJogador, 0);
+                        animator2.setDuration(500); // meio segundo
+                        animator2.setInterpolator(new DecelerateInterpolator());
+                        animator2.start();
+                        vidaJogador = 0;
+                        binding.titulo.setText("Combate");
+                        binding.vidaJogador.setText("Vida Jogador: \n" + String.valueOf(vidaJogador) + " / " + String.valueOf(jogador.getHp()));
+                        androidx.appcompat.app.AlertDialog.Builder dlg = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+                        dlg.setMessage("DERROTA... \nRetorne ao perfil do seu personagem e tente novamente.");
+                        dlg.setPositiveButton("OK", (dialog, which) -> {
+                            dialog.dismiss(); // Fecha o diálogo
+                        });
+                        dlg.show();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("idU", arg.getInt("idU"));
+                        bundle.putInt("idPerso", arg.getInt("idPerso"));
+                        binding.armaBnt.setVisibility(View.GONE);
+                        binding.hakiBnt.setVisibility(View.GONE);
+                        binding.akumaBnt.setVisibility(View.GONE);
+                        return;
+                    }
                     binding.titulo.setText("Vez " + jogador.getNome());
                     vezdequem[0] = true;
                     if (jogador.getHakirei() != 0 && jogador.getTurnohakirei() == 0) {
@@ -968,8 +1048,8 @@ private int custo;
                 }
 
                 if (chanceAtingida && fator > 0) {
-                    jogador.setForca((int) (jogador.getForca() - jogador.getForca() * fator));
-                    jogador.setEstamina((int) (jogador.getEstamina() - jogador.getEstamina() * fator));
+                    forcajogador = ((int) (forcajogador - forcajogador * fator));
+                    estaminajogador = ((int) (estaminajogador - estaminajogador * fator));
                     exibeMensagem(jogador.getNome() + " teve sua força e estamina reduzidas em " + (int)(fator * 100) + "%");
                 } else if (inimigos.getHakirei() != 3 || hakiArmJogador != 0) {
                     exibeMensagem(inimigos.getNome() + " não conseguiu diminuir a força do inimigo");
@@ -1040,43 +1120,40 @@ private int custo;
         }
     }
 
-    public void Buff() {
-    if (buffTurnos != 4) {
-        buffTurnos++;
-    } else {
-        ataquecerteiro = true;
-
-        // Aplica o debuff reverso
-        boolean buffDeForca = dano_jogador == 2 || forca_jogador >= 2.0;
-        boolean buffDeEstamina = estamina_jogador >= 2.0;
-
-        if (buffDeForca) {
-            jogador.setForca(jogador.getForca() / 2);
-            jogador.setEstamina((int)(jogador.getEstamina() - jogador.getEstamina() * estamina_jogador));
-            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
-            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
-            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
-        } else if (buffDeEstamina) {
-            jogador.setForca((int)(jogador.getForca() - jogador.getForca() * forca_jogador));
-            jogador.setEstamina(jogador.getEstamina() / 2);
-            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
-            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
-            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
-        } else {
-            jogador.setForca((int)(jogador.getForca() - jogador.getForca() * forca_jogador));
-            jogador.setEstamina((int)(jogador.getEstamina() - jogador.getEstamina() * estamina_jogador));
-            jogador.setAgilidade((int)(jogador.getAgilidade() - jogador.getAgilidade() * agilidade_jogador));
-            jogador.setDefesa((int)(jogador.getDefesa() - jogador.getDefesa() * defesa_jogador));
-            jogador.setIntuicao((int)(jogador.getIntuicao() - jogador.getIntuicao() * intuicao_jogador));
-        }
-
-        // Aplica debuff no inimigo (sempre igual)
-        inimigos.setForca((int)(inimigos.getForca() - inimigos.getForca() * forca_inimigo));
-        inimigos.setEstamina((int)(inimigos.getEstamina() - inimigos.getEstamina() * estamina_inimigo));
-        inimigos.setAgilidade((int)(inimigos.getAgilidade() - inimigos.getAgilidade() * agilidade_inimigo));
-        inimigos.setDefesa((int)(inimigos.getDefesa() - inimigos.getDefesa() * defesa_inimigo));
-        inimigos.setIntuicao((int)(inimigos.getIntuicao() - inimigos.getIntuicao() * intuicao_inimigo));
+    private int retirabuff(int novo,int antigo, double bonus) {
+        return (int) (novo - (antigo * bonus));
     }
+
+    public void Buff() {
+        if (buffTurnos != 4) {
+            buffTurnos++;
+        } else {
+            ataquecerteiro = true;
+
+            // Aplica o debuff reverso
+            boolean buffDeForca = dano_jogador == 2 || forca_jogador >= 2.0;
+            boolean buffDeEstamina = estamina_jogador >= 2.0;
+
+            if (buffDeForca) {
+                forcajogador = (forcajogador / 2);
+                estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
+            } else if (buffDeEstamina) {
+                forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
+                estaminajogador = (estaminajogador / 2);
+            } else {
+                forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
+                estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
+            }
+            agilidadejogador = (retirabuff(agilidadejogador,jogador.getAgilidade(), agilidade_jogador));
+            defesajogador = (retirabuff(defesajogador,jogador.getDefesa(), defesa_jogador));
+            intuicaojogador = (retirabuff(intuicaojogador,jogador.getIntuicao(), intuicao_jogador));
+
+            forcaInimigo = (retirabuff(forcaInimigo,inimigos.getForca(), forca_inimigo));
+            estaminaInimigo = (retirabuff(estaminaInimigo,inimigos.getEstamina(), estamina_inimigo));
+            agilidadeInimigo = (retirabuff(agilidadeInimigo,inimigos.getAgilidade(), agilidade_inimigo));
+            defesaInimigo = (retirabuff(defesaInimigo,inimigos.getDefesa(), defesa_inimigo));
+            intuicaoInimigo = (retirabuff(intuicaoInimigo,inimigos.getIntuicao(), intuicao_inimigo));
+        }
 }
 
     public void ataqueFisicoInimigo(Bundle arg){
@@ -1104,7 +1181,7 @@ private int custo;
         media.start();
         media.setOnCompletionListener(mp -> {
             ((MainActivity) getActivity()) .mediaPlayer.setVolume(1,1);
-            TurnoInimigo(arg,inimigos.getForca(),inimigos.getArmas());
+            TurnoInimigo(arg,forcaInimigo,inimigos.getArmas());
             mp.release();
         });
     }

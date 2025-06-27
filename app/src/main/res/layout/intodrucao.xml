@@ -105,6 +105,16 @@
             android:textColor="@color/cor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sumario_descricao6"/>
+        <TextView
+            android:id="@+id/sumario_descricao8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/sumario_descricao8"
+            android:textSize="20sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sumario_descricao7"/>
 
         <TextView
             android:id="@+id/termos"
@@ -148,6 +158,16 @@
             android:textColor="@color/cor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/termos_descricao2"/>
+        <TextView
+            android:id="@+id/termos_descricao4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/termos_descricao4"
+            android:textSize="20sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/termos_descricao3"/>
         <TextView
             android:id="@+id/como"
             android:layout_width="match_parent"
@@ -535,7 +555,28 @@
             android:textColor="@color/cor"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logia"/>
-
+        <TextView
+            android:id="@+id/buff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/buff"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/akuma_descricao2"/>
+        <TextView
+            android:id="@+id/buff_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/buff_decricao"
+            android:textSize="20sp"
+            android:fontFamily="@font/one_piece_font"
+            android:textColor="@color/cor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buff"/>
         <TextView
             android:id="@+id/inimigos"
             android:layout_width="match_parent"

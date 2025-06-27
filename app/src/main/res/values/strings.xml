@@ -100,13 +100,15 @@
     <string name="sumario_descricao3">- Sobre os Atributos</string>
     <string name="sumario_descricao4">- Sobre os Hakis</string>
     <string name="sumario_descricao5">- Sobre as Akuma no Mis</string>
-    <string name="sumario_descricao6">- Sobre os Inimigos</string>
-    <string name="sumario_descricao7">- Sobre as Tripulacoes</string>
+    <string name="sumario_descricao6">- Sobre os Buffs</string>
+    <string name="sumario_descricao7">- Sobre os Inimigos</string>
+    <string name="sumario_descricao8">- Sobre as Tripulacoes</string>
 
     <string name="termos">DICIONARIO</string>
     <string name="termos_descricao1">- Haki: Poder que permite o usuario utilizar de sua propria energia espiritual para realizar feitos sobre-humanos.</string>
     <string name="termos_descricao2">- Akuma no Mi: Fruta sobrenatural que concede poderes unicos para aquele que a comer.</string>
     <string name="termos_descricao3">- HP: Abreviacao de "Health Points" ou "Pontos de Saude".</string>
+    <string name="termos_descricao4">- Buff: Termo utilizado para se referir a uma melhoria ou efeito positivo para um personagem, habilidade ou item.</string>
 
     <string name="como">COMO JOGAR</string>
     <string name="como_decricao">
@@ -115,7 +117,7 @@
 
     <string name="estagios">SOBRE OS ESTAGIOS DO JOGO</string>
     <string name="estagios_descricao">
-    Ao longo do jogo, voce passara por 5 estagios diferentes conforme for subindo de nivel (incluindo o estagio inicial), que irao representar a sua jornada ao redor do mundo. A cada 25 niveis um estagio novo e alcancado, causando um aumento na sua recompensa e um novo ataque e desbloqueado, juntamente de inimigos mais fortes que comecarao a surgir. O jogo porem nao possui um fim definitivo, o que significa que apos alcancar o ultimo estagio, no nivel 100, voce podera continuar jogando e subindo de nivel ate completar todos os catalogos ou apenas se cansar.
+    Ao longo do jogo, voce passara por 5 estagios diferentes conforme for subindo de nivel (incluindo o estagio inicial), que irao representar a sua jornada ao redor do mundo. A cada 25 niveis um estagio novo e alcancado, causando um aumento na sua recompensa e um novo ataque e desbloqueado, juntamente de inimigos mais fortes que comecarao a surgir. O jogo porem nao se encerra ali, o que significa que apos alcancar o ultimo estagio, no nivel 100, voce podera continuar jogando e subindo de nivel ate completar todos os catalogos ou apenas chegar no nivel maximo sendo 765.
 </string>
 
     <string name="atributos">SOBRE OS ATRIBUTOS</string>
@@ -193,6 +195,11 @@
     Durante a criacao do seu personagem, sao apresentadas 3 akuma no mis aleatorias para que voce escolha. Ao clicar na imagem da akuma no mi, voce sera levado para o perfil dela, onde serao descritas todas as suas informacoes, assim como tambem todos os ataques que poderao ser desbloqueados ao subir de nivel. Com relacao ao catalogo de akuma no mis, ele ira listar todas as frutas que voce ja utilizou em algum personagem criado.
 </string>
 
+    <string name="buff">SOBRE OS BUFFS</string>
+    <string name="buff_descricao">
+        Falando a respeito dos buffs agora, ao utilizar uma akuma no mi, existira a possibilidade de que aquela fruta possua um ataque do tipo "BUFF", isso significa que este ataque muito provavelmente nao ira causar dano, porem ira causar efeitos adicionais para o seu personagem ou para o seu oponente, podendo aumentar ou diminuir algum atributo em especifico em uma certa porcentagem. Ao utilizar um buff, os efeitos causados por ele ficarao ativos no seu personagem ou oponente ate o fim do combate, porem caso você escolha usar um tipo de buff diferente, o buff que estava ativado anteriormente deixara de fazer efeito e sera substituido pelo buff novo. OBS: Os buffs nao acumulam, isso significa que utilizar duas vezes um buff de +15% de defesa ira resultar em +15% de defesa inves de 30%.
+    </string>
+    
     <string name="inimigos">SOBRE OS INIMIGOS</string>
     <string name="inimigos_descricao">
     Falando sobre os inimigos agora, sempre que voce for entrar em um combate, voce ira se deparar com um inimigo aleatorio ate entao desbloqueado. Cada inimigo possui um estagio proprio, o que significa que, sempre que voce avancar para a proxima fase, todos os inimigos daquele estagio agora serao desbloqueados para que voce os enfrente. Existem porem 2 tipos de inimigos: os Piratas e os Integrantes da Marinha, caso o seu personagem seja pirata, nada sera alterado e voce os enfrentara normalmente, entretanto caso o seu personagem seja da marinha, voce so conseguira enfrentar inimigos piratas, excluindo completamente a possibilidade de se encontrar um inimigo que seja da marinha. Com relacao ao catalogo de inimigos, sempre que voce derrotar um determinado inimigo em um combate pela primeira vez, voce ira desbloquea-lo dentro do catalogo, onde voce tera acesso a um perfil contendo pequenas informacoes sobre ele, juntamente disso, voce tambem ira desbloquear uma foto de perfil desse inimigo para que o seu personagem possa usar.

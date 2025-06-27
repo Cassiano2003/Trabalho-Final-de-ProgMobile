@@ -20,6 +20,7 @@
             android:textSize="40dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"/>
 
@@ -49,6 +50,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
             app:layout_constraintLeft_toRightOf="@id/foto"
@@ -62,6 +64,7 @@
             android:textSize="30dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nome"  />
@@ -76,6 +79,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             app:layout_constraintLeft_toRightOf="@id/foto"
             app:layout_constraintTop_toBottomOf="@id/genero" />
 
@@ -87,6 +91,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginLeft="100dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/recompenca"
@@ -101,6 +106,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="30dp"
             app:layout_constraintRight_toRightOf="@id/nome_personagens"
             app:layout_constraintLeft_toLeftOf="@id/nome_personagens"
@@ -114,6 +120,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
             app:layout_constraintLeft_toRightOf="@id/foto"
@@ -128,6 +135,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/status"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -140,6 +148,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/vida"
@@ -155,6 +164,7 @@
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
             android:visibility="gone"
+            android:backgroundTint="@color/cor2"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/btn_vida_mais"
             app:layout_constraintBottom_toBottomOf="@id/btn_vida_mais"
@@ -168,6 +178,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/vida"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -180,6 +191,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/forca"
@@ -194,6 +206,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/btn_forca_mais"
@@ -208,6 +221,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/forca"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -220,6 +234,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/estamina"
@@ -234,6 +249,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/btn_estamina_mais"
@@ -249,6 +265,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/estamina"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -261,6 +278,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/agilidade"
@@ -275,6 +293,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:backgroundTint="@color/cor2"
             android:visibility="gone"
             android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toRightOf="@id/btn_agilidade_mais"
@@ -289,6 +308,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/agilidade"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -301,6 +321,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/defesa"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -313,6 +334,7 @@
             android:textSize="23sp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/haki"
             app:layout_constraintRight_toLeftOf="@id/armamento"
@@ -326,6 +348,7 @@
             android:textSize="23sp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             app:layout_constraintTop_toTopOf="@id/rei"
             app:layout_constraintBottom_toBottomOf="@id/rei"
             app:layout_constraintLeft_toRightOf="@id/rei"
@@ -339,6 +362,7 @@
             android:textSize="23sp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             app:layout_constraintTop_toTopOf="@id/armamento"
             app:layout_constraintBottom_toBottomOf="@id/armamento"
             app:layout_constraintLeft_toRightOf="@id/armamento"
@@ -353,6 +377,7 @@
             android:gravity="center"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="20dp"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="10sp"
@@ -384,7 +409,8 @@
             android:textSize="30dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/white"
-            android:backgroundTint="@color/cor2"            app:layout_constraintLeft_toLeftOf="parent"
+            android:backgroundTint="@color/cor2"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ataques_linar" />
 
         <TextView
@@ -395,6 +421,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="50dp"
             app:layout_constraintTop_toBottomOf="@id/rei"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -407,6 +434,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginLeft="150dp"
             app:layout_constraintLeft_toRightOf="@id/status"
             app:layout_constraintTop_toTopOf="@id/status"
@@ -420,6 +448,7 @@
             android:textSize="40dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:textAlignment="center"
             android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@id/recompenca"
@@ -434,6 +463,7 @@
             android:textSize="40dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nome" />
 
@@ -445,6 +475,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="30dp"
             app:layout_constraintTop_toBottomOf="@id/intuica"
             app:layout_constraintLeft_toLeftOf="parent"/>
@@ -457,6 +488,7 @@
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/black"
+            android:background="@color/banco"
             android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/arma"
             app:layout_constraintLeft_toLeftOf="parent" />

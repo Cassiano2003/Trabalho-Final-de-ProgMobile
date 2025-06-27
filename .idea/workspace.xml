@@ -10,6 +10,11 @@
           <theme>@style/Theme.TrabalhoFinal</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/cadastro.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/carc_akuma.xml">
         <config>
           <theme>@style/Theme.TrabalhoFinal</theme>
@@ -25,6 +30,11 @@
           <theme>@style/Theme.TrabalhoFinal</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/combate_botoes.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/config_usuario.xml">
         <config>
           <theme>@style/Theme.TrabalhoFinal</theme>
@@ -35,12 +45,47 @@
           <theme>@style/Theme.TrabalhoFinal</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/cria_personagen.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/imagen_do_catalago.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/info_jogador.xml">
         <config>
           <theme>@style/Theme.TrabalhoFinal</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/inicio.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/intodrucao.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/list_jogadores.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/login.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/tela_caregamento.xml">
+        <config>
+          <theme>@style/Theme.TrabalhoFinal</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/navigation/nav_graph.xml">
         <config>
           <theme>@style/Theme.TrabalhoFinal</theme>
         </config>
@@ -52,22 +97,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1938e03b-01da-4e61-8d28-a23a642bb02d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/kagekage.webp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetSelector.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/assets/ataquesakuma.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/assets/ataquesakuma.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/AppDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/TabelasDao/AppDataBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Batalha.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Batalha.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/batalha.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/batalha.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/carc_akuma.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/carc_akuma.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/carc_inimigos.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/carc_inimigos.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/carc_tripulacao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/carc_tripulacao.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/config_usuario.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/config_usuario.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/InfoJogador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/InfoJogador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/cadastro.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/cadastro.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/info_jogador.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/info_jogador.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
     </list>
@@ -122,21 +169,28 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/kirito/AndroidStudioProjects/Trabalho-Final-de-ProgMobile-main",
+    "last_opened_file_path": "/home/kirito/AndroidStudioProjects/Trabalho-Final-de-ProgMobile-main/app/src/main/res/drawable",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   },
   "keyToStringList": {
     "com.android.tools.idea.sqlite.queryhistory": [
+      "SELECT * FROM ataquesakuma WHERE idataque=88",
       "/*INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)\nINSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)*/\niNSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)",
       "/*INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)*/\nINSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)\n/*INSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)",
       "INSERT INTO jogador VALUES(1,'Mina',13,'Traje Germa',62,24,55,40,0,2,11,14,'Marinha','M','★','Aprendiz de Marinheiro','West Blue','Feminino','Tritão',0,3,3,13,1,0,0,0,'Default',1,2)\n/*INSERT INTO jogador VALUES(2,'Gata',2,'Nonosama Bo',60,15,15,16,0,2,5,44,'Pirata','P','B$ 0','Bandido','West Blue','Feminino','Três Olhos',0,2,2,2,0,0,0,0,'Default',1,0)\nINSERT INTO jogador VALUES(3,'Big',8,'Nonosama Bo',120,47,139,0,0,2,29,31,'Pirata','P','B$ 0','Bandido','South Blue','Feminino','Lunariano',8,3,8,8,0,0,0,11,'Default',1,0)"
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
       <module name="Trabalho_Final.app" />

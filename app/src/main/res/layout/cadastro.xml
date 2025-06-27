@@ -125,11 +125,12 @@
             android:id="@+id/tira_foto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Foto de Perfeil"
+            android:text="Foto de Perfio"
             android:textSize="25dp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/white"
-            android:backgroundTint="@color/cor2"            app:layout_constraintTop_toBottomOf="@id/foto_user"
+            android:backgroundTint="@color/cor2"
+            app:layout_constraintTop_toBottomOf="@id/foto_user"
             app:layout_constraintLeft_toLeftOf="@id/foto_user"
             app:layout_constraintRight_toRightOf="@id/foto_user"/>
 

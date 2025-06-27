@@ -56,8 +56,6 @@ public class Batalha    extends Fragment {
     private int defesaInimigo = 0;
     private int intuicaoInimigo = 0;
 
-
-
     private int vidaJogador = 0;
     private int energiaJogador = 0;
 
@@ -71,11 +69,14 @@ public class Batalha    extends Fragment {
     private Inimigos inimigos;
     private Jogador jogador;
 
+    private int cura = 100;
+
     private boolean ataquecerteiro = true;
 
     final boolean[] vezdequem = {true};
 
     private boolean observacao = false;
+    private boolean verificaBuff = false;
 
     private int ataquesTurnos = 0;
 
@@ -540,8 +541,8 @@ public class Batalha    extends Fragment {
     public void TurnoJogador(Bundle arg,int ValorBrutoDano,String nomeataque){
         int dano = CalculaDano(defesaInimigo, ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
-        Buff();
         if(palha == 0) {
+            Log.d("intuicao",String.valueOf(intuicaojogador));
             if (validaChance(intuicaoInimigo) && ataquecerteiro) {
                 ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
                 media.start();
@@ -640,6 +641,7 @@ public class Batalha    extends Fragment {
                 }
             });
         }else{
+            Log.d("agilidade",String.valueOf(agilidadejogador));
             if (validaChance(jogador.getAgilidade()) && ataquesTurnos < 2) {
                 liberaBotoes();
                 ataquesTurnos++;
@@ -662,7 +664,6 @@ public class Batalha    extends Fragment {
     public void TurnoInimigo(Bundle arg,int ValorBrutoDano,String nomeataque){
         int dano = CalculaDano(defesajogador, ValorBrutoDano);
         MediaPlayer media = MediaPlayer.create(requireContext(),R.raw.observation_haki);
-        Buff();
         if(palha == 0) {
             if (validaChance(intuicaojogador) && ataquecerteiro) {
                 ((MainActivity) getActivity()) .mediaPlayer.setVolume(0.25f,0.25f);
@@ -807,21 +808,21 @@ public class Batalha    extends Fragment {
     switch (tipoAtaque) {
         case "ATAQUE SIMPLES":
             if (quem_e)
-                TurnoJogador(arg, energiaJogador, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, estaminajogador, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
                 TurnoInimigo(arg, estaminaInimigo, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
 
         case "ATAQUE FORTE":
             if (quem_e)
-                TurnoJogador(arg, energiaJogador* 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, estaminajogador* 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
                 TurnoInimigo(arg, estaminaInimigo * 2, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
 
         case "ATAQUE FORTE 2":
             if (quem_e)
-                TurnoJogador(arg, energiaJogador * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                TurnoJogador(arg, estaminajogador * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             else
                 TurnoInimigo(arg, estaminaInimigo * 3, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             break;
@@ -835,7 +836,7 @@ public class Batalha    extends Fragment {
                     TurnoInimigo(arg, 0, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             } else {
                 if (quem_e)
-                    TurnoJogador(arg, energiaJogador* 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
+                    TurnoJogador(arg, estaminajogador* 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
                 else
                     TurnoInimigo(arg, estaminaInimigo * 4, ataqueAkumaNoMi.getNomeDoAtaque()[qualataque]);
             }
@@ -843,8 +844,9 @@ public class Batalha    extends Fragment {
 
         default:
             Log.d("buff para", inimigos.getNome());
+            Log.d("defesa antes",String.valueOf((int)(defesa_jogador*100.0)));
             buffTurnos++;
-
+            if(verificaBuff)Buff();
             if (dano_jogador == 3) {
                 // Troca de fruta
                 if (quem_e) {
@@ -853,8 +855,7 @@ public class Batalha    extends Fragment {
                     binding.akumaBnt.setText(db.akumaDao().buscaAkuma(jogador.getAkumaNoMi()).getNome());
                     Usuario usuario = db.usuarioDao().buscaUsuario(arg.getInt("idU"));
                     List<Integer> akumas = usuario.getAkumanomis();
-                    if (!procuraRepeticao(akumas, jogador.getAkumaNoMi()))
-                        akumas.add(jogador.getAkumaNoMi());
+                    if (!procuraRepeticao(akumas, jogador.getAkumaNoMi())) akumas.add(jogador.getAkumaNoMi());
                     usuario.setAkumanomis(akumas);
                     usuario.setIdUser(arg.getInt("idU"));
                     db.usuarioDao().upgrade(usuario);
@@ -864,36 +865,57 @@ public class Batalha    extends Fragment {
                 }
             } else if (dano_jogador == 2) {
                 ataquecerteiro = false;
-            } else if (forca_jogador == 2.0) {
-                // Super buff jogador
-                vidaJogador = (aplicaBonus(vidaJogador, hp_jogador));
-                forcajogador = (forcajogador * 2);
-                estaminajogador = (aplicaBonus(estaminajogador, estamina_jogador));
-                agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_jogador));
-                defesajogador = (aplicaBonus(defesajogador, defesa_jogador));
-                intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_jogador));
-
-                vidaInimigo = (aplicaBonus(vidaInimigo, hp_inimigo));
-                forcaInimigo = (aplicaBonus(forcaInimigo, forca_inimigo));
-                estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_inimigo));
-                agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_inimigo));
-                defesaInimigo = (aplicaBonus(defesaInimigo, defesa_inimigo));
-                intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_inimigo));
             } else {
+                verificaBuff = true;
                 // Buff padrão
-                vidaJogador = (aplicaBonus(vidaJogador, hp_jogador));
-                forcajogador = (aplicaBonus(forcajogador, forca_jogador));
-                estaminajogador = (aplicaBonus(estaminajogador, estamina_jogador));
-                agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_jogador));
-                defesajogador = (aplicaBonus(defesajogador, defesa_jogador));
-                intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_jogador));
+                if (quem_e) {
+                    vidaJogador = (somaVida(vidaJogador,jogador.getHp(), hp_jogador));
+                    forcajogador = (aplicaBonus(forcajogador, forca_jogador));
+                    estaminajogador = (aplicaBonus(estaminajogador, estamina_jogador));
+                    if(agilidadejogador != 0) {
+                        agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_jogador));
+                    }else {
+                        agilidadejogador = (int)(defesa_jogador*100.0);
+                    }
+                    if(defesajogador != 0){
+                        defesajogador = (aplicaBonus(defesajogador, defesa_jogador));
+                    }else {
+                        defesajogador = (int)(defesa_jogador*100.0);
+                    }
 
-                vidaInimigo = (aplicaBonus(vidaInimigo, hp_inimigo));
-                forcaInimigo = (aplicaBonus(forcaInimigo, forca_inimigo));
-                estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_inimigo));
-                agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_inimigo));
-                defesaInimigo = (aplicaBonus(defesaInimigo, defesa_inimigo));
-                intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_inimigo));
+                    Log.d("defesa",String.valueOf(defesajogador));
+
+                    intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_jogador));
+
+                    vidaInimigo = (somaVida(vidaInimigo,inimigos.getHp(), hp_inimigo));
+                    forcaInimigo = (aplicaBonus(forcaInimigo, forca_inimigo));
+                    estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_inimigo));
+                    agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_inimigo));
+                    defesaInimigo = (aplicaBonus(defesaInimigo, defesa_inimigo));
+                    intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_inimigo));
+                } else {
+                    vidaInimigo = (somaVida(vidaInimigo,inimigos.getHp(), hp_jogador));
+                    forcaInimigo = (aplicaBonus(forcaInimigo, forca_jogador));
+                    estaminaInimigo = (aplicaBonus(estaminaInimigo, estamina_jogador));
+                    intuicaoInimigo = (aplicaBonus(intuicaoInimigo, intuicao_jogador));
+                    if(agilidadeInimigo != 0) {
+                        agilidadeInimigo = (aplicaBonus(agilidadeInimigo, agilidade_jogador));
+                    }else {
+                        agilidadeInimigo = (int)(defesa_jogador*100.0);
+                    }
+                    if(defesaInimigo != 0){
+                        defesaInimigo = (aplicaBonus(defesaInimigo, defesa_jogador));
+                    }else {
+                        defesaInimigo = (int)(defesa_jogador*100.0);
+                    }
+
+                    vidaJogador = (somaVida(vidaJogador,jogador.getHp(), hp_inimigo));
+                    forcajogador = (aplicaBonus(forcajogador, forca_inimigo));
+                    estaminajogador = (aplicaBonus(estaminajogador, estamina_inimigo));
+                    agilidadejogador = (aplicaBonus(agilidadejogador, agilidade_inimigo));
+                    defesajogador = (aplicaBonus(defesajogador, defesa_inimigo));
+                    intuicaojogador = (aplicaBonus(intuicaojogador, intuicao_inimigo));
+                }
             }
 
             // Feedback visual e lógica de turno
@@ -1124,36 +1146,36 @@ public class Batalha    extends Fragment {
         return (int) (novo - (antigo * bonus));
     }
 
+    private int somaVida(int vidaatual,int vidaantes, double bonus) {
+        return (int) (vidaatual + (vidaantes * bonus));
+    }
+
     public void Buff() {
-        if (buffTurnos != 4) {
-            buffTurnos++;
+        ataquecerteiro = true;
+        verificaBuff = true;
+        // Aplica o debuff reverso
+        boolean buffDeForca = dano_jogador == 2 || forca_jogador >= 2.0;
+        boolean buffDeEstamina = estamina_jogador >= 2.0;
+
+        if (buffDeForca) {
+            forcajogador = (forcajogador / 2);
+            estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
+        } else if (buffDeEstamina) {
+            forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
+            estaminajogador = (estaminajogador / 2);
         } else {
-            ataquecerteiro = true;
-
-            // Aplica o debuff reverso
-            boolean buffDeForca = dano_jogador == 2 || forca_jogador >= 2.0;
-            boolean buffDeEstamina = estamina_jogador >= 2.0;
-
-            if (buffDeForca) {
-                forcajogador = (forcajogador / 2);
-                estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
-            } else if (buffDeEstamina) {
-                forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
-                estaminajogador = (estaminajogador / 2);
-            } else {
-                forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
-                estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
-            }
-            agilidadejogador = (retirabuff(agilidadejogador,jogador.getAgilidade(), agilidade_jogador));
-            defesajogador = (retirabuff(defesajogador,jogador.getDefesa(), defesa_jogador));
-            intuicaojogador = (retirabuff(intuicaojogador,jogador.getIntuicao(), intuicao_jogador));
-
-            forcaInimigo = (retirabuff(forcaInimigo,inimigos.getForca(), forca_inimigo));
-            estaminaInimigo = (retirabuff(estaminaInimigo,inimigos.getEstamina(), estamina_inimigo));
-            agilidadeInimigo = (retirabuff(agilidadeInimigo,inimigos.getAgilidade(), agilidade_inimigo));
-            defesaInimigo = (retirabuff(defesaInimigo,inimigos.getDefesa(), defesa_inimigo));
-            intuicaoInimigo = (retirabuff(intuicaoInimigo,inimigos.getIntuicao(), intuicao_inimigo));
+            forcajogador = (retirabuff(forcajogador,jogador.getForca(), forca_jogador));
+            estaminajogador = (retirabuff(estaminajogador,jogador.getEstamina(), estamina_jogador));
         }
+        agilidadejogador = (retirabuff(agilidadejogador,jogador.getAgilidade(), agilidade_jogador));
+        defesajogador = (retirabuff(defesajogador,jogador.getDefesa(), defesa_jogador));
+        intuicaojogador = (retirabuff(intuicaojogador,jogador.getIntuicao(), intuicao_jogador));
+
+        forcaInimigo = (retirabuff(forcaInimigo,inimigos.getForca(), forca_inimigo));
+        estaminaInimigo = (retirabuff(estaminaInimigo,inimigos.getEstamina(), estamina_inimigo));
+        agilidadeInimigo = (retirabuff(agilidadeInimigo,inimigos.getAgilidade(), agilidade_inimigo));
+        defesaInimigo = (retirabuff(defesaInimigo,inimigos.getDefesa(), defesa_inimigo));
+        intuicaoInimigo = (retirabuff(intuicaoInimigo,inimigos.getIntuicao(), intuicao_inimigo));
 }
 
     public void ataqueFisicoInimigo(Bundle arg){
@@ -1395,11 +1417,11 @@ public class Batalha    extends Fragment {
 
         if(jogador.getNivel() >= 25 && (jogador.getEstamina() >= 165 || jogador.getForca() >= 165)){
             inimigos.setHp(inimigos.getHp()+165);
-        }else if(jogador.getNivel() >= 50 && (jogador.getEstamina() >= 315 || jogador.getForca() >= 315)){
+        }if(jogador.getNivel() >= 50 && (jogador.getEstamina() >= 315 || jogador.getForca() >= 315)){
             inimigos.setHp(inimigos.getHp()+480);
-        }else if(jogador.getNivel() >= 75 && (jogador.getEstamina() >= 465 || jogador.getForca() >= 465)){
+        }if(jogador.getNivel() >= 75 && (jogador.getEstamina() >= 465 || jogador.getForca() >= 465)){
             inimigos.setHp(inimigos.getHp()+945);
-        }else if((jogador.getEstamina() >= 615 || jogador.getForca() >= 615)){
+        }if((jogador.getEstamina() >= 615 || jogador.getForca() >= 615)){
             inimigos.setHp(inimigos.getHp()+1560);
         }
 

@@ -188,6 +188,7 @@ public class InfoJogador extends Fragment {
                     Typeface fonte = ResourcesCompat.getFont(requireContext(), R.font.one_piece_font);
                     novo.setTypeface(fonte);
                     novo.setTextColor(Color.BLACK);
+                    novo.setBackgroundColor(Color.parseColor("#33FFFFFF"));
                     novo.setTextSize(30);
                     novo.setText(ataqueAkumaNoMi.getNomeDoAtaque()[i]+" \nTipo: "+ataqueAkumaNoMi.getTipoDeAtaque()[i]
                             +" \n"+ataqueAkumaNoMi.getDescricao()[i]);

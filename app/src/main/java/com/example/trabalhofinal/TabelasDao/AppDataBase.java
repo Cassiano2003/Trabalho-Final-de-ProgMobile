@@ -17,7 +17,7 @@ import com.example.trabalhofinal.Tabelas.Tripulacoes;
 import com.example.trabalhofinal.Tabelas.Usuario;
 
 
-@Database(entities = {Usuario.class, Akumas.class,AtaqueAkumaNoMi.class, Tripulacoes.class, Inimigos.class, Jogador.class},version = 5)//Almentar as vesoes se colocar mais classes
+@Database(entities = {Usuario.class, Akumas.class,AtaqueAkumaNoMi.class, Tripulacoes.class, Inimigos.class, Jogador.class},version = 6)//Almentar as vesoes se colocar mais classes
 @TypeConverters({Converters.class})
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase INSTANCE;

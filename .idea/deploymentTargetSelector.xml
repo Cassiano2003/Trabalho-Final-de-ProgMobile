@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-06-28T02:48:16.324439984Z">
+        <DropdownSelection timestamp="2025-06-28T03:05:15.787999339Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=/home/kirito/.android/avd/Medium_Phone.avd" />

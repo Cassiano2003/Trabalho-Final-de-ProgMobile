@@ -11,7 +11,6 @@ public class adaptador extends BaseAdapter {
     private Context context;
     private int[] lista;
 
-
     public adaptador(Context context, int[] lista){
         this.context = context;
         this.lista = lista;

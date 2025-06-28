@@ -566,12 +566,12 @@
             android:textColor="@color/cor"
             android:layout_marginTop="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/akuma_descricao2"/>
+            app:layout_constraintTop_toBottomOf="@id/akumas_descricao2"/>
         <TextView
             android:id="@+id/buff_descricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/buff_decricao"
+            android:text="@string/buff_descricao"
             android:textSize="20sp"
             android:fontFamily="@font/one_piece_font"
             android:textColor="@color/cor"

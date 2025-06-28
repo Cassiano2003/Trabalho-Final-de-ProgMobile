@@ -86,14 +86,3 @@ O aplicativo fornecerá feedback ao usuário através de:
 * Lucas cuidou especialmente da parte de colete de dados e filtragem:
 https://docs.google.com/spreadsheets/d/1vIq6X3jW3iSxkjucWKqHd8ezI8qjMQFcx231CdrX3Qs/edit?gid=0#gid=0
 
----ficação e exclusão trazendo a sensação de jogabilidade, podendo atualizar os atributos.
-Usuários que o app permite:
-Apenas usuários que possuem cadastro, não permitindo nome e email repetidos. Caso o usuário não tenha cadastrado ele não passará da tela inicial e cadastro.
-Papel de cada usuário:
-O usuário sem cadastro só terá o papel de criar uma conta para poder acessar o app.Já o usuário com cadastro poderá ter total liberdade no app, podendo criar e editar personagens que ele mesmo criar e escolher se irá batalhar para conseguir completar a coleção.
-Entradas necessárias:
-Nome de usuário, email e senha para poder criar uma conta. Na criação de personagens precisa de um Nome, Origem, Associação, Gênero, Arma, Raça e Sua Akuma No Mi. Com esses dados sendo obrigatórios e a atualização de status e batalhas serão de escolha do usuário.
-Processamento que o app realiza:
-O app vai realizar o processamento de buscar e inserção no banco de dados(ROOM) e cálculos para manter o balanceamento na hora do combate.
-Relatórios e saídas do app:
-As saídas vão ser Toasts que irão mostrar para o usuário se ele está criando usuário ou personagens corretamente, haverá também uns popups que mostram o progresso do usuário nas lutas, haverá também sons e alguns fatores visuais.

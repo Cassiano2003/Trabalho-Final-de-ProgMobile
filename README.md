@@ -81,6 +81,11 @@ O aplicativo fornecerá feedback ao usuário através de:
 * **Pop-ups**: Janelas informativas que mostram o progresso do usuário nas lutas.
 * **Elementos Visuais e Sonoros**: Para aprimorar a experiência de combate e navegação.
 
+## Base de Dados utilizada
+
+* Lucas cuidou especialmente da parte de colete de dados e filtragem:
+https://docs.google.com/spreadsheets/d/1vIq6X3jW3iSxkjucWKqHd8ezI8qjMQFcx231CdrX3Qs/edit?gid=0#gid=0
+
 ---ficação e exclusão trazendo a sensação de jogabilidade, podendo atualizar os atributos.
 Usuários que o app permite:
 Apenas usuários que possuem cadastro, não permitindo nome e email repetidos. Caso o usuário não tenha cadastrado ele não passará da tela inicial e cadastro.

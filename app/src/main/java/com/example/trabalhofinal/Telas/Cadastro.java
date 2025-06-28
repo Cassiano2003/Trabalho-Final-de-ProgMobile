@@ -132,6 +132,8 @@ public class Cadastro extends Fragment {
                                 binding.senhaNovamente.setVisibility(View.VISIBLE);
                                 binding.salvar.setVisibility(View.VISIBLE);
                                 binding.senhaVisivel.setVisibility(View.VISIBLE);
+                                binding.nome.setText(usuario.getNome());
+                                binding.email.setText(usuario.getEmail());
                                 fotoBitmap = BitmapFactory.decodeByteArray(usuario.getFoto(), 0, usuario.getFoto().length);
                             }
                         }else {
@@ -169,28 +171,28 @@ public class Cadastro extends Fragment {
                                             .setPopUpTo(R.id.cadastro, true) // remove cadastroFragment da pilha
                                             .build();
                                     if(arg != null && usuario != null){
+                                        usuario.setNome(nome);
+                                        usuario.setEmail(email);
+                                        usuario.setSenha(senhaHash);
+                                        usuario.setFoto(stream.toByteArray());
                                         if(atualiza){
                                             Bundle bundle = new Bundle();
                                             bundle.putInt("id",usuario.getIdUser());
-                                            usuario.setNome(nome);
-                                            usuario.setEmail(email);
-                                            usuario.setSenha(senhaHash);
-                                            usuario.setFoto(stream.toByteArray());
                                             usuario.setIdUser(arg.getInt("idU"));
-                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             db.usuarioDao().upgrade(usuario);
+                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             NavHostFragment.findNavController(Cadastro.this)
                                                     .navigate(R.id.action_cadastro_to_configUsuario, bundle, navOptions);
                                         }else if( idnome > 0){
                                             usuario.setIdUser(idnome);
-                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             db.usuarioDao().upgrade(usuario);
+                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             NavHostFragment.findNavController(Cadastro.this)
                                                     .navigate(R.id.action_cadastro_to_inicio, null, navOptions);
                                         }else if (idemail > 0){
                                             usuario.setIdUser(idemail);
-                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             db.usuarioDao().upgrade(usuario);
+                                            Toast.makeText(requireContext(), "Usuário atualizado", Toast.LENGTH_LONG).show();
                                             NavHostFragment.findNavController(Cadastro.this)
                                                     .navigate(R.id.action_cadastro_to_inicio, null, navOptions);
                                         }

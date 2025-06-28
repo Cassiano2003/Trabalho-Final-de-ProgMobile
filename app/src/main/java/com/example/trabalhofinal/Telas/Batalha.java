@@ -1121,7 +1121,6 @@ public class Batalha    extends Fragment {
         });
     }
 
-
     public void GeraAtaqueInimigo(Bundle arg) {
         binding.hakiBnt.setVisibility(View.GONE);
         binding.armaBnt.setVisibility(View.GONE);

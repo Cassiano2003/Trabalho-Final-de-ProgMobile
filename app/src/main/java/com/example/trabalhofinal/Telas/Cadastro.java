@@ -98,9 +98,6 @@ public class Cadastro extends Fragment {
                     requireActivity().setTitle("Atualiza Usuario");
                     binding.email.setVisibility(View.GONE);
                     binding.nome.setVisibility(View.GONE);
-                    binding.senha.setVisibility(View.GONE);
-                    binding.senhaNovamente.setVisibility(View.GONE);
-                    binding.salvar.setVisibility(View.GONE);
                     binding.senhaVisivel.setVisibility(View.GONE);
                     binding.fotoUser.setVisibility(View.GONE);
                     binding.tiraFoto.setVisibility(View.GONE);
@@ -137,6 +134,15 @@ public class Cadastro extends Fragment {
                                 fotoBitmap = BitmapFactory.decodeByteArray(usuario.getFoto(), 0, usuario.getFoto().length);
                             }
                         }else {
+                            binding.nome.setText("");
+                            binding.email.setText("");
+                            binding.senha.setText("");
+                            binding.senhaNovamente.setText("");
+                            binding.fotoUser.setImageResource(0);
+                            fotoBitmap = null;
+                            binding.senha.setVisibility(View.GONE);
+                            binding.senhaNovamente.setVisibility(View.GONE);
+                            binding.salvar.setVisibility(View.GONE);
                             Toast.makeText(requireContext(), "Usuário não encontrado", Toast.LENGTH_LONG).show();
                         }
                     }else {

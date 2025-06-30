@@ -101,18 +101,16 @@ public class CriaJogador extends Fragment {
                     String racaSelecionada = binding.raca.getSelectedItem().toString();
                     String armaSelecionada = binding.arma.getSelectedItem().toString();
 
-                    String generoSelecionado;
+                    String generoSelecionado = "";;
                     if (binding.sxMaculino.isChecked()) {
                         generoSelecionado = "Masculino";
                     } else if (binding.sxFeminino.isChecked()) {
                         generoSelecionado = "Feminino";
-                    } else {
-                        generoSelecionado = "";
                     }
-                    String recompensa;
-                    String titulo;
-                    String associacaoSelecionada;
-                    String tipo;
+                    String recompensa = "";
+                    String titulo = "";
+                    String associacaoSelecionada = "";
+                    String tipo = "";
                     if (binding.pirata.isChecked()) {
                         associacaoSelecionada = "Pirata";
                         tipo = "P";
@@ -123,13 +121,8 @@ public class CriaJogador extends Fragment {
                         tipo = "M";
                         titulo = "Aprendiz de Marinheiro";
                         recompensa = "★";
-                    } else {
-                        tipo =" ";
-                        associacaoSelecionada = "Nenhuma";
-                        titulo = "Sem Título";
-                        recompensa = "nada";
                     }
-                    if(!nomePersonagem.isEmpty() && !generoSelecionado.isEmpty() && !associacaoSelecionada.isEmpty()) {
+                    if(!nomePersonagem.isEmpty() && !generoSelecionado.isEmpty() && !associacaoSelecionada.equals("")) {
                         if(!db.jogadorDao().checaNome(nomePersonagem)) {
                             int level = 0;
                             int intuicao = 2;

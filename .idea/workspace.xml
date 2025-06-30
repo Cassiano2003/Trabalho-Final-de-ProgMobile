@@ -98,7 +98,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1938e03b-01da-4e61-8d28-a23a642bb02d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Cadastro.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/Cadastro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/CriaJogador.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/trabalhofinal/Telas/CriaJogador.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +108,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=/home/kirito/.android/avd/Medium_Phone.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=PhysicalDevice, isTemplate=false, identifier=serial=RQCT4028B5H)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
